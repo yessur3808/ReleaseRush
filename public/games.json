@@ -1,0 +1,27 @@
+{
+  "generatedAt": "2026-01-19T00:00:00Z",
+  "games": [
+    {
+      "id": "fortnite-shop",
+      "name": "Fortnite Item Shop Reset",
+      "release": { "status": "recurring_daily", "timeUTC": "00:00" },
+      "tags": ["fortnite", "daily"]
+    },
+    {
+      "id": "example-release",
+      "name": "Example Game Release",
+      "release": {
+        "status": "announced_date",
+        "dateISO": "2026-12-01",
+        "datePrecision": "day"
+      },
+      "tags": ["game"]
+    },
+    {
+      "id": "tba-game",
+      "name": "Mystery Game (TBA)",
+      "release": { "status": "tba" },
+      "tags": ["tba"]
+    }
+  ]
+}

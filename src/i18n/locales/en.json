@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Home",
+    "games": "All Games",
+    "about": "About"
+  },
+  "common": {
+    "loading": "Loading…",
+    "failed_load": "Failed to load.",
+    "no_games_found": "No games found in games.json.",
+    "game_not_found": "Game not found.",
+
+    "search": "Search",
+    "search_placeholder": "Search games…",
+
+    "results_count": "{{shown}} / {{total}}",
+
+    "all": "All",
+    "clear": "Clear",
+
+    "tag": "Tag",
+    "all_tags": "All tags",
+
+    "sort_by": "Sort by",
+    "sort_az": "A–Z",
+    "sort_soonest": "Soonest",
+    "sort_latest": "Latest",
+    "sort_daily_first": "Daily resets first",
+
+    "no_results": "No matches."
+  },
+  "game": {
+    "all_games": "All games",
+    "view_countdown": "View countdown",
+    "release_tba": "Release: TBA",
+    "release_date": "Release: {{date}}",
+    "resets_daily": "Resets daily at {{time}} UTC",
+
+    "filter_release_date": "Release date",
+    "filter_daily_reset": "Daily reset",
+    "filter_tba": "TBA"
+  }
+}
