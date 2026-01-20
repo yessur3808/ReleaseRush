@@ -1,13 +1,13 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import type { GamesDoc } from "./types";
 import { GAMES_URL } from "./data";
 
 export function useGames() {
-  const [doc, setDoc] = React.useState<GamesDoc | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
+  const [doc, setDoc] = useState<GamesDoc | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     let alive = true;
     (async () => {
       try {
@@ -23,8 +23,8 @@ export function useGames() {
             e instanceof Error
               ? e.message
               : typeof e === "string"
-              ? e
-              : "Unknown error";
+                ? e
+                : "Unknown error";
           setError(message);
         }
       } finally {

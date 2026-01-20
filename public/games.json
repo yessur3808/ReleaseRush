@@ -1,27 +1,290 @@
 {
-  "generatedAt": "2026-01-19T00:00:00Z",
+  "generatedAt": "2026-01-20T00:00:00Z",
+  "schemaVersion": "1.1.0",
   "games": [
     {
-      "id": "fortnite-shop",
-      "name": "Fortnite Item Shop Reset",
-      "release": { "status": "recurring_daily", "timeUTC": "00:00" },
-      "tags": ["fortnite", "daily"]
+      "id": "gta-vi",
+      "name": "Grand Theft Auto VI",
+      "popularityTier": "blockbuster",
+      "popularityRank": 1,
+      "category": { "type": "full_game", "franchise": "Grand Theft Auto" },
+      "release": {
+        "status": "announced_window",
+        "window": { "year": 2026 },
+        "isOfficial": false,
+        "confidence": "likely"
+      },
+      "studio": { "name": "Rockstar Games", "type": "developer_publisher", "location": null },
+      "game": { "title": "Grand Theft Auto VI", "platforms": ["ps5", "xbox_series", "pc"] },
+      "sources": [
+        {
+          "type": "other",
+          "isOfficial": false,
+          "name": "YouTube Blog",
+          "url": "https://blog.youtube/culture-and-trends/grand-theft-auto-breaks-record/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Confirms 'GTA VI Trailer 1' record and references the official Rockstar trailer upload."
+        },
+        {
+          "type": "gaming_news",
+          "isOfficial": false,
+          "name": "PC Gamer",
+          "url": "https://www.pcgamer.com/games/grand-theft-auto/rockstar-says-gta-6s-second-trailer-is-now-the-biggest-video-launch-of-all-time-whatever-that-means/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Reports Rockstar statements about Trailer 2 and points to the trailer page."
+        }
+      ],
+      "media": {
+        "trailers": [
+          { "label": "GTA VI Trailer 1 (Official)", "platform": "youtube", "url": "https://www.youtube.com/watch?v=QdBZY2fkU-0" },
+          { "label": "GTA VI Trailer 2 (Official)", "platform": "youtube", "url": "https://www.youtube.com/watch?v=VQRLujxTm3c" }
+        ]
+      },
+      "tags": ["full_game", "aaa"]
     },
+
     {
-      "id": "example-release",
-      "name": "Example Game Release",
+      "id": "007-first-light",
+      "name": "007 First Light",
+      "popularityTier": "popular",
+      "popularityRank": 2,
+      "category": { "type": "full_game", "franchise": "James Bond" },
       "release": {
         "status": "announced_date",
-        "dateISO": "2026-12-01",
-        "datePrecision": "day"
+        "dateISO": "2026-03-27",
+        "datePrecision": "day",
+        "isOfficial": true,
+        "confidence": "confirmed"
       },
-      "tags": ["game"]
+      "studio": { "name": "IO Interactive", "type": "developer_publisher", "location": null },
+      "game": { "title": "007 First Light", "platforms": ["pc", "ps5", "xbox_series", "other"] },
+      "sources": [
+        {
+          "type": "press_release",
+          "isOfficial": true,
+          "name": "PlayStation Blog",
+          "url": "https://blog.playstation.com/2025/06/04/unveiling-007-first-light-io-interactives-james-bond-action-adventure-game/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Official unveiling article with trailer embed."
+        },
+        {
+          "type": "press_release",
+          "isOfficial": true,
+          "name": "PlayStation Blog",
+          "url": "https://blog.playstation.com/2025/09/03/watch-over-30-minutes-of-007-first-light-gameplay-launching-march-27-2026/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "States launch date and includes extended gameplay coverage."
+        }
+      ],
+      "media": {
+        "trailers": [
+          { "label": "Reveal Trailer (official article embed)", "platform": "official_site", "url": "https://blog.playstation.com/2025/06/04/unveiling-007-first-light-io-interactives-james-bond-action-adventure-game/" },
+          { "label": "Gameplay deep dive (official article)", "platform": "official_site", "url": "https://blog.playstation.com/2025/09/03/watch-over-30-minutes-of-007-first-light-gameplay-launching-march-27-2026/" }
+        ]
+      },
+      "tags": ["full_game", "aaa"]
     },
+
     {
-      "id": "tba-game",
-      "name": "Mystery Game (TBA)",
-      "release": { "status": "tba" },
-      "tags": ["tba"]
+      "id": "pokemon-legends-za",
+      "name": "Pokémon Legends: Z‑A (Switch 2 Edition)",
+      "popularityTier": "blockbuster",
+      "popularityRank": 3,
+      "category": { "type": "full_game", "franchise": "Pokémon" },
+      "release": {
+        "status": "announced_date",
+        "dateISO": "2025-10-16",
+        "datePrecision": "day",
+        "isOfficial": false,
+        "confidence": "likely"
+      },
+      "studio": { "name": "Game Freak", "type": "developer", "location": null },
+      "game": { "title": "Pokémon Legends: Z‑A", "platforms": ["switch", "other"] },
+      "sources": [
+        {
+          "type": "gaming_news",
+          "isOfficial": false,
+          "name": "Nintendo Life",
+          "url": "https://www.nintendolife.com/news/2025/10/pokemon-legends-z-a-gets-a-6-minute-overview-trailer-for-switch-2",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Reports a Switch 2 overview trailer and states a specific launch date."
+        }
+      ],
+      "media": {
+        "trailers": [
+          {
+            "label": "Overview trailer (link in source article)",
+            "platform": "youtube",
+            "url": "https://www.nintendolife.com/news/2025/10/pokemon-legends-z-a-gets-a-6-minute-overview-trailer-for-switch-2"
+          }
+        ]
+      },
+      "tags": ["full_game", "nintendo"]
+    },
+
+    {
+      "id": "cyberpunk-sequel",
+      "name": "Cyberpunk (Sequel) — a.k.a. 'Cyberpunk 2' / Project Orion",
+      "popularityTier": "popular",
+      "popularityRank": 4,
+      "category": { "type": "full_game", "franchise": "Cyberpunk" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "likely" },
+      "studio": { "name": "CD PROJEKT RED", "type": "developer", "location": null },
+      "game": { "title": "Cyberpunk (Sequel)", "platforms": ["pc", "ps5", "xbox_series"] },
+      "sources": [
+        {
+          "type": "gaming_news",
+          "isOfficial": false,
+          "name": "VGC",
+          "url": "https://www.videogameschronicle.com/news/cyberpunk-2-is-now-in-preproduction-cd-projekt-says/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Reports CD PROJEKT statement that the next Cyberpunk game moved into pre-production."
+        },
+        {
+          "type": "gaming_news",
+          "isOfficial": false,
+          "name": "Gadgets 360",
+          "url": "https://www.gadgets360.com/games/news/cyberpunk-2-pre-production-phase-new-name-project-orion-cd-projekt-red-8535702",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Reports CD PROJEKT update; clarifies naming."
+        }
+      ],
+      "media": { "trailers": [] },
+      "tags": ["full_game", "tba"]
+    },
+
+    {
+      "id": "fallout-5",
+      "name": "Fallout 5",
+      "popularityTier": "popular",
+      "popularityRank": 5,
+      "category": { "type": "full_game", "franchise": "Fallout" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "likely" },
+      "studio": {
+        "name": "Bethesda Game Studios",
+        "type": "developer",
+        "location": null,
+        "parentCompany": "Bethesda Softworks"
+      },
+      "game": { "title": "Fallout 5", "platforms": ["pc", "xbox_series", "ps5"] },
+      "sources": [
+        {
+          "type": "gaming_news",
+          "isOfficial": false,
+          "name": "GamesRadar+",
+          "url": "https://www.gamesradar.com/bethesda-has-a-one-pager-for-fallout-5-but-its-still-a-while-off/",
+          "retrievedAt": "2026-01-20T00:00:00Z",
+          "claim": "Cites Todd Howard acknowledging a 'one-pager' exists for Fallout 5 and that it's far off."
+        }
+      ],
+      "media": { "trailers": [] },
+      "tags": ["full_game", "tba"]
+    },
+
+    {
+      "id": "fortnite-season-next",
+      "name": "Fortnite — New Season (Next)",
+      "popularityTier": "very_popular_live_service",
+      "popularityRank": 6,
+      "category": { "type": "season", "franchise": "Fortnite" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": {
+        "name": "Epic Games",
+        "type": "developer_publisher",
+        "location": { "city": "Cary", "region": "North Carolina", "country": "US", "hq": true }
+      },
+      "game": { "title": "Fortnite", "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch", "ios", "android"] },
+      "season": { "name": null, "number": null, "chapter": null, "battlePass": true },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["season", "live_service"]
+    },
+
+    {
+      "id": "overwatch-2-season-next",
+      "name": "Overwatch 2 — New Season (Next)",
+      "popularityTier": "very_popular_live_service",
+      "popularityRank": 7,
+      "category": { "type": "season", "franchise": "Overwatch" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": { "name": "Blizzard Entertainment", "type": "developer_publisher", "location": null },
+      "game": { "title": "Overwatch 2", "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch"] },
+      "season": { "name": null, "number": null, "battlePass": true },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["season", "live_service"]
+    },
+
+    {
+      "id": "apex-legends-season-next",
+      "name": "Apex Legends — New Season (Next)",
+      "popularityTier": "very_popular_live_service",
+      "popularityRank": 8,
+      "category": { "type": "season", "franchise": "Apex Legends" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": { "name": "Respawn Entertainment", "type": "developer", "location": null, "parentCompany": "Electronic Arts" },
+      "game": { "title": "Apex Legends", "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch"] },
+      "season": { "name": null, "number": null, "battlePass": true },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["season", "live_service"]
+    },
+
+    {
+      "id": "valorant-next-act",
+      "name": "VALORANT — New Act/Season (Next)",
+      "popularityTier": "very_popular_live_service",
+      "popularityRank": 9,
+      "category": { "type": "season", "franchise": "VALORANT" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": { "name": "Riot Games", "type": "developer_publisher", "location": null },
+      "game": { "title": "VALORANT", "platforms": ["pc", "ps5", "xbox_series"] },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["season", "live_service"]
+    },
+
+    {
+      "id": "warframe-next-major-update",
+      "name": "Warframe — Major Update (Next)",
+      "popularityTier": "popular",
+      "popularityRank": 10,
+      "category": { "type": "update", "franchise": "Warframe" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": { "name": "Digital Extremes", "type": "developer_publisher", "location": null },
+      "game": { "title": "Warframe", "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch", "ios"] },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["update", "live_service"]
+    },
+
+    {
+      "id": "dota-2-season-next",
+      "name": "Dota 2 — New Season / Ranked Reset (Next)",
+      "popularityTier": "popular",
+      "popularityRank": 11,
+      "category": { "type": "season", "franchise": "Dota" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
+      "studio": { "name": "Valve", "type": "developer_publisher", "location": null },
+      "game": { "title": "Dota 2", "platforms": ["pc"] },
+      "season": { "name": null },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["season"]
+    },
+
+    {
+      "id": "pokemon-pokopia",
+      "name": "Pokémon Pokopia (Unverified)",
+      "popularityTier": "unknown_or_rumor",
+      "popularityRank": 99,
+      "category": { "type": "full_game", "franchise": "Pokémon" },
+      "release": { "status": "tba", "isOfficial": false, "confidence": "rumor" },
+      "studio": { "name": null, "type": "unknown", "location": null },
+      "game": { "title": "Pokémon Pokopia", "platforms": ["switch", "other"] },
+      "sources": [],
+      "media": { "trailers": [] },
+      "tags": ["rumor"]
     }
   ]
 }

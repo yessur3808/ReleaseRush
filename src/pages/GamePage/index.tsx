@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGames } from "../../lib/useGames";
 import {
@@ -31,8 +31,8 @@ export function GamePage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [nowMs, setNowMs] = React.useState(() => Date.now());
-  React.useEffect(() => {
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  useEffect(() => {
     const t = window.setInterval(() => setNowMs(Date.now()), 250);
     return () => window.clearInterval(t);
   }, []);
@@ -62,7 +62,7 @@ export function GamePage() {
     );
   }
 
-  const msLeft = msLeftForGame(game, nowMs);
+  const msLeft = msLeftForGame(game, nowMs) ?? null;
 
   const suggested = doc.games.filter((g) => g.id !== game.id).slice(0, 6);
 
@@ -100,8 +100,8 @@ export function GamePage() {
                 game.release.status === "announced_date"
                   ? "Release"
                   : game.release.status === "recurring_daily"
-                  ? "Daily reset"
-                  : "TBA"
+                    ? "Daily reset"
+                    : "TBA"
               }
               variant="outlined"
               sx={{ borderRadius: 2 }}
@@ -132,8 +132,8 @@ export function GamePage() {
               {game.release.status === "announced_date"
                 ? "Time until release"
                 : game.release.status === "recurring_daily"
-                ? "Next reset"
-                : "Release date"}
+                  ? "Next reset"
+                  : "Release date"}
             </Typography>
 
             {game.release.status === "announced_date" && (

@@ -27,28 +27,14 @@ function keyFromPath(pathname: string): NavKey {
 
 function AdUnit({ compact = false }: { compact?: boolean }) {
   return (
-    <Paper
-      variant="outlined"
-      sx={{
-        borderRadius: 3,
-        p: compact ? 1 : 2,
-        minHeight: compact ? 56 : 180,
-        height: compact ? 56 : "auto",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "text.secondary",
-        borderColor: "divider",
-        bgcolor: "background.paper",
-      }}
-    >
+    <div>
       <Stack spacing={0.25} alignItems="center">
         <Typography variant="caption" sx={{ letterSpacing: 1 }}>
           AD
         </Typography>
         {!compact && <Typography variant="body2">Your ad goes here</Typography>}
       </Stack>
-    </Paper>
+    </div>
   );
 }
 
@@ -131,28 +117,17 @@ export function AppShell() {
         <Grid container spacing={isMobile ? 2 : 3}>
           {/* Main content */}
           <Grid item xs={12} md={8} lg={9}>
-            <Paper
-              elevation={0}
-              sx={{
-                borderRadius: 4,
-                p: { xs: 2, sm: 3, md: 4 },
-                border: "1px solid",
-                borderColor: "divider",
-                bgcolor: "background.paper",
-                // optional: subtle modern depth
-                boxShadow: "0 12px 30px rgba(0,0,0,0.20)",
-              }}
-            >
+            <div>
               <Outlet />
-            </Paper>
+            </div>
           </Grid>
 
           {/* Desktop ad rail */}
           {!isMobile && (
             <Grid item xs={12} md={4} lg={3}>
-              <Stack spacing={2} sx={{ position: "sticky", top: 96 }}>
+              <Stack spacing={2} sx={{ position: "sticky", top: 120 }}>
                 <AdUnit />
-                <Paper
+                {/* <Paper
                   variant="outlined"
                   sx={{
                     borderRadius: 3,
@@ -167,7 +142,7 @@ export function AppShell() {
                   <Typography variant="body2">
                     Add favorites / pinned countdowns here later.
                   </Typography>
-                </Paper>
+                </Paper> */}
               </Stack>
             </Grid>
           )}

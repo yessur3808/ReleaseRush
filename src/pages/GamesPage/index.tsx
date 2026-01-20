@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGames } from "../../lib/useGames";
 import {
@@ -21,7 +21,7 @@ export function GamesPage() {
   const { doc, loading, error } = useGames();
   const navigate = useNavigate();
 
-  const [filters, setFilters] = React.useState<GamesFiltersState>({
+  const [filters, setFilters] = useState<GamesFiltersState>({
     query: "",
     status: "all",
     tag: "all",
@@ -30,20 +30,20 @@ export function GamesPage() {
 
   const debouncedQuery = useDebouncedValue(filters.query, 250);
 
-  const [nowMs, setNowMs] = React.useState(() => Date.now());
-  React.useEffect(() => {
+  const [nowMs, setNowMs] = useState(() => Date.now());
+  useEffect(() => {
     const id = window.setInterval(() => setNowMs(Date.now()), 30_000);
     return () => window.clearInterval(id);
   }, []);
 
-  const allTags = React.useMemo(() => {
+  const allTags = useMemo(() => {
     const set = new Set<string>();
     for (const g of doc?.games ?? [])
       for (const tg of g.tags ?? []) set.add(tg);
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [doc]);
 
-  const filteredAndSortedGames = React.useMemo(() => {
+  const filteredAndSortedGames = useMemo(() => {
     const games = doc?.games ?? [];
     const q = debouncedQuery.trim().toLowerCase();
 
@@ -55,7 +55,7 @@ export function GamesPage() {
 
       if (!q) return true;
       const haystack = `${g.name ?? ""} ${(g.tags ?? []).join(
-        " "
+        " ",
       )}`.toLowerCase();
       return haystack.includes(q);
     });
@@ -70,15 +70,15 @@ export function GamesPage() {
         const bDaily = b.release.status === "recurring_daily" ? 0 : 1;
         if (aDaily !== bDaily) return aDaily - bDaily;
 
-        const av = releaseSortValue(a, nowMs);
-        const bv = releaseSortValue(b, nowMs);
+        const av = releaseSortValue(a, nowMs) ?? 0;
+        const bv = releaseSortValue(b, nowMs) ?? 0;
         if (av !== bv) return av - bv;
 
         return collator.compare(a.name, b.name);
       }
 
-      const av = releaseSortValue(a, nowMs);
-      const bv = releaseSortValue(b, nowMs);
+      const av = releaseSortValue(a, nowMs) ?? 0;
+      const bv = releaseSortValue(b, nowMs) ?? 0;
 
       if (filters.sort === "soonest") {
         if (av !== bv) return av - bv;

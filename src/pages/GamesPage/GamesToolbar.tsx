@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -65,8 +65,8 @@ export function GamesToolbar({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [expanded, setExpanded] = React.useState(false);
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const set = (patch: Partial<GamesFiltersState>) =>
     onChange({ ...value, ...patch });
@@ -87,8 +87,8 @@ export function GamesToolbar({
         value.status === "announced_date"
           ? t("game.filter_release_date")
           : value.status === "recurring_daily"
-          ? t("game.filter_daily_reset")
-          : t("game.filter_tba"),
+            ? t("game.filter_daily_reset")
+            : t("game.filter_tba"),
       onDelete: () => set({ status: "all" }),
     });
   }
@@ -108,8 +108,8 @@ export function GamesToolbar({
         value.sort === "soonest"
           ? t("common.sort_soonest")
           : value.sort === "latest"
-          ? t("common.sort_latest")
-          : t("common.sort_daily_first"),
+            ? t("common.sort_latest")
+            : t("common.sort_daily_first"),
       onDelete: () => set({ sort: "az" }),
     });
   }
