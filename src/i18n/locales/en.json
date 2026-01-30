@@ -25,7 +25,6 @@
       "next_reset": "Next reset",
       "release_date": "Release Date",
       "day_precision_date": "Date: {{date}} (day precision)",
-      "tip": "Tip: Add a cover by setting <code>coverUrl</code> for this game in your data.",
       "last_gen_date": "Date last generated: {{date}}",
 
   "unknown": "Unknown",

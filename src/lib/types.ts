@@ -7,11 +7,9 @@
    - studio metadata
    - cover as URL or base64 (optional)
    - popularity sorting fields
-   - (NEW) deterministic "remove released items" support:
-     - explicit released date (required)
-     - optional asOf in the doc
-     - optional region/platform qualifiers per release record
-     - optional cancelled/delayed statuses
+   - deterministic "remove released items" support
+   - (NEW) seasonWindow for live-service seasons/acts/resets:
+     - current season start/end timestamps for "time left" calculations
    ========================================================= */
 
 /* -------------------------
@@ -19,9 +17,17 @@
    ------------------------- */
 
 export type ISODate = string; // e.g. "2026-03-27" (YYYY-MM-DD)
-export type ISODateTime = string; // e.g. "2026-01-20T00:00:00Z"
+export type ISODateTime = string; // e.g. "2026-01-20T00:00:00Z" (UTC timestamp)
 
-export type DatePrecision = "day" | "month" | "quarter" | "year";
+/**
+ * Precision for a date or window.
+ * - "day" is a full calendar date
+ * - "month"/"quarter"/"year" are less precise windows
+ * - "unknown" allows stable shape when you don't know precision yet
+ */
+export type DatePrecision = "day" | "month" | "quarter" | "year" | "unknown";
+
+/** Confidence level for release or season timing assertions */
 export type ReleaseConfidence = "confirmed" | "likely" | "rumor" | "unknown";
 
 /** Optional: release geography granularity */
@@ -67,23 +73,31 @@ export type SourceType =
   | "leak_aggregator"
   | "other";
 
+export type SourceReliability = "high" | "medium" | "low" | "unknown";
+
 export type Source = {
+  /** What kind of source this is (store, press release, tweet, etc.) */
   type: SourceType;
+
   /** True if controlled by developer/publisher/platform owner */
   isOfficial: boolean;
+
   /** Human-readable name: "Rockstar Games", "Steam", "PlayStation Blog", "Reddit r/..." */
   name: string;
+
   /** Optional link to the source */
   url?: string;
+
   /** When you recorded/fetched it */
   retrievedAt?: ISODateTime;
+
   /** Short description of what this source claims */
   claim?: string;
 
   /** Optional social metadata */
   authorHandle?: string; // e.g. "@FortniteGame"
   excerpt?: string;
-  reliability?: "high" | "medium" | "low" | "unknown";
+  reliability?: SourceReliability;
 };
 
 /* -------------------------
@@ -92,6 +106,7 @@ export type Source = {
 
 export type ImageAsset =
   | {
+      /** Remote image URL */
       kind: "url";
       url: string;
       mime?: string;
@@ -99,9 +114,9 @@ export type ImageAsset =
       height?: number;
     }
   | {
+      /** Embedded image payload (no `data:` prefix) */
       kind: "base64";
       mime: string; // required for base64
-      /** Base64 bytes (no data: prefix) */
       data: string;
       width?: number;
       height?: number;
@@ -115,16 +130,25 @@ export type TrailerPlatform =
   | "other";
 
 export type TrailerLink = {
+  /** Destination URL for the trailer */
   url: string;
-  label?: string; // "Reveal Trailer", "Gameplay Trailer", etc.
+  /** Display label: "Reveal Trailer", "Gameplay Trailer", etc. */
+  label?: string;
+  /** Where it is hosted */
   platform?: TrailerPlatform;
 };
 
 export type Media = {
+  /** Preferred cover representation */
   cover?: ImageAsset;
+  /** Optional list of trailer links */
   trailers?: TrailerLink[];
-  /** Keep this if you still want a simple compatibility field */
-  coverUrl?: string; // deprecated (prefer media.cover)
+
+  /**
+   * Back-compat field for older consumers.
+   * Deprecated (prefer `media.cover`).
+   */
+  coverUrl?: string;
 };
 
 /* -------------------------
@@ -145,6 +169,7 @@ export type StudioType =
   | "unknown";
 
 export type Studio = {
+  /** Studio name; null allowed for rumors/unknown studios */
   name: string | null;
   type: StudioType;
   location?: StudioLocation | null;
@@ -167,15 +192,25 @@ export type CategoryType =
   | "other";
 
 export type Category = {
+  /** High-level classification for the entry */
   type: CategoryType;
+
+  /** Optional: additional free-form classifier */
   subtype?: string;
+
+  /** Optional: franchise / series grouping */
   franchise?: string;
+
+  /** Optional: display label override */
   label?: string;
 };
 
 /* Optional details for DLC/season. Include only when relevant. */
 export type DLCDetails = {
+  /** DLC display name (e.g. "Phantom Liberty") */
   name: string;
+
+  /** DLC type */
   kind?:
     | "expansion"
     | "story_pack"
@@ -183,18 +218,89 @@ export type DLCDetails = {
     | "cosmetic_pack"
     | "bundle"
     | "other";
+
+  /** Whether base game is required */
   requiresBaseGame?: boolean;
+
+  /** Platforms the DLC applies to (if different from the base entry) */
   platforms?: Platform[];
+
+  /** Optional: bundle relationships */
   includedWith?: string[];
+
+  /** Optional: description blurb */
   description?: string;
 };
 
 export type SeasonDetails = {
+  /** Season name, if known */
   name?: string;
+  /** Numeric season counter, if applicable */
   number?: number;
+  /** Chapter counter, if applicable */
   chapter?: number;
+  /** Whether a battle pass exists */
   battlePass?: boolean;
+  /** Optional season theme */
   theme?: string;
+};
+
+/* -------------------------
+   Season window (NEW)
+   ------------------------- */
+
+/**
+ * Where the season boundaries come from.
+ * - "official": first-party announcement / in-game / official site
+ * - "press": reputable press reporting official info
+ * - "community": community tracking / wiki / aggregators
+ * - "computed": derived (e.g. cadence-based estimate)
+ * - "unknown": not sure / placeholder
+ */
+export type SeasonWindowSourceKind =
+  | "official"
+  | "press"
+  | "community"
+  | "computed"
+  | "unknown";
+
+/** Data needed to compute time-left for the current season/act/reset */
+export type SeasonWindowCurrent = {
+  /** Optional: "Chapter 6 Season 2", "Season 14", "Episode 9 Act 2", etc. */
+  label?: string | null;
+
+  /** Season start timestamp (preferred for countdown accuracy); null when unknown */
+  startISO: ISODateTime | null;
+
+  /** Season end timestamp (preferred for countdown accuracy); null when unknown */
+  endISO: ISODateTime | null;
+
+  /** Timezone of the timestamps; store "UTC" when using Z timestamps */
+  timezone?: "UTC" | string;
+
+  /** Precision of the timestamps */
+  precision?: "minute" | "day" | "unknown";
+
+  /** True if the season window is confirmed by an official source */
+  isOfficial: boolean;
+
+  /** Confidence about the start/end values */
+  confidence: "confirmed" | "likely" | "estimate" | "unknown";
+
+  /** Where this window info was sourced/derived from */
+  sourceKind?: SeasonWindowSourceKind;
+
+  /** Optional notes to explain caveats */
+  notes?: string | null;
+
+  /** Optional sources that support the season window specifically */
+  sources?: Source[];
+};
+
+/** Container for season timing info (expandable later for previous/next) */
+export type SeasonWindow = {
+  /** Current live season boundaries */
+  current: SeasonWindowCurrent;
 };
 
 /* -------------------------
@@ -208,6 +314,8 @@ export type ReleaseBase = {
    * but storing it makes filtering fast.
    */
   isOfficial: boolean;
+
+  /** Confidence about the release timing */
   confidence: ReleaseConfidence;
 
   /** Optional: last update timestamp for this release object */
@@ -226,23 +334,34 @@ export type ReleaseBase = {
    */
   region?: Region;
   platforms?: Platform[];
+
+  /**
+   * Optional: normalized explicit fields so consumers can rely on them existing,
+   * even when status is not "announced_date".
+   * (If you use these, keep them consistent across statuses.)
+   */
+  dateISO?: ISODate | null;
+  datePrecision?: DatePrecision;
 };
 
 export type ReleaseTBA = ReleaseBase & {
+  /** No public date/window */
   status: "tba";
 };
 
 export type ReleaseAnnouncedDate = ReleaseBase & {
+  /** Publicly announced release date */
   status: "announced_date";
-  dateISO: ISODate; // "YYYY-MM-DD"
+  dateISO: ISODate; // required here
   /**
    * If omitted, consumers can treat it as "day" for strict dates.
    * Keep it optional to reduce data entry burden.
    */
-  datePrecision?: DatePrecision;
+  datePrecision?: Exclude<DatePrecision, "unknown">;
 };
 
 export type ReleaseAnnouncedWindow = ReleaseBase & {
+  /** Publicly announced window (year/quarter/month/label) */
   status: "announced_window";
   window: {
     year?: number;
@@ -253,11 +372,13 @@ export type ReleaseAnnouncedWindow = ReleaseBase & {
 };
 
 export type ReleaseRecurringDaily = ReleaseBase & {
+  /** Happens every day at a known UTC time */
   status: "recurring_daily";
   timeUTC: string; // "HH:MM" (UTC)
 };
 
 export type ReleaseRecurringWeekly = ReleaseBase & {
+  /** Happens weekly at a known UTC time */
   status: "recurring_weekly";
   /** 0 (Sunday) - 6 (Saturday) */
   dayOfWeekUTC: 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -269,27 +390,39 @@ export type ReleaseRecurringWeekly = ReleaseBase & {
  * If status is "released", require a dateISO so you can reliably filter released items.
  */
 export type ReleaseReleased = ReleaseBase & {
+  /** Already released */
   status: "released";
+
   /** Actual release date (required for deterministic filtering) */
   dateISO: ISODate;
+
   /** Optional: exact timestamp if known */
   releasedAt?: ISODateTime;
 };
 
 /** Optional but useful in real-world datasets */
 export type ReleaseCancelled = ReleaseBase & {
+  /** Cancelled and not expected to ship */
   status: "cancelled";
+
   /** Optional: when it was cancelled (YYYY-MM-DD) */
   dateISO?: ISODate;
+
+  /** Optional: reason or notes */
   reason?: string;
 };
 
 export type ReleaseDelayed = ReleaseBase & {
+  /** Delayed from a previous date/window */
   status: "delayed";
+
+  /** Previous known date/window (if any) */
   previous?: {
     dateISO?: ISODate;
     windowLabel?: string;
   };
+
+  /** Optional note about the delay */
   note?: string;
 };
 
@@ -327,11 +460,10 @@ export type Availability = "upcoming" | "released" | "cancelled" | "unknown";
    ------------------------- */
 
 export type Game = {
+  /** Stable identifier (slug) */
   id: string;
 
-  /**
-   * Display name for the entry (can be "Fortnite — Season X", "GTA VI", etc.)
-   */
+  /** Display name for the entry (can be "Fortnite — Season X", "GTA VI", etc.) */
   name: string;
 
   /**
@@ -340,20 +472,21 @@ export type Game = {
    */
   title?: string;
 
+  /** Optional: tag list for filtering/search */
   tags?: string[];
 
-  /** New: structured category */
+  /** Structured category */
   category: Category;
 
-  /** New: platform list (for filtering) */
+  /** Platform list (for filtering). If not known, store [] or omit based on your conventions. */
   platforms: Platform[];
 
-  /** New: richer media model (cover + trailers) */
+  /** Rich media model (cover + trailers) */
   media?: Media;
 
   /**
-   * Kept for backward compatibility with your earlier data.
-   * Prefer media.cover.kind==="url" instead.
+   * Back-compat with earlier data.
+   * Deprecated (prefer media.cover.kind==="url").
    */
   coverUrl?: string;
 
@@ -366,17 +499,25 @@ export type Game = {
    */
   availability?: Availability;
 
-  /** Attribution (general) */
+  /** Attribution (general; not necessarily release-specific) */
   sources: Source[];
 
   /** Studio metadata */
   studio?: Studio;
 
-  /** Optional: DLC/season specifics when relevant */
+  /** Optional: DLC specifics when relevant */
   dlc?: DLCDetails;
+
+  /** Optional: season metadata (name/number/etc.) */
   season?: SeasonDetails;
 
-  /** New: sorting helpers */
+  /**
+   * NEW: season timing boundaries for countdowns.
+   * Intended for category.type==="season" (and optionally "update"/"event" if you timebox those).
+   */
+  seasonWindow?: SeasonWindow;
+
+  /** Sorting helpers */
   popularityTier?: PopularityTier;
   popularityRank?: number;
 };
@@ -391,7 +532,10 @@ export type GamesDoc = {
    */
   asOf?: AsOf;
 
+  /** Schema version string */
   schemaVersion: string;
+
+  /** Game list */
   games: Game[];
 };
 

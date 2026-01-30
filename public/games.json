@@ -233,6 +233,19 @@
         "ageRating": { "system": "esrb", "rating": "T", "isFinal": true }
       },
       "season": { "name": null, "number": null, "chapter": null, "battlePass": true },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Add current season start/end when known.",
+          "sources": []
+        }
+      },
       "sources": [],
       "media": { "trailers": [] },
       "tags": ["season", "live_service"]
@@ -263,6 +276,19 @@
         "ageRating": { "system": "esrb", "rating": "T", "isFinal": true }
       },
       "season": { "name": null, "number": null, "battlePass": true },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Add current season start/end when known.",
+          "sources": []
+        }
+      },
       "sources": [],
       "media": { "trailers": [] },
       "tags": ["season", "live_service"]
@@ -293,6 +319,19 @@
         "ageRating": { "system": "esrb", "rating": "T", "isFinal": true }
       },
       "season": { "name": null, "number": null, "battlePass": true },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Add current season start/end when known.",
+          "sources": []
+        }
+      },
       "sources": [],
       "media": { "trailers": [] },
       "tags": ["season", "live_service"]
@@ -322,6 +361,19 @@
         "liveService": { "enabled": true, "cadence": "seasonal" },
         "ageRating": { "system": "esrb", "rating": "T", "isFinal": true }
       },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Add current act/season start/end when known.",
+          "sources": []
+        }
+      },
       "sources": [],
       "media": { "trailers": [] },
       "tags": ["season", "live_service"]
@@ -350,6 +402,19 @@
         "camera": ["third_person"],
         "liveService": { "enabled": true, "cadence": "irregular" },
         "ageRating": { "system": "esrb", "rating": "M", "isFinal": true }
+      },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Optional: use this if you treat major updates like timed seasons/events.",
+          "sources": []
+        }
       },
       "sources": [],
       "media": { "trailers": [] },
@@ -381,6 +446,19 @@
         "ageRating": { "system": "esrb", "rating": "T", "isFinal": true }
       },
       "season": { "name": null },
+      "seasonWindow": {
+        "current": {
+          "label": null,
+          "startISO": null,
+          "endISO": null,
+          "timezone": "UTC",
+          "precision": "unknown",
+          "isOfficial": false,
+          "confidence": "unknown",
+          "notes": "Add current season/reset window when known.",
+          "sources": []
+        }
+      },
       "sources": [],
       "media": { "trailers": [] },
       "tags": ["season"]

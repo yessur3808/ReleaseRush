@@ -94,20 +94,6 @@ export const CountdownHeader = ({
           {t("pages.game.no_countdown")}
         </Typography>
       )}
-
-      <Box sx={{ pt: 0.25 }}>
-        <Trans
-          i18nKey="pages.game.tip"
-          values={{ coverUrl: "" }}
-          components={{
-            code: (
-              <code>
-                <img src={coverUrl ?? "./placeholder.png"} alt="" />
-              </code>
-            ),
-          }}
-        />
-      </Box>
     </Stack>
   );
 };
