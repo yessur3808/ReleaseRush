@@ -40,7 +40,10 @@ export function useFavorites() {
 
     return () => {
       if (writeTimerRef.current !== null) {
+        // Flush immediately on unmount so no writes are lost
         clearTimeout(writeTimerRef.current);
+        writeTimerRef.current = null;
+        writeToStorage(favorites);
       }
     };
   }, [favorites]);

@@ -1,10 +1,14 @@
 export type ApiError = { status: number; message: string };
 
+/**
+ * Generic fetch wrapper.  Accepts both relative paths (e.g. "/games") and
+ * absolute URLs (e.g. "http://localhost:3000/games").
+ */
 export async function apiFetch<T>(
-  path: string,
+  pathOrUrl: string,
   init?: RequestInit,
 ): Promise<T> {
-  const res = await fetch(path, {
+  const res = await fetch(pathOrUrl, {
     ...init,
     headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
   });
