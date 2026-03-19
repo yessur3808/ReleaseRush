@@ -1,11 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGames } from "../../lib/useGames";
+import { useFavorites } from "../../lib/useFavorites";
 import {
   Alert,
+  Chip,
   CircularProgress,
+  IconButton,
   Paper,
   Stack,
+  Tooltip,
   Typography,
   Button,
   Divider,
@@ -15,19 +19,17 @@ import { useTranslation } from "react-i18next";
 
 import { useDebouncedValue } from "./useDebouncedValue";
 import { releaseSortValue } from "./gamesSorting";
-import { GamesToolbar, type GamesFiltersState } from "./GamesToolbar";
+import { GamesToolbar, DEFAULT_FILTERS, type GamesFiltersState } from "./GamesToolbar";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export function GamesPage() {
   const { t } = useTranslation();
   const { doc, loading, error } = useGames();
   const navigate = useNavigate();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
-  const [filters, setFilters] = useState<GamesFiltersState>({
-    query: "",
-    status: "all",
-    tag: "all",
-    sort: "az",
-  });
+  const [filters, setFilters] = useState<GamesFiltersState>(DEFAULT_FILTERS);
 
   const debouncedQuery = useDebouncedValue(filters.query, 250);
 
@@ -85,6 +87,8 @@ export function GamesPage() {
     return [...games].sort(sortGames);
   }, [doc, sortGames]);
 
+  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
+
   const filteredAndSortedGames = useMemo(() => {
     const games = doc?.games ?? [];
     const q = debouncedQuery.trim().toLowerCase();
@@ -96,6 +100,8 @@ export function GamesPage() {
       if (filters.tag !== "all" && !(g.tags ?? []).includes(filters.tag))
         return false;
 
+      if (filters.favoritesOnly && !isFavorite(g.id)) return false;
+
       if (!q) return true;
 
       const haystack =
@@ -104,7 +110,7 @@ export function GamesPage() {
     });
 
     return [...filtered].sort(sortGames);
-  }, [doc, debouncedQuery, filters.status, filters.tag, sortGames]);
+  }, [doc, debouncedQuery, filters.status, filters.tag, filters.favoritesOnly, isFavorite, sortGames]);
 
   if (loading) {
     return (
@@ -156,33 +162,102 @@ export function GamesPage() {
 
       {/* Results */}
       <Grid container spacing={2}>
-        {gamesToRender.map((g) => (
-          <Grid item xs={12} sm={6} key={g.id}>
-            <Paper sx={{ p: 2, borderRadius: 3 }}>
-              <Stack spacing={1}>
-                <Typography variant="h6" fontWeight={700}>
-                  {g.name}
-                </Typography>
+        {gamesToRender.map((g) => {
+          const isToday =
+            g.release.status === "announced_date" &&
+            g.release.dateISO === todayISO;
+          const favorited = isFavorite(g.id);
+          return (
+            <Grid item xs={12} sm={6} key={g.id}>
+              <Paper sx={{ p: 2, borderRadius: 3, position: "relative" }}>
+                <Stack spacing={1}>
+                  <Stack
+                    direction="row"
+                    alignItems="flex-start"
+                    justifyContent="space-between"
+                    spacing={1}
+                  >
+                    <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ flex: 1, minWidth: 0 }}>
+                      <Typography variant="h6" fontWeight={700} sx={{ flex: "0 1 auto", minWidth: 0 }}>
+                        {g.name}
+                      </Typography>
+                      {isToday ? (
+                        <Chip
+                          label={t("common.releasing_today")}
+                          size="small"
+                          color="primary"
+                          sx={{
+                            fontWeight: 700,
+                            fontSize: "0.7rem",
+                            height: 22,
+                            animation: "pulse 2s ease-in-out infinite",
+                            "@keyframes pulse": {
+                              "0%, 100%": { opacity: 1 },
+                              "50%": { opacity: 0.7 },
+                            },
+                          }}
+                        />
+                      ) : null}
+                    </Stack>
 
-                <Typography variant="body2" color="text.secondary">
-                  {g.release.status === "tba" && t("game.release_tba")}
-                  {g.release.status === "announced_date" &&
-                    t("game.release_date", { date: g.release.dateISO })}
-                  {g.release.status === "recurring_daily" &&
-                    t("game.resets_daily", { time: g.release.timeUTC })}
-                </Typography>
+                    <Tooltip
+                      title={
+                        favorited
+                          ? t("common.remove_from_favorites")
+                          : t("common.add_to_favorites")
+                      }
+                    >
+                      <IconButton
+                        size="small"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(g.id);
+                        }}
+                        aria-label={
+                          favorited
+                            ? t("common.remove_from_favorites")
+                            : t("common.add_to_favorites")
+                        }
+                        sx={(theme) => ({
+                          color: favorited
+                            ? theme.palette.error.light
+                            : theme.palette.text.disabled,
+                          transition: "color 180ms ease, transform 180ms ease",
+                          "&:hover": {
+                            color: theme.palette.error.light,
+                            transform: "scale(1.15)",
+                          },
+                        })}
+                      >
+                        {favorited ? (
+                          <FavoriteIcon fontSize="small" />
+                        ) : (
+                          <FavoriteBorderIcon fontSize="small" />
+                        )}
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
 
-                <Button
-                  variant="contained"
-                  onClick={() => navigate(`/game/${g.id}`)}
-                  sx={{ borderRadius: 2, alignSelf: "flex-start" }}
-                >
-                  {t("game.view_countdown")}
-                </Button>
-              </Stack>
-            </Paper>
-          </Grid>
-        ))}
+                  <Typography variant="body2" color="text.secondary">
+                    {g.release.status === "tba" && t("game.release_tba")}
+                    {g.release.status === "announced_date" &&
+                      t("game.release_date", { date: g.release.dateISO })}
+                    {g.release.status === "recurring_daily" &&
+                      t("game.resets_daily", { time: g.release.timeUTC })}
+                  </Typography>
+
+                  <Button
+                    variant="contained"
+                    onClick={() => navigate(`/game/${g.id}`)}
+                    sx={{ borderRadius: 2, alignSelf: "flex-start" }}
+                  >
+                    {t("game.view_countdown")}
+                  </Button>
+                </Stack>
+              </Paper>
+            </Grid>
+          );
+        })}
       </Grid>
     </Stack>
   );

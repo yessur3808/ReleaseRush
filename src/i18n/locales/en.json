@@ -77,7 +77,16 @@
     "sort_latest": "Latest",
     "sort_daily_first": "Daily resets first",
 
-    "no_results": "No matches."
+    "no_results": "No matches.",
+
+    "share": "Share",
+    "link_copied": "Link copied!",
+
+    "favorites_only": "Favorites only",
+    "add_to_favorites": "Add to favorites",
+    "remove_from_favorites": "Remove from favorites",
+
+    "releasing_today": "Today!"
   },
   "game": {
     "all_games": "All games",

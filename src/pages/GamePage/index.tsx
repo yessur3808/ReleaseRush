@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGames } from "../../lib/useGames";
-import { Stack, Typography, useMediaQuery } from "@mui/material";
+import { useFavorites } from "../../lib/useFavorites";
+import { Stack, Tooltip, IconButton, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 import { GameDoc } from "../../lib/types";
@@ -23,7 +24,10 @@ import { CountdownHeader } from "./components/CountdownHeader";
 import { GameHero } from "./components/GameHero";
 import { GameLinks } from "./components/GameLinks";
 import { FloatingCountdownHUD } from "../../components/FloatingCountdownHUD";
+import { ShareButton } from "../../components/ShareButton";
 import { trackEvent } from "../../analytics/ga4"; // <-- adjust path if different
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export const GamePage = () => {
   const { t } = useTranslation();
@@ -38,6 +42,7 @@ export const GamePage = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const [nowMs, setNowMs] = useState(() => Date.now());
   useEffect(() => {
@@ -155,6 +160,8 @@ export const GamePage = () => {
     });
   };
 
+  const favorited = isFavorite(game.id);
+
   return (
     <Stack spacing={{ xs: 2.5, sm: 3.5 }} sx={{ pb: 4 }}>
       <CountdownHeader
@@ -167,6 +174,51 @@ export const GamePage = () => {
         t={t}
         countdownAnchorRef={countdownAnchorRef}
       />
+
+      {/* Action bar: favorite + share */}
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Tooltip
+          title={
+            favorited
+              ? t("common.remove_from_favorites")
+              : t("common.add_to_favorites")
+          }
+        >
+          <IconButton
+            onClick={() => toggleFavorite(game.id)}
+            aria-label={
+              favorited
+                ? t("common.remove_from_favorites")
+                : t("common.add_to_favorites")
+            }
+            size="small"
+            sx={(theme) => ({
+              borderRadius: 999,
+              border: `1px solid ${
+                theme.palette.mode === "dark"
+                  ? "rgba(255,255,255,0.12)"
+                  : "rgba(0,0,0,0.10)"
+              }`,
+              color: favorited
+                ? theme.palette.error.light
+                : theme.palette.text.secondary,
+              transition: "color 180ms ease, transform 180ms ease",
+              "&:hover": {
+                color: theme.palette.error.light,
+                transform: "scale(1.12)",
+              },
+            })}
+          >
+            {favorited ? (
+              <FavoriteIcon fontSize="small" />
+            ) : (
+              <FavoriteBorderIcon fontSize="small" />
+            )}
+          </IconButton>
+        </Tooltip>
+
+        <ShareButton gameId={game.id} gameName={game.name ?? ""} />
+      </Stack>
 
       <GameHero
         game={game}
