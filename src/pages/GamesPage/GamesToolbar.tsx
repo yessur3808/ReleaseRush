@@ -17,6 +17,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import type { StatusFilter, SortKey } from "./gamesSorting";
+import type { CategoryType } from "../../lib/types";
 
 import SearchIcon from "@mui/icons-material/Search";
 import TuneIcon from "@mui/icons-material/Tune";
@@ -30,6 +31,7 @@ export type GamesFiltersState = {
   tag: string;
   sort: SortKey;
   favoritesOnly: boolean;
+  categoryType: CategoryType | "all";
 };
 
 export const DEFAULT_FILTERS: GamesFiltersState = {
@@ -38,6 +40,7 @@ export const DEFAULT_FILTERS: GamesFiltersState = {
   tag: "all",
   sort: "az",
   favoritesOnly: false,
+  categoryType: "all",
 };
 
 type Props = {
@@ -56,7 +59,8 @@ function isDefault(v: GamesFiltersState) {
     v.status === DEFAULT_FILTERS.status &&
     v.tag === DEFAULT_FILTERS.tag &&
     v.sort === DEFAULT_FILTERS.sort &&
-    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly
+    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly &&
+    v.categoryType === DEFAULT_FILTERS.categoryType
   );
 }
 
@@ -117,6 +121,14 @@ export function GamesToolbar({ value, onChange, allTags, resultsText, onSubmitSe
       key: "favorites",
       label: t("common.favorites_only"),
       onDelete: () => set({ favoritesOnly: false }),
+    });
+  }
+
+  if (value.categoryType !== "all") {
+    activeChips.push({
+      key: "categoryType",
+      label: t(`common.category_${value.categoryType}`),
+      onDelete: () => set({ categoryType: "all" }),
     });
   }
 

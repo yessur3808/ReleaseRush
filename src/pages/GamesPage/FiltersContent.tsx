@@ -34,7 +34,8 @@ export const FiltersContent = ({ value, allTags, set, clearAll, onTrack }: Filte
     v.status === DEFAULT_FILTERS.status &&
     v.tag === DEFAULT_FILTERS.tag &&
     v.sort === DEFAULT_FILTERS.sort &&
-    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly;
+    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly &&
+    v.categoryType === DEFAULT_FILTERS.categoryType;
 
   const selectSx = (theme: Theme) => {
     const isDark = theme.palette.mode === "dark";
