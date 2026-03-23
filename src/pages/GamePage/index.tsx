@@ -6,7 +6,7 @@ import { Stack, Tooltip, IconButton, Typography, useMediaQuery } from "@mui/mate
 import { useTheme } from "@mui/material/styles";
 
 import { GameDoc } from "../../lib/types";
-import { msLeftForGame } from "../../utils";
+import { msLeftForGame, formatISODateTime } from "../../utils";
 import { SuggestedCountdownsIsland } from "./components/SuggestedCountdownsIsland";
 import { useTranslation } from "react-i18next";
 import {
@@ -245,7 +245,7 @@ export const GamePage = () => {
       />
 
       <Typography variant="caption" color="text.secondary">
-        {t("pages.game.last_gen_date", { date: doc.generatedAt })}
+        {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
       </Typography>
 
       <FloatingCountdownHUD

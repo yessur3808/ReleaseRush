@@ -5,6 +5,7 @@ import {
   Source,
   TrailerLink,
 } from "../../lib/types";
+import { formatDateISO } from "../../utils";
 
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import ComputerIcon from "@mui/icons-material/Computer";
@@ -107,9 +108,9 @@ export const releaseSecondaryLine = (game: Game): string | null => {
   const r = game.release;
   switch (r.status) {
     case "announced_date":
-      return r.dateISO;
+      return formatDateISO(r.dateISO);
     case "released":
-      return `Released: ${r.dateISO}`;
+      return `Released: ${formatDateISO(r.dateISO)}`;
     case "announced_window":
       return r.window.label ?? "Release window";
     case "recurring_daily":
@@ -117,7 +118,7 @@ export const releaseSecondaryLine = (game: Game): string | null => {
     case "recurring_weekly":
       return `Weekly · ${r.dayOfWeekUTC} @ ${r.timeUTC} UTC`;
     case "cancelled":
-      return r.dateISO ? `Cancelled: ${r.dateISO}` : "Cancelled";
+      return r.dateISO ? `Cancelled: ${formatDateISO(r.dateISO)}` : "Cancelled";
     case "delayed":
       return r.note ?? "Delayed";
     default:

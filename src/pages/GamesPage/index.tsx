@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { useDebouncedValue } from "./useDebouncedValue";
 import { releaseSortValue } from "./gamesSorting";
 import { GamesToolbar, DEFAULT_FILTERS, type GamesFiltersState } from "./GamesToolbar";
+import { formatDateISO } from "../../utils";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
@@ -87,7 +88,15 @@ export function GamesPage() {
     return [...games].sort(sortGames);
   }, [doc, sortGames]);
 
-  const todayISO = useMemo(() => new Date().toISOString().slice(0, 10), []);
+  // Use explicit UTC components so the "releasing today" badge is consistent
+  // with the UTC-midnight countdown calculation regardless of viewer timezone.
+  const todayISO = useMemo(() => {
+    const now = new Date();
+    const y = now.getUTCFullYear();
+    const m = String(now.getUTCMonth() + 1).padStart(2, "0");
+    const d = String(now.getUTCDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }, []);
 
   const filteredAndSortedGames = useMemo(() => {
     const games = doc?.games ?? [];
@@ -241,7 +250,7 @@ export function GamesPage() {
                   <Typography variant="body2" color="text.secondary">
                     {g.release.status === "tba" && t("game.release_tba")}
                     {g.release.status === "announced_date" &&
-                      t("game.release_date", { date: g.release.dateISO })}
+                      t("game.release_date", { date: formatDateISO(g.release.dateISO) })}
                     {g.release.status === "recurring_daily" &&
                       t("game.resets_daily", { time: g.release.timeUTC })}
                   </Typography>

@@ -24,7 +24,7 @@
       "time_until_release": "Time until release",
       "next_reset": "Next reset",
       "release_date": "Release Date",
-      "day_precision_date": "Date: {{date}} (day precision)",
+      "day_precision_date": "{{date}}",
       "last_gen_date": "Date last generated: {{date}}",
 
   "unknown": "Unknown",

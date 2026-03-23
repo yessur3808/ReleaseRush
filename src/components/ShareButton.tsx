@@ -35,9 +35,19 @@ function buildWidgetUrl(gameId: string): string {
   return `${window.location.origin}/embed/game/${encodeURIComponent(gameId)}`;
 }
 
+/** Escape characters that are special inside HTML attribute values. */
+function escapeHtmlAttr(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function buildEmbedCode(gameId: string, gameName: string): string {
   const src = buildWidgetUrl(gameId);
-  return `<iframe src="${src}" width="400" height="220" title="${gameName} countdown" style="border:0" loading="lazy"></iframe>`;
+  const safeTitle = escapeHtmlAttr(gameName);
+  return `<iframe src="${src}" width="400" height="220" title="${safeTitle} countdown" style="border:0" loading="lazy"></iframe>`;
 }
 
 export function ShareButton({ gameId, gameName }: Props) {

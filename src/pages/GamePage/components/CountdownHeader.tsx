@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Game } from "../../../lib/types";
 import { NiceCountdown } from "./NiceCountdown";
+import { formatDateISO } from "../../../utils";
 
 export const CountdownHeader = ({
   game,
@@ -62,15 +63,16 @@ export const CountdownHeader = ({
           {game.release.status === "announced_date" ? (
             <Typography variant="body2" color="text.secondary">
               {t("pages.game.day_precision_date", {
-                date: game.release.dateISO,
+                date: formatDateISO(game.release.dateISO),
               })}
             </Typography>
           ) : null}
 
           {game.release.status === "released" ? (
             <Typography variant="body2" color="text.secondary">
-              {t("pages.game.released_on", { date: game.release.dateISO }) ??
-                `Released on ${game.release.dateISO}`}
+              {t("pages.game.released_on", {
+                date: formatDateISO(game.release.dateISO),
+              }) ?? `Released on ${formatDateISO(game.release.dateISO)}`}
             </Typography>
           ) : null}
         </Box>
