@@ -81,6 +81,15 @@
 
     "share": "Share",
     "link_copied": "Link copied!",
+    "widget_url_copied": "Widget URL copied!",
+    "embed_code_copied": "Embed code copied!",
+
+    "share_page": "Share page",
+    "share_page_desc": "Copy link to the countdown page",
+    "share_widget": "Share widget",
+    "share_widget_desc": "Copy link to the embeddable widget",
+    "copy_embed_code": "Copy embed code",
+    "copy_embed_code_desc": "Copy <iframe> snippet for websites",
 
     "favorites_only": "Favorites only",
     "add_to_favorites": "Add to favorites",
