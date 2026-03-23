@@ -122,12 +122,7 @@ export type ImageAsset =
       height?: number;
     };
 
-export type TrailerPlatform =
-  | "youtube"
-  | "twitter_x"
-  | "twitch"
-  | "official_site"
-  | "other";
+export type TrailerPlatform = "youtube" | "twitter_x" | "twitch" | "official_site" | "other";
 
 export type TrailerLink = {
   /** Destination URL for the trailer */
@@ -162,11 +157,7 @@ export type StudioLocation = {
   hq?: boolean;
 };
 
-export type StudioType =
-  | "developer"
-  | "publisher"
-  | "developer_publisher"
-  | "unknown";
+export type StudioType = "developer" | "publisher" | "developer_publisher" | "unknown";
 
 export type Studio = {
   /** Studio name; null allowed for rumors/unknown studios */
@@ -211,13 +202,7 @@ export type DLCDetails = {
   name: string;
 
   /** DLC type */
-  kind?:
-    | "expansion"
-    | "story_pack"
-    | "season_pass"
-    | "cosmetic_pack"
-    | "bundle"
-    | "other";
+  kind?: "expansion" | "story_pack" | "season_pass" | "cosmetic_pack" | "bundle" | "other";
 
   /** Whether base game is required */
   requiresBaseGame?: boolean;
@@ -257,12 +242,7 @@ export type SeasonDetails = {
  * - "computed": derived (e.g. cadence-based estimate)
  * - "unknown": not sure / placeholder
  */
-export type SeasonWindowSourceKind =
-  | "official"
-  | "press"
-  | "community"
-  | "computed"
-  | "unknown";
+export type SeasonWindowSourceKind = "official" | "press" | "community" | "computed" | "unknown";
 
 /** Data needed to compute time-left for the current season/act/reset */
 export type SeasonWindowCurrent = {

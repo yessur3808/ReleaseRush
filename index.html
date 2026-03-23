@@ -65,16 +65,26 @@
         "image": "https://YOUR_DOMAIN_HERE/og.png"
       }
     </script>
-
   </head>
 
   <body>
     <noscript>
-      <main style="padding: 24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;">
+      <main
+        style="
+          padding: 24px;
+          font-family:
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto,
+            Arial,
+            sans-serif;
+        "
+      >
         <h1>ReleaseRush</h1>
         <p>
-          ReleaseRush is a countdown hub for video games: track upcoming releases, new seasons, and daily resets.
-          Please enable JavaScript to use the app.
+          ReleaseRush is a countdown hub for video games: track upcoming releases, new seasons, and
+          daily resets. Please enable JavaScript to use the app.
         </p>
       </main>
     </noscript>
@@ -85,11 +95,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=%GA_MEASUREMENT_ID%"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
       // Disable automatic page_view so we can handle SPA navigation ourselves.
-      gtag('config', '%GA_MEASUREMENT_ID%', { send_page_view: false });
+      gtag("config", "%GA_MEASUREMENT_ID%", { send_page_view: false });
     </script>
   </body>
 </html>

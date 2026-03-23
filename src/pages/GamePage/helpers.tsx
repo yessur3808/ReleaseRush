@@ -1,10 +1,4 @@
-import {
-  Game,
-  ImageAsset,
-  Platform,
-  Source,
-  TrailerLink,
-} from "../../lib/types";
+import { Game, ImageAsset, Platform, Source, TrailerLink } from "../../lib/types";
 import { formatDateISO } from "../../utils";
 
 import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
@@ -61,11 +55,7 @@ export const platformIcon = (p: Platform) => {
 };
 
 export const sourceIcon = (s: Source) => {
-  return s.isOfficial ? (
-    <PublicIcon fontSize="small" />
-  ) : (
-    <NewspaperIcon fontSize="small" />
-  );
+  return s.isOfficial ? <PublicIcon fontSize="small" /> : <NewspaperIcon fontSize="small" />;
 };
 
 export const categoryText = (game: Game): string => {
@@ -94,10 +84,8 @@ export const releasePrimaryChipLabel = (
   t: (k: string, opts?: Record<string, unknown>) => string,
 ): string => {
   const st = game.release.status;
-  if (st === "announced_date" || st === "announced_window")
-    return t("pages.game.release");
-  if (st === "recurring_daily" || st === "recurring_weekly")
-    return t("pages.game.resets_daily");
+  if (st === "announced_date" || st === "announced_window") return t("pages.game.release");
+  if (st === "recurring_daily" || st === "recurring_weekly") return t("pages.game.resets_daily");
   if (st === "released") return t("pages.game.released") ?? "Released";
   if (st === "cancelled") return t("pages.game.cancelled") ?? "Cancelled";
   if (st === "delayed") return t("pages.game.delayed") ?? "Delayed";

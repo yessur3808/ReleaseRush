@@ -60,12 +60,7 @@ export const GameLinks = ({
               sx={{ alignItems: "stretch" }}
             >
               {trailers.slice(0, 4).map((tr, idx) => {
-                const meta = getTrailerMeta(
-                  tr as TrailerLinkWithCover,
-                  idx,
-                  t,
-                  coverUrl,
-                );
+                const meta = getTrailerMeta(tr as TrailerLinkWithCover, idx, t, coverUrl);
                 const hasCover = Boolean(meta.thumbUrl);
 
                 return (
@@ -92,8 +87,7 @@ export const GameLinks = ({
                           theme.palette.mode === "dark"
                             ? "rgba(255,255,255,0.02)"
                             : "rgba(0,0,0,0.015)",
-                        transition:
-                          "transform 120ms ease, box-shadow 120ms ease",
+                        transition: "transform 120ms ease, box-shadow 120ms ease",
                         "&:hover": {
                           transform: "translateY(-1px)",
                           boxShadow:
@@ -152,11 +146,7 @@ export const GameLinks = ({
                               </Box>
                             </Stack>
 
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              noWrap
-                            >
+                            <Typography variant="caption" color="text.secondary" noWrap>
                               {meta.provider === "youtube"
                                 ? "YouTube"
                                 : meta.provider === "vimeo"
@@ -200,10 +190,7 @@ export const GameLinks = ({
 
                             {meta.provider !== "other" ? (
                               <Typography variant="caption" noWrap>
-                                ·{" "}
-                                {meta.provider === "youtube"
-                                  ? "YouTube"
-                                  : "Vimeo"}
+                                · {meta.provider === "youtube" ? "YouTube" : "Vimeo"}
                               </Typography>
                             ) : null}
                           </Stack>
@@ -300,18 +287,10 @@ export const GameLinks = ({
                     </Box>
 
                     <Box sx={{ minWidth: 0, flex: 1 }}>
-                      <Typography
-                        variant="body2"
-                        sx={{ fontWeight: 700 }}
-                        noWrap
-                      >
+                      <Typography variant="body2" sx={{ fontWeight: 700 }} noWrap>
                         {s.name}
                       </Typography>
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        noWrap
-                      >
+                      <Typography variant="caption" color="text.secondary" noWrap>
                         {(s.isOfficial ? "Official" : "Community/press") +
                           (s.type ? ` · ${s.type}` : "")}
                       </Typography>
@@ -352,10 +331,7 @@ export const GameLinks = ({
                     {RowInner}
                   </Link>
                 ) : (
-                  <Box
-                    key={`${s.url ?? s.name}-${idx}`}
-                    sx={{ opacity: 0.85, height: "100%" }}
-                  >
+                  <Box key={`${s.url ?? s.name}-${idx}`} sx={{ opacity: 0.85, height: "100%" }}>
                     {RowInner}
                   </Box>
                 );

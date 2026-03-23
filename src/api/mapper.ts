@@ -73,17 +73,10 @@ function mapSource(raw: Record<string, unknown>): Source {
     isOfficial: Boolean(raw["isOfficial"] ?? false),
     name: String(raw["name"] ?? ""),
     url: raw["url"] !== undefined ? String(raw["url"]) : undefined,
-    retrievedAt:
-      raw["retrievedAt"] !== undefined
-        ? String(raw["retrievedAt"])
-        : undefined,
+    retrievedAt: raw["retrievedAt"] !== undefined ? String(raw["retrievedAt"]) : undefined,
     claim: raw["claim"] !== undefined ? String(raw["claim"]) : undefined,
-    excerpt:
-      raw["excerpt"] !== undefined ? String(raw["excerpt"]) : undefined,
-    authorHandle:
-      raw["authorHandle"] !== undefined
-        ? String(raw["authorHandle"])
-        : undefined,
+    excerpt: raw["excerpt"] !== undefined ? String(raw["excerpt"]) : undefined,
+    authorHandle: raw["authorHandle"] !== undefined ? String(raw["authorHandle"]) : undefined,
     reliability: (raw["reliability"] as Source["reliability"]) ?? "unknown",
   };
 }
@@ -92,9 +85,7 @@ function mapSource(raw: Record<string, unknown>): Source {
 // Release mapping
 // ---------------------------------------------------------------------------
 
-function mapConfidence(
-  raw: string | undefined,
-): GameRelease["confidence"] {
+function mapConfidence(raw: string | undefined): GameRelease["confidence"] {
   switch (raw) {
     case "official":
       return "confirmed";
@@ -126,9 +117,7 @@ function mapRelease(raw: Record<string, unknown>): GameRelease {
     if (!dateISO) {
       // Service returned "released" without a date — treat as TBA to avoid
       // displaying a misleading release date
-      console.warn(
-        `[mapper] Game has status "released" but no dateISO — falling back to "tba"`,
-      );
+      console.warn(`[mapper] Game has status "released" but no dateISO — falling back to "tba"`);
       return { ...base, status: "tba" };
     }
     return {
@@ -150,8 +139,7 @@ function mapRelease(raw: Record<string, unknown>): GameRelease {
   if (status === "announced" || status === "upcoming") {
     if (dateISO) {
       // Strip "unknown" precision — ReleaseAnnouncedDate only allows day/month/quarter/year
-      const safePrecision =
-        datePrecision === "unknown" ? undefined : datePrecision;
+      const safePrecision = datePrecision === "unknown" ? undefined : datePrecision;
       return {
         ...base,
         status: "announced_date",
@@ -160,9 +148,7 @@ function mapRelease(raw: Record<string, unknown>): GameRelease {
       };
     }
 
-    const aw = raw["announced_window"] as
-      | Record<string, unknown>
-      | undefined;
+    const aw = raw["announced_window"] as Record<string, unknown> | undefined;
     if (aw) {
       const month = aw["month"] as number | undefined;
       return {
@@ -172,9 +158,20 @@ function mapRelease(raw: Record<string, unknown>): GameRelease {
           year: aw["year"] as number | undefined,
           quarter: aw["quarter"] as 1 | 2 | 3 | 4 | undefined,
           // Cast month to the union — values outside 1-12 are server bugs
-          month: (month !== undefined && month >= 1 && month <= 12
-            ? month
-            : undefined) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined,
+          month: (month !== undefined && month >= 1 && month <= 12 ? month : undefined) as
+            | 1
+            | 2
+            | 3
+            | 4
+            | 5
+            | 6
+            | 7
+            | 8
+            | 9
+            | 10
+            | 11
+            | 12
+            | undefined,
           label: aw["label"] as string | undefined,
         },
       };
@@ -191,9 +188,7 @@ function mapRelease(raw: Record<string, unknown>): GameRelease {
 // Category mapping
 // ---------------------------------------------------------------------------
 
-function mapCategory(
-  raw: Record<string, unknown> | undefined,
-): Game["category"] {
+function mapCategory(raw: Record<string, unknown> | undefined): Game["category"] {
   if (!raw) return { type: "full_game" };
 
   const type = String(raw["type"] ?? "other") as Game["category"]["type"];
@@ -237,20 +232,14 @@ export function mapServiceGame(raw: Record<string, unknown>): Game {
 
   // Preserve media if the service returns it; fall back to coverUrl
   const rawMedia = raw["media"] as Record<string, unknown> | undefined;
-  const media = rawMedia
-    ? (rawMedia as Game["media"])
-    : undefined;
+  const media = rawMedia ? (rawMedia as Game["media"]) : undefined;
 
   return {
     id: String(raw["id"] ?? ""),
     name: String(raw["name"] ?? ""),
     title: raw["title"] as string | undefined,
-    tags: Array.isArray(raw["tags"])
-      ? (raw["tags"] as string[])
-      : undefined,
-    category: mapCategory(
-      raw["category"] as Record<string, unknown> | undefined,
-    ),
+    tags: Array.isArray(raw["tags"]) ? (raw["tags"] as string[]) : undefined,
+    category: mapCategory(raw["category"] as Record<string, unknown> | undefined),
     platforms,
     media,
     coverUrl: raw["coverUrl"] as string | undefined,
@@ -258,9 +247,7 @@ export function mapServiceGame(raw: Record<string, unknown>): Game {
     availability: raw["availability"] as Game["availability"] | undefined,
     sources,
     studio,
-    popularityTier: raw["popularityTier"] as
-      | Game["popularityTier"]
-      | undefined,
+    popularityTier: raw["popularityTier"] as Game["popularityTier"] | undefined,
     popularityRank: raw["popularityRank"] as number | undefined,
   };
 }

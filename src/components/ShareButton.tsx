@@ -93,11 +93,7 @@ export function ShareButton({ gameId, gameName }: Props) {
   }, [gameId, copyToClipboard]);
 
   const handleCopyEmbed = useCallback(async () => {
-    await copyToClipboard(
-      "embed",
-      buildEmbedCode(gameId, gameName),
-      "clipboard_embed",
-    );
+    await copyToClipboard("embed", buildEmbedCode(gameId, gameName), "clipboard_embed");
   }, [gameId, gameName, copyToClipboard]);
 
   const snackbarMessage =
@@ -119,14 +115,9 @@ export function ShareButton({ gameId, gameName }: Props) {
           sx={(theme) => ({
             borderRadius: 999,
             border: `1px solid ${
-              theme.palette.mode === "dark"
-                ? "rgba(255,255,255,0.12)"
-                : "rgba(0,0,0,0.10)"
+              theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.10)"
             }`,
-            color:
-              copiedKey !== null
-                ? theme.palette.primary.main
-                : theme.palette.text.secondary,
+            color: copiedKey !== null ? theme.palette.primary.main : theme.palette.text.secondary,
             transition: "color 200ms ease, border-color 200ms ease",
             "&:hover": {
               color: theme.palette.primary.main,
@@ -134,16 +125,13 @@ export function ShareButton({ gameId, gameName }: Props) {
             },
           })}
         >
-          {copiedKey !== null ? (
-            <CheckIcon fontSize="small" />
-          ) : (
-            <ShareIcon fontSize="small" />
-          )}
+          {copiedKey !== null ? <CheckIcon fontSize="small" /> : <ShareIcon fontSize="small" />}
         </IconButton>
       </Tooltip>
 
       <Popover
         open={open}
+        // eslint-disable-next-line react-hooks/refs
         anchorEl={anchorRef.current}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}

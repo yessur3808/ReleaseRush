@@ -61,13 +61,10 @@ export const GameWidgetPage = () => {
         return;
       }
 
-      obs = new IntersectionObserver(
-        ([entry]) => setShowFloatingCountdown(!entry.isIntersecting),
-        {
-          root: null,
-          threshold: 0,
-        },
-      );
+      obs = new IntersectionObserver(([entry]) => setShowFloatingCountdown(!entry.isIntersecting), {
+        root: null,
+        threshold: 0,
+      });
 
       obs.observe(el);
     };
@@ -93,8 +90,7 @@ export const GameWidgetPage = () => {
   const topSources = useMemo(() => pickTopSources(sources, 4), [sources]);
 
   if (loading) return <GameLoading />;
-  if (error || !doc)
-    return <GameError message={error ?? t("pages.game.failed_load")} />;
+  if (error || !doc) return <GameError message={error ?? t("pages.game.failed_load")} />;
 
   if (!game) {
     return (

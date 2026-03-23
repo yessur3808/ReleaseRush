@@ -23,6 +23,7 @@ import { GamesToolbar, DEFAULT_FILTERS, type GamesFiltersState } from "./GamesTo
 import { formatDateISO } from "../../utils";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import type { Game } from "../../lib/types";
 
 export function GamesPage() {
   const { t } = useTranslation();
@@ -48,13 +49,10 @@ export function GamesPage() {
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [doc]);
 
-  const collator = useMemo(
-    () => new Intl.Collator(undefined, { sensitivity: "base" }),
-    [],
-  );
+  const collator = useMemo(() => new Intl.Collator(undefined, { sensitivity: "base" }), []);
 
   const sortGames = useMemo(() => {
-    return (a: any, b: any) => {
+    return (a: Game, b: Game) => {
       if (filters.sort === "az") return collator.compare(a.name, b.name);
 
       if (filters.sort === "daily_first") {
@@ -103,23 +101,28 @@ export function GamesPage() {
     const q = debouncedQuery.trim().toLowerCase();
 
     const filtered = games.filter((g) => {
-      if (filters.status !== "all" && g.release.status !== filters.status)
-        return false;
+      if (filters.status !== "all" && g.release.status !== filters.status) return false;
 
-      if (filters.tag !== "all" && !(g.tags ?? []).includes(filters.tag))
-        return false;
+      if (filters.tag !== "all" && !(g.tags ?? []).includes(filters.tag)) return false;
 
       if (filters.favoritesOnly && !isFavorite(g.id)) return false;
 
       if (!q) return true;
 
-      const haystack =
-        `${g.name ?? ""} ${(g.tags ?? []).join(" ")}`.toLowerCase();
+      const haystack = `${g.name ?? ""} ${(g.tags ?? []).join(" ")}`.toLowerCase();
       return haystack.includes(q);
     });
 
     return [...filtered].sort(sortGames);
-  }, [doc, debouncedQuery, filters.status, filters.tag, filters.favoritesOnly, isFavorite, sortGames]);
+  }, [
+    doc,
+    debouncedQuery,
+    filters.status,
+    filters.tag,
+    filters.favoritesOnly,
+    isFavorite,
+    sortGames,
+  ]);
 
   if (loading) {
     return (
@@ -172,9 +175,7 @@ export function GamesPage() {
       {/* Results */}
       <Grid container spacing={2}>
         {gamesToRender.map((g) => {
-          const isToday =
-            g.release.status === "announced_date" &&
-            g.release.dateISO === todayISO;
+          const isToday = g.release.status === "announced_date" && g.release.dateISO === todayISO;
           const favorited = isFavorite(g.id);
           return (
             <Grid item xs={12} sm={6} key={g.id}>
@@ -186,8 +187,18 @@ export function GamesPage() {
                     justifyContent="space-between"
                     spacing={1}
                   >
-                    <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ flex: 1, minWidth: 0 }}>
-                      <Typography variant="h6" fontWeight={700} sx={{ flex: "0 1 auto", minWidth: 0 }}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      flexWrap="wrap"
+                      sx={{ flex: 1, minWidth: 0 }}
+                    >
+                      <Typography
+                        variant="h6"
+                        fontWeight={700}
+                        sx={{ flex: "0 1 auto", minWidth: 0 }}
+                      >
                         {g.name}
                       </Typography>
                       {isToday ? (
@@ -211,9 +222,7 @@ export function GamesPage() {
 
                     <Tooltip
                       title={
-                        favorited
-                          ? t("common.remove_from_favorites")
-                          : t("common.add_to_favorites")
+                        favorited ? t("common.remove_from_favorites") : t("common.add_to_favorites")
                       }
                     >
                       <IconButton

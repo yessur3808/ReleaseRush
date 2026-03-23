@@ -9,17 +9,8 @@ import { GameDoc } from "../../lib/types";
 import { msLeftForGame, formatISODateTime } from "../../utils";
 import { SuggestedCountdownsIsland } from "./components/SuggestedCountdownsIsland";
 import { useTranslation } from "react-i18next";
-import {
-  pickCoverUrl,
-  pickSourcesForDisplay,
-  pickTopSources,
-  pickTrailers,
-} from "./helpers";
-import {
-  GameError,
-  GameLoading,
-  GameNotFound,
-} from "./components/GameSubComponents";
+import { pickCoverUrl, pickSourcesForDisplay, pickTopSources, pickTrailers } from "./helpers";
+import { GameError, GameLoading, GameNotFound } from "./components/GameSubComponents";
 import { CountdownHeader } from "./components/CountdownHeader";
 import { GameHero } from "./components/GameHero";
 import { GameLinks } from "./components/GameLinks";
@@ -64,10 +55,10 @@ export const GamePage = () => {
         return;
       }
 
-      obs = new IntersectionObserver(
-        ([entry]) => setShowFloatingCountdown(!entry.isIntersecting),
-        { root: null, threshold: 0 },
-      );
+      obs = new IntersectionObserver(([entry]) => setShowFloatingCountdown(!entry.isIntersecting), {
+        root: null,
+        threshold: 0,
+      });
 
       obs.observe(el);
     };
@@ -93,8 +84,7 @@ export const GamePage = () => {
   const topSources = useMemo(() => pickTopSources(sources, 4), [sources]);
 
   if (loading) return <GameLoading />;
-  if (error || !doc)
-    return <GameError message={error ?? t("pages.game.failed_load")} />;
+  if (error || !doc) return <GameError message={error ?? t("pages.game.failed_load")} />;
 
   if (!game) {
     return (
@@ -178,30 +168,20 @@ export const GamePage = () => {
       {/* Action bar: favorite + share */}
       <Stack direction="row" spacing={1} alignItems="center">
         <Tooltip
-          title={
-            favorited
-              ? t("common.remove_from_favorites")
-              : t("common.add_to_favorites")
-          }
+          title={favorited ? t("common.remove_from_favorites") : t("common.add_to_favorites")}
         >
           <IconButton
             onClick={() => toggleFavorite(game.id)}
             aria-label={
-              favorited
-                ? t("common.remove_from_favorites")
-                : t("common.add_to_favorites")
+              favorited ? t("common.remove_from_favorites") : t("common.add_to_favorites")
             }
             size="small"
             sx={(theme) => ({
               borderRadius: 999,
               border: `1px solid ${
-                theme.palette.mode === "dark"
-                  ? "rgba(255,255,255,0.12)"
-                  : "rgba(0,0,0,0.10)"
+                theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.10)"
               }`,
-              color: favorited
-                ? theme.palette.error.light
-                : theme.palette.text.secondary,
+              color: favorited ? theme.palette.error.light : theme.palette.text.secondary,
               transition: "color 180ms ease, transform 180ms ease",
               "&:hover": {
                 color: theme.palette.error.light,
@@ -238,11 +218,7 @@ export const GamePage = () => {
         t={t}
       />
 
-      <SuggestedCountdownsIsland
-        games={suggested}
-        nowMs={nowMs}
-        onOpen={handleOpenSuggested}
-      />
+      <SuggestedCountdownsIsland games={suggested} nowMs={nowMs} onOpen={handleOpenSuggested} />
 
       <Typography variant="caption" color="text.secondary">
         {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}

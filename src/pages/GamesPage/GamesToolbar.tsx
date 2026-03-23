@@ -60,13 +60,7 @@ function isDefault(v: GamesFiltersState) {
   );
 }
 
-export function GamesToolbar({
-  value,
-  onChange,
-  allTags,
-  resultsText,
-  onSubmitSearch,
-}: Props) {
+export function GamesToolbar({ value, onChange, allTags, resultsText, onSubmitSearch }: Props) {
   const { t } = useTranslation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -74,8 +68,7 @@ export function GamesToolbar({
   const [expanded, setExpanded] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const set = (patch: Partial<GamesFiltersState>) =>
-    onChange({ ...value, ...patch });
+  const set = (patch: Partial<GamesFiltersState>) => onChange({ ...value, ...patch });
 
   const clearAll = () => onChange(DEFAULT_FILTERS);
 
@@ -317,13 +310,9 @@ export function GamesToolbar({
                     fontWeight: 650,
                     letterSpacing: "-0.01em",
                     bgcolor:
-                      theme.palette.mode === "dark"
-                        ? "rgba(255,255,255,0.03)"
-                        : "rgba(0,0,0,0.02)",
+                      theme.palette.mode === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
                     borderColor:
-                      theme.palette.mode === "dark"
-                        ? "rgba(255,255,255,0.12)"
-                        : "rgba(0,0,0,0.12)",
+                      theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.12)",
                     "& .MuiChip-deleteIcon": {
                       opacity: 0.75,
                       "&:hover": { opacity: 1 },
@@ -333,11 +322,7 @@ export function GamesToolbar({
               ))}
             </Stack>
 
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ whiteSpace: "nowrap" }}
-            >
+            <Typography variant="body2" color="text.secondary" sx={{ whiteSpace: "nowrap" }}>
               {resultsText}
             </Typography>
           </Stack>
@@ -345,12 +330,7 @@ export function GamesToolbar({
           {!isMobile ? (
             <Collapse in={expanded} timeout={220} unmountOnExit>
               <Divider sx={{ my: 1 }} />
-              <FiltersContent
-                value={value}
-                allTags={allTags}
-                set={set}
-                clearAll={clearAll}
-              />
+              <FiltersContent value={value} allTags={allTags} set={set} clearAll={clearAll} />
             </Collapse>
           ) : null}
         </Stack>
@@ -369,11 +349,7 @@ export function GamesToolbar({
         }}
       >
         <Stack spacing={1}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
+          <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h6" fontWeight={800}>
               Filters
             </Typography>
@@ -387,12 +363,7 @@ export function GamesToolbar({
           </Typography>
 
           <Divider />
-          <FiltersContent
-            value={value}
-            allTags={allTags}
-            set={set}
-            clearAll={clearAll}
-          />
+          <FiltersContent value={value} allTags={allTags} set={set} clearAll={clearAll} />
         </Stack>
       </Drawer>
     </>

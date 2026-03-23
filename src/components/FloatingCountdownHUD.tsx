@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Fade,
-  Paper,
-  Portal,
-  Stack,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Fade, Paper, Portal, Stack, Typography, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { NiceCountdown } from "../pages/GamePage/components/NiceCountdown";
 import { trackEvent } from "../analytics/ga4"; // <-- adjust path to where your ga4.ts lives
@@ -36,9 +28,7 @@ export const FloatingCountdownHUD = ({
   const effectiveShowLabel = Boolean(showLabel && label);
 
   const accent =
-    theme.palette.mode === "dark"
-      ? "rgba(120, 255, 214, 0.45)"
-      : "rgba(0, 150, 120, 0.30)";
+    theme.palette.mode === "dark" ? "rgba(120, 255, 214, 0.45)" : "rgba(0, 150, 120, 0.30)";
 
   const handleActivate = (source: "click" | "keyboard") => {
     // Fire-and-forget analytics (your wrapper already no-ops if GA missing/blocked)

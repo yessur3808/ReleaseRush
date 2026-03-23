@@ -8,14 +8,27 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   define: {
     __BUILD_INFO__: JSON.stringify({
-      COMMIT_HASH:
-        process.env.GIT_COMMIT_SHA ||
-        process.env.CI_COMMIT_SHA ||
-        "[local-build]",
-      COMMIT_TIME:
-        process.env.GIT_COMMIT_TIME || process.env.CI_COMMIT_TIMESTAMP || null,
+      COMMIT_HASH: process.env.GIT_COMMIT_SHA || process.env.CI_COMMIT_SHA || "[local-build]",
+      COMMIT_TIME: process.env.GIT_COMMIT_TIME || process.env.CI_COMMIT_TIMESTAMP || null,
       TAG: process.env.GIT_COMMIT_TAG || process.env.CI_COMMIT_TAG || null,
       BUILD_TIME: process.env.IMAGE_BUILD_TIME || null,
     }),
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/test/**",
+        "src/**/*.d.ts",
+        "src/main.tsx",
+        "src/design/assets/**",
+        "src/i18n/**",
+      ],
+    },
   },
 });

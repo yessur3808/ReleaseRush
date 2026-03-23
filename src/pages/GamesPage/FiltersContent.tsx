@@ -11,6 +11,7 @@ import {
   Select,
   Stack,
   Switch,
+  type Theme,
 } from "@mui/material";
 import { SortKey, StatusFilter } from "./gamesSorting";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -22,16 +23,10 @@ interface FiltersContentProps {
   allTags: string[];
   set: (newValues: Partial<GamesFiltersState>) => void;
   clearAll: () => void;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void; // <-- NEW
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
 }
 
-export const FiltersContent = ({
-  value,
-  allTags,
-  set,
-  clearAll,
-  onTrack,
-}: FiltersContentProps) => {
+export const FiltersContent = ({ value, allTags, set, clearAll, onTrack }: FiltersContentProps) => {
   const { t } = useTranslation();
 
   const isDefault = (v: GamesFiltersState) =>
@@ -41,7 +36,7 @@ export const FiltersContent = ({
     v.sort === DEFAULT_FILTERS.sort &&
     v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly;
 
-  const selectSx = (theme: any) => {
+  const selectSx = (theme: Theme) => {
     const isDark = theme.palette.mode === "dark";
     const accent = theme.palette.primary.main;
 
@@ -53,13 +48,9 @@ export const FiltersContent = ({
       boxShadow: isDark
         ? "inset 0 1px 0 rgba(255,255,255,0.08)"
         : "inset 0 1px 0 rgba(255,255,255,0.7)",
-      outline: isDark
-        ? "1px solid rgba(255,255,255,0.08)"
-        : "1px solid rgba(0,0,0,0.06)",
+      outline: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
       "&:hover": {
-        outline: isDark
-          ? "1px solid rgba(255,255,255,0.12)"
-          : "1px solid rgba(0,0,0,0.10)",
+        outline: isDark ? "1px solid rgba(255,255,255,0.12)" : "1px solid rgba(0,0,0,0.10)",
       },
       "&.Mui-focused": {
         outline: `1px solid ${accent}55`,
@@ -72,7 +63,7 @@ export const FiltersContent = ({
 
   const menuProps = {
     PaperProps: {
-      sx: (theme: any) => ({
+      sx: (theme: Theme) => ({
         mt: 1,
         overflow: "hidden",
         bgcolor: theme.palette.background.paper,
@@ -107,10 +98,10 @@ export const FiltersContent = ({
       has_query: Boolean(value.query),
       is_default_after:
         kind === "status"
-          ? isDefault({ ...value, status: nextValue as any })
+          ? isDefault({ ...value, status: nextValue as StatusFilter })
           : kind === "tag"
-            ? isDefault({ ...value, tag: nextValue as any })
-            : isDefault({ ...value, sort: nextValue as any }),
+            ? isDefault({ ...value, tag: nextValue })
+            : isDefault({ ...value, sort: nextValue as SortKey }),
     });
   };
 
@@ -179,16 +170,10 @@ export const FiltersContent = ({
                           : `0 10px 18px rgba(0,0,0,0.10), 0 8px 14px ${accent}18`,
                       }
                     : {
-                        bgcolor: isDark
-                          ? "rgba(255,255,255,0.03)"
-                          : "rgba(0,0,0,0.02)",
-                        borderColor: isDark
-                          ? "rgba(255,255,255,0.10)"
-                          : "rgba(0,0,0,0.10)",
+                        bgcolor: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
+                        borderColor: isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)",
                         "&:hover": {
-                          bgcolor: isDark
-                            ? "rgba(255,255,255,0.06)"
-                            : "rgba(0,0,0,0.04)",
+                          bgcolor: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
                         },
                       }),
                   transition:
@@ -210,9 +195,7 @@ export const FiltersContent = ({
         {allTags.length > 0 ? (
           <FormControl size="small" sx={{ minWidth: 220, flex: 1 }}>
             <InputLabel>
-              <Box
-                sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}
-              >
+              <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
                 <LocalOfferOutlinedIcon fontSize="small" />
                 {t("common.tag")}
               </Box>
@@ -252,9 +235,7 @@ export const FiltersContent = ({
             <MenuItem value="az">{t("common.sort_az")}</MenuItem>
             <MenuItem value="soonest">{t("common.sort_soonest")}</MenuItem>
             <MenuItem value="latest">{t("common.sort_latest")}</MenuItem>
-            <MenuItem value="daily_first">
-              {t("common.sort_daily_first")}
-            </MenuItem>
+            <MenuItem value="daily_first">{t("common.sort_daily_first")}</MenuItem>
           </Select>
         </FormControl>
       </Stack>
@@ -292,18 +273,11 @@ export const FiltersContent = ({
             height: 40,
             px: 2,
             borderColor:
-              theme.palette.mode === "dark"
-                ? "rgba(255,255,255,0.16)"
-                : "rgba(0,0,0,0.12)",
-            bgcolor:
-              theme.palette.mode === "dark"
-                ? "rgba(255,255,255,0.03)"
-                : "rgba(0,0,0,0.02)",
+              theme.palette.mode === "dark" ? "rgba(255,255,255,0.16)" : "rgba(0,0,0,0.12)",
+            bgcolor: theme.palette.mode === "dark" ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.02)",
             "&:hover": {
               bgcolor:
-                theme.palette.mode === "dark"
-                  ? "rgba(255,255,255,0.06)"
-                  : "rgba(0,0,0,0.04)",
+                theme.palette.mode === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
             },
           })}
         >

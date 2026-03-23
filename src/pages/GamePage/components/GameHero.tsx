@@ -48,8 +48,7 @@ export const GameHero = ({
             sx={{
               position: "absolute",
               inset: 0,
-              background:
-                "linear-gradient(180deg, rgba(0,0,0,0.0) 55%, rgba(0,0,0,0.25) 100%)",
+              background: "linear-gradient(180deg, rgba(0,0,0,0.0) 55%, rgba(0,0,0,0.25) 100%)",
               pointerEvents: "none",
             }}
           />
@@ -91,13 +90,7 @@ export const GameHero = ({
               {game.name}
             </Typography>
 
-            <Stack
-              direction="row"
-              spacing={1}
-              flexWrap="wrap"
-              useFlexGap
-              sx={{ rowGap: 1 }}
-            >
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ rowGap: 1 }}>
               <Chip
                 label={releasePrimaryChipLabel(game, t)}
                 size="small"
@@ -129,9 +122,7 @@ export const GameHero = ({
               />
             </Stack>
 
-            {game.title &&
-            game.title.trim().toLowerCase() !==
-              game.name.trim().toLowerCase() ? (
+            {game.title && game.title.trim().toLowerCase() !== game.name.trim().toLowerCase() ? (
               <Typography variant="body2" color="text.secondary">
                 {t("pages.game.title") ?? "Title"}: {game.title}
               </Typography>
@@ -139,9 +130,7 @@ export const GameHero = ({
 
             <Typography variant="body2" color="text.secondary">
               {releaseMetaLabel(game)}
-              {releaseSecondaryLine(game)
-                ? ` · ${releaseSecondaryLine(game)}`
-                : ""}
+              {releaseSecondaryLine(game) ? ` · ${releaseSecondaryLine(game)}` : ""}
             </Typography>
           </Stack>
         </Stack>
@@ -189,19 +178,8 @@ export const GameHero = ({
               {t("pages.game.studio") ?? "Studio"}
             </Typography>
 
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              flexWrap="wrap"
-              useFlexGap
-            >
-              <Chip
-                label={studioName}
-                size="small"
-                variant="outlined"
-                sx={{ borderRadius: 2 }}
-              />
+            <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+              <Chip label={studioName} size="small" variant="outlined" sx={{ borderRadius: 2 }} />
 
               {studioWebsite ? (
                 <Button

@@ -77,8 +77,7 @@ export function useGames(params?: UseGamesParams) {
             cache: "no-store",
             signal: controller.signal,
           });
-          if (!res.ok)
-            throw new Error(`Failed to load games (${res.status})`);
+          if (!res.ok) throw new Error(`Failed to load games (${res.status})`);
           result = (await res.json()) as GamesDoc;
         }
 
@@ -86,11 +85,7 @@ export function useGames(params?: UseGamesParams) {
       } catch (e: unknown) {
         if (e instanceof DOMException && e.name === "AbortError") return;
         const message =
-          e instanceof Error
-            ? e.message
-            : typeof e === "string"
-              ? e
-              : "Unknown error";
+          e instanceof Error ? e.message : typeof e === "string" ? e : "Unknown error";
         if (!controller.signal.aborted) {
           setError(message);
           setDoc(null);
@@ -101,7 +96,6 @@ export function useGames(params?: UseGamesParams) {
     })();
 
     return () => controller.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramsKey]);
 
   return { doc, loading, error };
