@@ -1,18 +1,21 @@
 import { useTranslation } from "react-i18next";
-import { GamesFiltersState } from "./GamesToolbar";
+import { GamesFiltersState, DEFAULT_FILTERS } from "./GamesToolbar";
 import {
   Box,
   Button,
   Chip,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  Switch,
 } from "@mui/material";
 import { SortKey, StatusFilter } from "./gamesSorting";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import SortIcon from "@mui/icons-material/Sort";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface FiltersContentProps {
   value: GamesFiltersState;
@@ -32,7 +35,11 @@ export const FiltersContent = ({
   const { t } = useTranslation();
 
   const isDefault = (v: GamesFiltersState) =>
-    v.query === "" && v.status === "all" && v.tag === "all" && v.sort === "az";
+    v.query === DEFAULT_FILTERS.query &&
+    v.status === DEFAULT_FILTERS.status &&
+    v.tag === DEFAULT_FILTERS.tag &&
+    v.sort === DEFAULT_FILTERS.sort &&
+    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly;
 
   const selectSx = (theme: any) => {
     const isDark = theme.palette.mode === "dark";
@@ -253,6 +260,30 @@ export const FiltersContent = ({
       </Stack>
 
       <Stack direction="row" spacing={1} justifyContent="flex-end">
+        <FormControlLabel
+          control={
+            <Switch
+              checked={value.favoritesOnly}
+              onChange={(e) => set({ favoritesOnly: e.target.checked })}
+              size="small"
+              icon={<FavoriteIcon sx={{ fontSize: 16, opacity: 0.4 }} />}
+              checkedIcon={<FavoriteIcon sx={{ fontSize: 16 }} />}
+              color="primary"
+            />
+          }
+          label={t("common.favorites_only")}
+          sx={(theme) => ({
+            mr: "auto",
+            "& .MuiFormControlLabel-label": {
+              fontSize: "0.875rem",
+              color: value.favoritesOnly
+                ? theme.palette.primary.main
+                : theme.palette.text.secondary,
+              fontWeight: value.favoritesOnly ? 700 : 400,
+              transition: "color 180ms ease",
+            },
+          })}
+        />
         <Button
           variant="outlined"
           onClick={handleClearAll}

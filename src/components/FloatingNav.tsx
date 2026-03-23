@@ -15,6 +15,7 @@ import {
   ToggleButton,
   Typography,
   Portal,
+  useMediaQuery,
 } from "@mui/material";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
@@ -43,6 +44,13 @@ interface FloatingTopNavProps {
 }
 
 type PillMeasure = { x: number; y: number; w: number; h: number };
+type NavMetrics = {
+  fontSizePx: number;
+  iconPx: number;
+  gapPx: number;
+  px: number;
+  py: number;
+};
 
 function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
@@ -57,6 +65,7 @@ export const FloatingNav = ({
   offsetPx = 12,
 }: FloatingTopNavProps) => {
   const { t } = useTranslation();
+  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const groupRef = useRef<HTMLDivElement | null>(null);
@@ -68,13 +77,16 @@ export const FloatingNav = ({
   });
 
   const [pill, setPill] = useState<PillMeasure | null>(null);
+  const frameRef = useRef<number | null>(null);
 
-  const easing = useMemo(() => "cubic-bezier(0.16, 1, 0.3, 1)", []);
+  const easing = useMemo(() => "cubic-bezier(0.22, 1, 0.36, 1)", []);
+  const pillEasing = useMemo(() => "cubic-bezier(0.2, 0.9, 0.2, 1.05)", []);
+  const hoverEasing = useMemo(() => "cubic-bezier(0.16, 1, 0.3, 1)", []);
   const dur = useMemo(
     () => ({
-      expand: 420,
-      pill: 520,
-      fade: 220,
+      expand: 240,
+      pill: 240,
+      fade: 130,
     }),
     [],
   );
@@ -83,13 +95,7 @@ export const FloatingNav = ({
   const [isFocusWithin, setIsFocusWithin] = useState(false);
   const expanded = isHover || isFocusWithin;
 
-  const [metrics, setMetrics] = useState<{
-    fontSizePx: number;
-    iconPx: number;
-    gapPx: number;
-    px: number;
-    py: number;
-  }>({
+  const [metrics, setMetrics] = useState<NavMetrics>({
     fontSizePx: 14,
     iconPx: 22,
     gapPx: 8,
@@ -97,7 +103,24 @@ export const FloatingNav = ({
     py: 10,
   });
 
-  const updateMetrics = () => {
+  const areMetricsEqual = (a: NavMetrics, b: NavMetrics) =>
+    Math.abs(a.fontSizePx - b.fontSizePx) < 0.01 &&
+    Math.abs(a.iconPx - b.iconPx) < 0.01 &&
+    Math.abs(a.gapPx - b.gapPx) < 0.01 &&
+    Math.abs(a.px - b.px) < 0.01 &&
+    Math.abs(a.py - b.py) < 0.01;
+
+  const arePillsEqual = (a: PillMeasure | null, b: PillMeasure) => {
+    if (!a) return false;
+    return (
+      Math.abs(a.x - b.x) < 0.5 &&
+      Math.abs(a.y - b.y) < 0.5 &&
+      Math.abs(a.w - b.w) < 0.5 &&
+      Math.abs(a.h - b.h) < 0.5
+    );
+  };
+
+  const updateMetrics = useCallback(() => {
     const el = rootRef.current;
     if (!el) return;
 
@@ -111,8 +134,11 @@ export const FloatingNav = ({
     const px = clamp(10 + (w - 360) / 120, 10, 16);
     const py = clamp(8 + (w - 360) / 260, 8, 11);
 
-    setMetrics({ fontSizePx, iconPx, gapPx, px, py });
-  };
+    const nextMetrics = { fontSizePx, iconPx, gapPx, px, py };
+    setMetrics((prev) =>
+      areMetricsEqual(prev, nextMetrics) ? prev : nextMetrics,
+    );
+  }, []);
 
   const measurePill = useCallback(() => {
     const wrapEl = groupRef.current;
@@ -122,64 +148,104 @@ export const FloatingNav = ({
     const wrapBox = wrapEl.getBoundingClientRect();
     const btnBox = btnEl.getBoundingClientRect();
 
-    setPill({
+    const nextPill = {
       x: btnBox.left - wrapBox.left,
       y: btnBox.top - wrapBox.top,
       w: btnBox.width,
       h: btnBox.height,
-    });
+    };
+
+    setPill((prev) => (arePillsEqual(prev, nextPill) ? prev : nextPill));
   }, [value]);
 
-  useLayoutEffect(() => {
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
+  const scheduleMeasure = useCallback(() => {
+    if (frameRef.current !== null) return;
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
       updateMetrics();
       measurePill();
-      raf2 = requestAnimationFrame(() => {
-        updateMetrics();
-        measurePill();
-      });
     });
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
-  }, [measurePill, value, expanded]);
+  }, [measurePill, updateMetrics]);
+
+  useLayoutEffect(() => {
+    scheduleMeasure();
+  }, [scheduleMeasure, value, expanded]);
+
+  useLayoutEffect(() => {
+    scheduleMeasure();
+  }, [
+    scheduleMeasure,
+    metrics.fontSizePx,
+    metrics.iconPx,
+    metrics.gapPx,
+    metrics.px,
+    metrics.py,
+  ]);
+
+  useEffect(
+    () => () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+    },
+    [],
+  );
 
   useEffect(() => {
+    const rootEl = rootRef.current;
     const groupEl = groupRef.current;
+    let resizeRaf = 0;
 
     const onResize = () => {
-      updateMetrics();
-      measurePill();
+      if (resizeRaf) return;
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = 0;
+        scheduleMeasure();
+      });
     };
 
-    onResize();
-    window.addEventListener("resize", onResize);
+    const onTransitionEnd = (event: TransitionEvent) => {
+      if (
+        event.propertyName === "width" ||
+        event.propertyName === "min-width" ||
+        event.propertyName === "max-width" ||
+        event.propertyName.startsWith("padding")
+      ) {
+        scheduleMeasure();
+      }
+    };
+
+    scheduleMeasure();
 
     let ro: ResizeObserver | null = null;
-    if (groupEl && typeof ResizeObserver !== "undefined") {
+    if (typeof ResizeObserver !== "undefined") {
       ro = new ResizeObserver(() => onResize());
-      ro.observe(groupEl);
+      if (rootEl) ro.observe(rootEl);
+      if (groupEl) ro.observe(groupEl);
+    } else {
+      window.addEventListener("resize", onResize);
     }
+
+    groupEl?.addEventListener("transitionend", onTransitionEnd);
 
     const fontsReady = document?.fonts?.ready as unknown as
       | Promise<void>
       | undefined;
-    if (fontsReady) fontsReady.then(onResize).catch(() => {});
+    if (fontsReady) fontsReady.then(() => scheduleMeasure()).catch(() => {});
 
     return () => {
-      window.removeEventListener("resize", onResize);
+      if (!ro) window.removeEventListener("resize", onResize);
+      groupEl?.removeEventListener("transitionend", onTransitionEnd);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
       ro?.disconnect();
     };
-  }, [measurePill]);
+  }, [scheduleMeasure]);
 
   const pillStyle = useMemo(() => {
     if (!pill) return null;
     return {
-      left: pill.x,
-      top: pill.y,
+      transform: `translate3d(${pill.x}px, ${pill.y}px, 0)`,
       width: pill.w,
       height: pill.h,
     };
@@ -191,14 +257,17 @@ export const FloatingNav = ({
     const minExpanded = showLogo ? 520 : 420;
 
     return {
-      width: { xs: "auto", sm: "fit-content" },
-      maxWidth: { xs: "none", sm: "calc(100vw - 32px)", md: "100%" },
+      width: { xs: "calc(100vw - 24px)", sm: "fit-content" },
+      maxWidth: { xs: "calc(100vw - 24px)", sm: "calc(100vw - 32px)", md: "100%" },
       minWidth: { xs: 0, sm: expanded ? minExpanded : minCollapsed },
       px: { xs: 1, sm: 1.25 },
-      transition: `min-width ${dur.expand}ms ${easing}`,
+      transition: prefersReducedMotion
+        ? "none"
+        : `min-width ${dur.expand}ms ${easing}`,
       willChange: "min-width",
+      contain: "layout style",
     } as const;
-  }, [logo, expanded, dur.expand, easing]);
+  }, [logo, expanded, dur.expand, easing, prefersReducedMotion]);
 
   const iconSx = useMemo(
     () => ({ fontSize: `${metrics.iconPx}px` }),
@@ -246,9 +315,9 @@ export const FloatingNav = ({
             zIndex: theme.zIndex.appBar + 1,
             ...dockPos,
 
-            left: { xs: 12, sm: 16, md: "50%" },
-            right: { xs: 12, sm: "auto", md: "auto" },
-            transform: { xs: "none", sm: "none", md: "translateX(-50%)" },
+            left: "50%",
+            right: "auto",
+            transform: "translateX(-50%)",
 
             mx: 0,
             ...navWidthStyle,
@@ -274,18 +343,17 @@ export const FloatingNav = ({
               ? `0 18px 50px rgba(0,0,0,0.55), 0 0 0 1px ${accent}`
               : `0 18px 50px rgba(0,0,0,0.16), 0 0 0 1px ${accent}`,
 
-            transition:
-              "transform 180ms cubic-bezier(0.16,1,0.3,1), box-shadow 180ms cubic-bezier(0.16,1,0.3,1)",
+            transition: prefersReducedMotion
+              ? "none"
+              : `transform 180ms ${hoverEasing}, box-shadow 180ms ${hoverEasing}`,
 
-            "&:hover": {
-              transform: {
-                xs: "none",
-                sm: "none",
-                md: "translateX(-50%) translateY(-1px)",
+            "@media (hover: hover) and (pointer: fine)": {
+              "&:hover": {
+                transform: "translateX(-50%) translateY(-1px)",
+                boxShadow: isDark
+                  ? `0 22px 60px rgba(0,0,0,0.65), 0 0 0 1px ${accent}, 0 0 0 6px rgba(120,255,214,0.08)`
+                  : `0 22px 60px rgba(0,0,0,0.20), 0 0 0 1px ${accent}, 0 0 0 6px rgba(0,150,120,0.10)`,
               },
-              boxShadow: isDark
-                ? `0 22px 60px rgba(0,0,0,0.65), 0 0 0 1px ${accent}, 0 0 0 6px rgba(120,255,214,0.08)`
-                : `0 22px 60px rgba(0,0,0,0.20), 0 0 0 1px ${accent}, 0 0 0 6px rgba(0,150,120,0.10)`,
             },
           };
         }}
@@ -318,7 +386,9 @@ export const FloatingNav = ({
                   ? "translate3d(0,0,0)"
                   : "translate3d(-6px,0,0)",
                 pointerEvents: expanded ? "auto" : "none",
-                transition: `opacity ${dur.fade}ms ${easing}, transform ${dur.fade}ms ${easing}`,
+                transition: prefersReducedMotion
+                  ? "none"
+                  : `opacity ${dur.fade}ms ${easing}, transform ${dur.fade}ms ${easing}`,
                 willChange: "opacity, transform",
               })}
             >
@@ -349,21 +419,24 @@ export const FloatingNav = ({
                 aria-hidden
                 sx={(theme) => ({
                   position: "absolute",
+                  left: 0,
+                  top: 0,
                   borderRadius: 999,
                   pointerEvents: "none",
 
                   ...(pillStyle
                     ? pillStyle
-                    : { left: 0, top: 0, width: 0, height: 0 }),
+                    : { transform: "translate3d(0,0,0)", width: 0, height: 0 }),
 
-                  transition: [
-                    `left ${dur.pill}ms ${easing}`,
-                    `top ${dur.pill}ms ${easing}`,
-                    `width ${dur.pill}ms ${easing}`,
-                    `height ${dur.pill}ms ${easing}`,
-                    `opacity ${dur.fade}ms ${easing}`,
-                  ].join(", "),
-                  willChange: "left, top, width, height, opacity",
+                  transition: prefersReducedMotion
+                    ? "none"
+                    : [
+                        `transform ${dur.pill}ms ${pillEasing}`,
+                        `width ${dur.pill}ms ${pillEasing}`,
+                        `height ${dur.pill}ms ${pillEasing}`,
+                        `opacity ${dur.fade}ms ${easing}`,
+                      ].join(", "),
+                  willChange: "transform, width, height, opacity",
                   opacity: pill ? 1 : 0,
 
                   background:
@@ -416,12 +489,16 @@ export const FloatingNav = ({
                       textTransform: "none",
                       color: theme.palette.text.secondary,
                       backgroundColor: "transparent",
-                      transition: `transform 240ms ${easing}, color 240ms ${easing}, padding ${dur.expand}ms ${easing}`,
+                      transition: prefersReducedMotion
+                        ? "none"
+                        : `transform 200ms ${hoverEasing}, color 200ms ${hoverEasing}, padding ${dur.expand}ms ${easing}`,
                       willChange: "transform, padding",
-                      "&:hover": {
-                        backgroundColor: "transparent",
-                        transform: "translate3d(0,-1px,0)",
-                        color: theme.palette.text.primary,
+                      "@media (hover: hover) and (pointer: fine)": {
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                          transform: "translate3d(0,-1px,0)",
+                          color: theme.palette.text.primary,
+                        },
                       },
                       "&:active": {
                         transform: "translate3d(0,0,0) scale(0.99)",
@@ -429,6 +506,13 @@ export const FloatingNav = ({
                       "&.Mui-selected": {
                         color: theme.palette.text.primary,
                         backgroundColor: "transparent",
+                      },
+                      "&.Mui-selected .nav-icon-shell": {
+                        transform: "translate3d(0,-0.5px,0) scale(1.03)",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "rgba(255,255,255,0.10)"
+                            : "rgba(60,140,255,0.14)",
                       },
                       "&:focus-visible": {
                         outline: "none",
@@ -438,6 +522,7 @@ export const FloatingNav = ({
                   >
                     <Stack direction="row" spacing={0} alignItems="center">
                       <Box
+                        className="nav-icon-shell"
                         sx={(theme) => ({
                           display: "grid",
                           placeItems: "center",
@@ -449,7 +534,9 @@ export const FloatingNav = ({
                             theme.palette.mode === "dark"
                               ? "rgba(255,255,255,0.03)"
                               : "rgba(0,0,0,0.03)",
-                          transition: `transform 240ms ${easing}, background-color 240ms ${easing}`,
+                          transition: prefersReducedMotion
+                            ? "none"
+                            : `transform 220ms ${hoverEasing}, background-color 220ms ${hoverEasing}`,
                         })}
                       >
                         <Box
@@ -467,7 +554,9 @@ export const FloatingNav = ({
                         aria-hidden
                         sx={{
                           width: `${internalGap}px`,
-                          transition: `width ${dur.expand}ms ${easing}`,
+                          transition: prefersReducedMotion
+                            ? "none"
+                            : `width ${dur.expand}ms ${easing}`,
                           willChange: "width",
                         }}
                       />
@@ -487,7 +576,9 @@ export const FloatingNav = ({
                             ? "translate3d(0,0,0)"
                             : "translate3d(-6px,0,0)",
                           overflow: "hidden",
-                          transition: `max-width ${dur.expand}ms ${easing}, opacity ${dur.fade}ms ${easing}, transform ${dur.fade}ms ${easing}`,
+                          transition: prefersReducedMotion
+                            ? "none"
+                            : `max-width ${dur.expand}ms ${easing}, opacity ${dur.fade}ms ${easing}, transform ${dur.fade}ms ${easing}`,
                           willChange: "max-width, opacity, transform",
                         }}
                       >

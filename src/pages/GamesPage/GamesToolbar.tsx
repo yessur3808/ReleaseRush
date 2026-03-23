@@ -29,6 +29,15 @@ export type GamesFiltersState = {
   status: StatusFilter;
   tag: string;
   sort: SortKey;
+  favoritesOnly: boolean;
+};
+
+export const DEFAULT_FILTERS: GamesFiltersState = {
+  query: "",
+  status: "all",
+  tag: "all",
+  sort: "az",
+  favoritesOnly: false,
 };
 
 type Props = {
@@ -43,7 +52,11 @@ type Props = {
 
 function isDefault(v: GamesFiltersState) {
   return (
-    v.query === "" && v.status === "all" && v.tag === "all" && v.sort === "az"
+    v.query === DEFAULT_FILTERS.query &&
+    v.status === DEFAULT_FILTERS.status &&
+    v.tag === DEFAULT_FILTERS.tag &&
+    v.sort === DEFAULT_FILTERS.sort &&
+    v.favoritesOnly === DEFAULT_FILTERS.favoritesOnly
   );
 }
 
@@ -64,8 +77,7 @@ export function GamesToolbar({
   const set = (patch: Partial<GamesFiltersState>) =>
     onChange({ ...value, ...patch });
 
-  const clearAll = () =>
-    onChange({ query: "", status: "all", tag: "all", sort: "az" });
+  const clearAll = () => onChange(DEFAULT_FILTERS);
 
   const activeChips: Array<{
     key: string;
@@ -104,6 +116,14 @@ export function GamesToolbar({
             ? t("common.sort_latest")
             : t("common.sort_daily_first"),
       onDelete: () => set({ sort: "az" }),
+    });
+  }
+
+  if (value.favoritesOnly) {
+    activeChips.push({
+      key: "favorites",
+      label: t("common.favorites_only"),
+      onDelete: () => set({ favoritesOnly: false }),
     });
   }
 

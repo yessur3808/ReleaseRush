@@ -10,7 +10,8 @@ export const releaseSortValue = (g: Game, nowMs: number) => {
       const [y, mo, d] = iso.split("-").map(Number);
       const day = Number.isFinite(d) ? d : 1;
       const month = Number.isFinite(mo) ? mo : 1;
-      return new Date(y, month - 1, day, 0, 0, 0, 0).getTime();
+      // Use UTC midnight so sort order is the same for every viewer.
+      return Date.UTC(y, month - 1, day, 0, 0, 0, 0);
     }
 
     case "recurring_daily": {

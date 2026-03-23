@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Stack, Typography, CssBaseline, useMediaQuery } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import { useGames } from "../../lib/useGames";
-import { msLeftForGame } from "../../utils";
+import { msLeftForGame, formatISODateTime } from "../../utils";
 import { GameDoc } from "../../lib/types";
 import {
   pickCoverUrl,
@@ -163,7 +163,7 @@ export const GameWidgetPage = () => {
         />
 
         <Typography variant="caption" color="text.secondary">
-          {t("pages.game.last_gen_date", { date: doc.generatedAt })}
+          {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
         </Typography>
       </Stack>
     </ThemeProvider>

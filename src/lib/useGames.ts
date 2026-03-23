@@ -1,43 +1,43 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GamesDoc } from "./types";
-import { GAMES_URL } from "./data"; // TODO: legacy JSON source (keep commented for now)
+import { GAMES_URL } from "./data";
+import { fetchGamesFromService } from "../api/games";
 
-const API_BASE =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "";
+const TEMPLATE_TOKEN_PATTERN = /^\$\{.+\}$/;
+
+function isValidServiceUrl(value: string): boolean {
+  const candidate = value.trim();
+  if (!candidate || TEMPLATE_TOKEN_PATTERN.test(candidate)) return false;
+
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 /**
- * Planned endpoint:
- *   GET /games
- * filters: platform, categoryType, availability, q, limit, cursor
+ * Returns the configured Game-Tracker-Service base URL, or null if not set.
+ *
+ * Checks (in order):
+ *  1. Runtime env: window.__env__.GAMES_API_URL   (set via /env.json at boot)
+ *  2. Build-time:  import.meta.env.VITE_API_BASE_URL
  */
-function buildGamesUrl(params?: {
-  platform?: string | string[];
-  categoryType?: string;
-  availability?: string;
-  q?: string;
-  limit?: number;
-  cursor?: string;
-}) {
-  const url = new URL(`${API_BASE}/games`, window.location.origin);
-
-  if (params?.platform) {
-    const platforms = Array.isArray(params.platform)
-      ? params.platform
-      : [params.platform];
-
-    for (const p of platforms) url.searchParams.append("platform", p);
+function getServiceUrl(): string | null {
+  const runtime =
+    typeof window !== "undefined" &&
+    (window.__env__ as Record<string, unknown> | undefined)?.["GAMES_API_URL"];
+  if (runtime && typeof runtime === "string" && isValidServiceUrl(runtime)) {
+    return runtime.trim();
   }
 
-  if (params?.categoryType)
-    url.searchParams.set("categoryType", params.categoryType);
-  if (params?.availability)
-    url.searchParams.set("availability", params.availability);
-  if (params?.q) url.searchParams.set("q", params.q);
-  if (typeof params?.limit === "number")
-    url.searchParams.set("limit", String(params.limit));
-  if (params?.cursor) url.searchParams.set("cursor", params.cursor);
+  const buildTime = import.meta.env.VITE_API_BASE_URL as string | undefined;
+  if (buildTime && isValidServiceUrl(buildTime)) {
+    return buildTime.trim();
+  }
 
-  return url.toString();
+  return null;
 }
 
 type UseGamesParams = {
@@ -46,7 +46,6 @@ type UseGamesParams = {
   availability?: string;
   q?: string;
   limit?: number;
-  cursor?: string;
 };
 
 export function useGames(params?: UseGamesParams) {
@@ -54,7 +53,8 @@ export function useGames(params?: UseGamesParams) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const url = useMemo(() => buildGamesUrl(params), [params]);
+  // Stable serialisation so the effect only re-runs when params actually change
+  const paramsKey = useMemo(() => JSON.stringify(params ?? null), [params]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -64,37 +64,45 @@ export function useGames(params?: UseGamesParams) {
         setError(null);
         setLoading(true);
 
-        // const res = await fetch(url, {
-        //   method: "GET",
-        //   signal: controller.signal,
-        //   headers: { Accept: "application/json" },
-        //   cache: "no-store",
-        // });
+        const serviceUrl = getServiceUrl();
 
-        const res = await fetch(GAMES_URL, { cache: "no-store" });
+        let result: GamesDoc;
 
-        if (!res.ok) throw new Error(`Failed to load /games (${res.status})`);
+        if (serviceUrl) {
+          // Live service path
+          result = await fetchGamesFromService(serviceUrl);
+        } else {
+          // Static JSON fallback
+          const res = await fetch(GAMES_URL, {
+            cache: "no-store",
+            signal: controller.signal,
+          });
+          if (!res.ok)
+            throw new Error(`Failed to load games (${res.status})`);
+          result = (await res.json()) as GamesDoc;
+        }
 
-        const json = (await res.json()) as GamesDoc;
-        setDoc(json);
+        if (!controller.signal.aborted) setDoc(result);
       } catch (e: unknown) {
         if (e instanceof DOMException && e.name === "AbortError") return;
-
         const message =
           e instanceof Error
             ? e.message
             : typeof e === "string"
               ? e
               : "Unknown error";
-        setError(message);
-        setDoc(null);
+        if (!controller.signal.aborted) {
+          setError(message);
+          setDoc(null);
+        }
       } finally {
         if (!controller.signal.aborted) setLoading(false);
       }
     })();
 
     return () => controller.abort();
-  }, [url]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paramsKey]);
 
   return { doc, loading, error };
 }
