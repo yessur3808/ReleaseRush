@@ -9,7 +9,7 @@ export const GameNotFound = ({
   onBack: () => void;
   labelBack: string;
   message: string;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void;
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
 }) => {
   const handleBack = () => {
     onTrack?.("game_not_found_back", {
@@ -20,10 +20,7 @@ export const GameNotFound = ({
   };
 
   return (
-    <Alert
-      severity="warning"
-      action={<Button onClick={handleBack}>{labelBack}</Button>}
-    >
+    <Alert severity="warning" action={<Button onClick={handleBack}>{labelBack}</Button>}>
       {message}
     </Alert>
   );
@@ -42,7 +39,7 @@ export const GameError = ({
   onTrack, // <-- NEW (optional)
 }: {
   message: string;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void;
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
 }) => {
   onTrack?.("game_error_shown", {
     from: "game_error",

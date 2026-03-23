@@ -1,12 +1,5 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import {
-  Box,
-  Container,
-  Paper,
-  useMediaQuery,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Paper, useMediaQuery, Stack, Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/GridLegacy";
 import { FloatingNav } from "./FloatingNav";
@@ -103,9 +96,7 @@ export function AppShell() {
         maxWidth="lg"
         sx={{
           pt: !isMobile ? 3 : 2,
-          pb: isMobile
-            ? `${mobileNavHeight + mobileAdHeight + dockGap * 2 + 16}px`
-            : 5,
+          pb: isMobile ? `${mobileNavHeight + mobileAdHeight + dockGap * 2 + 16}px` : 5,
         }}
       >
         <Grid container spacing={isMobile ? 2 : 3}>
@@ -167,9 +158,7 @@ export function AppShell() {
       )}
 
       {/* Mobile bottom nav (reuse FloatingTopNav) */}
-      {isMobile && (
-        <FloatingNav value={value} onChange={go} dock="bottom" offsetPx={12} />
-      )}
+      {isMobile && <FloatingNav value={value} onChange={go} dock="bottom" offsetPx={12} />}
     </Box>
   );
 }

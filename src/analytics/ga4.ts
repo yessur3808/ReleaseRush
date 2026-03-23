@@ -1,6 +1,6 @@
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    gtag?: (...args: unknown[]) => void;
     __env__: { GA_MEASUREMENT_ID?: string };
   }
 }
@@ -9,7 +9,7 @@ const MEASUREMENT_ID =
   window.__env__?.GA_MEASUREMENT_ID ??
   ((import.meta.env.VITE_GA_MEASUREMENT_ID ||
     // keep legacy name fallback if you used it earlier
-    (import.meta.env as any).GA_MEASUREMENT_ID) as string | undefined) ??
+    (import.meta.env as Record<string, unknown>).GA_MEASUREMENT_ID) as string | undefined) ??
   "";
 
 /**
@@ -21,11 +21,7 @@ let warnedNoId = false;
 let warnedNoGtag = false;
 let warnedError = false;
 
-function warnOnce(
-  kind: "no-id" | "no-gtag" | "error",
-  message: string,
-  err?: unknown,
-) {
+function warnOnce(kind: "no-id" | "no-gtag" | "error", message: string, err?: unknown) {
   // keep logs in dev; avoid noisy prod consoles if you want
   if (!import.meta.env.DEV) return;
 
@@ -37,7 +33,6 @@ function warnOnce(
   if (kind === "no-gtag") warnedNoGtag = true;
   if (kind === "error") warnedError = true;
 
-  // eslint-disable-next-line no-console
   console.warn(message, err);
 }
 
@@ -72,11 +67,7 @@ function safeGtag(...args: Parameters<NonNullable<Window["gtag"]>>) {
     window.gtag!(...args);
   } catch (err) {
     disabledBecauseError = true;
-    warnOnce(
-      "error",
-      "[GA4] gtag call failed; analytics disabled for this session.",
-      err,
-    );
+    warnOnce("error", "[GA4] gtag call failed; analytics disabled for this session.", err);
   }
 }
 

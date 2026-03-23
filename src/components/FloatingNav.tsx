@@ -135,9 +135,7 @@ export const FloatingNav = ({
     const py = clamp(8 + (w - 360) / 260, 8, 11);
 
     const nextMetrics = { fontSizePx, iconPx, gapPx, px, py };
-    setMetrics((prev) =>
-      areMetricsEqual(prev, nextMetrics) ? prev : nextMetrics,
-    );
+    setMetrics((prev) => (areMetricsEqual(prev, nextMetrics) ? prev : nextMetrics));
   }, []);
 
   const measurePill = useCallback(() => {
@@ -173,14 +171,7 @@ export const FloatingNav = ({
 
   useLayoutEffect(() => {
     scheduleMeasure();
-  }, [
-    scheduleMeasure,
-    metrics.fontSizePx,
-    metrics.iconPx,
-    metrics.gapPx,
-    metrics.px,
-    metrics.py,
-  ]);
+  }, [scheduleMeasure, metrics.fontSizePx, metrics.iconPx, metrics.gapPx, metrics.px, metrics.py]);
 
   useEffect(
     () => () => {
@@ -229,9 +220,7 @@ export const FloatingNav = ({
 
     groupEl?.addEventListener("transitionend", onTransitionEnd);
 
-    const fontsReady = document?.fonts?.ready as unknown as
-      | Promise<void>
-      | undefined;
+    const fontsReady = document?.fonts?.ready as unknown as Promise<void> | undefined;
     if (fontsReady) fontsReady.then(() => scheduleMeasure()).catch(() => {});
 
     return () => {
@@ -261,22 +250,15 @@ export const FloatingNav = ({
       maxWidth: { xs: "calc(100vw - 24px)", sm: "calc(100vw - 32px)", md: "100%" },
       minWidth: { xs: 0, sm: expanded ? minExpanded : minCollapsed },
       px: { xs: 1, sm: 1.25 },
-      transition: prefersReducedMotion
-        ? "none"
-        : `min-width ${dur.expand}ms ${easing}`,
+      transition: prefersReducedMotion ? "none" : `min-width ${dur.expand}ms ${easing}`,
       willChange: "min-width",
       contain: "layout style",
     } as const;
   }, [logo, expanded, dur.expand, easing, prefersReducedMotion]);
 
-  const iconSx = useMemo(
-    () => ({ fontSize: `${metrics.iconPx}px` }),
-    [metrics.iconPx],
-  );
+  const iconSx = useMemo(() => ({ fontSize: `${metrics.iconPx}px` }), [metrics.iconPx]);
 
-  const btnPx = expanded
-    ? metrics.px
-    : Math.max(8, Math.round(metrics.px * 0.55));
+  const btnPx = expanded ? metrics.px : Math.max(8, Math.round(metrics.px * 0.55));
   const internalGap = expanded ? metrics.gapPx : 0;
 
   const iconBox = useMemo(() => {
@@ -299,9 +281,7 @@ export const FloatingNav = ({
         }}
         sx={(theme) => {
           const isDark = theme.palette.mode === "dark";
-          const accent = isDark
-            ? "rgba(120, 255, 214, 0.40)"
-            : "rgba(0, 150, 120, 0.28)";
+          const accent = isDark ? "rgba(120, 255, 214, 0.40)" : "rgba(0, 150, 120, 0.28)";
 
           const dockPos =
             dock === "top"
@@ -335,9 +315,7 @@ export const FloatingNav = ({
               : "linear-gradient(180deg, rgba(255,255,255,0.88), rgba(255,255,255,0.72))",
             backgroundImage: "none",
 
-            border: isDark
-              ? "1px solid rgba(255,255,255,0.10)"
-              : "1px solid rgba(0,0,0,0.08)",
+            border: isDark ? "1px solid rgba(255,255,255,0.10)" : "1px solid rgba(0,0,0,0.08)",
 
             boxShadow: isDark
               ? `0 18px 50px rgba(0,0,0,0.55), 0 0 0 1px ${accent}`
@@ -374,17 +352,13 @@ export const FloatingNav = ({
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
                 backgroundColor:
-                  theme.palette.mode === "dark"
-                    ? "rgba(255,255,255,0.06)"
-                    : "rgba(0,0,0,0.04)",
+                  theme.palette.mode === "dark" ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
                 border:
                   theme.palette.mode === "dark"
                     ? "1px solid rgba(255,255,255,0.10)"
                     : "1px solid rgba(0,0,0,0.08)",
                 opacity: expanded ? 1 : 0,
-                transform: expanded
-                  ? "translate3d(0,0,0)"
-                  : "translate3d(-6px,0,0)",
+                transform: expanded ? "translate3d(0,0,0)" : "translate3d(-6px,0,0)",
                 pointerEvents: expanded ? "auto" : "none",
                 transition: prefersReducedMotion
                   ? "none"
@@ -392,9 +366,7 @@ export const FloatingNav = ({
                 willChange: "opacity, transform",
               })}
             >
-              <Box sx={{ display: "flex", alignItems: "center", minWidth: 0 }}>
-                {logo}
-              </Box>
+              <Box sx={{ display: "flex", alignItems: "center", minWidth: 0 }}>{logo}</Box>
             </Box>
           ) : null}
 
@@ -572,9 +544,7 @@ export const FloatingNav = ({
                           lineHeight: 1,
                           maxWidth: expanded ? 160 : 0,
                           opacity: expanded ? 0.92 : 0,
-                          transform: expanded
-                            ? "translate3d(0,0,0)"
-                            : "translate3d(-6px,0,0)",
+                          transform: expanded ? "translate3d(0,0,0)" : "translate3d(-6px,0,0)",
                           overflow: "hidden",
                           transition: prefersReducedMotion
                             ? "none"

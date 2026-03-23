@@ -34,8 +34,7 @@ export const Cover = ({ src, alt, height }: CoverProps) => {
         sx={{
           position: "absolute",
           inset: 0,
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.0) 60%)",
+          background: "linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.0) 60%)",
           pointerEvents: "none",
         }}
       />

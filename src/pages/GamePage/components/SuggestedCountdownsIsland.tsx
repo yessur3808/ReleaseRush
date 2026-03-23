@@ -8,7 +8,7 @@ interface SuggestedCountdownsIslandProps {
   games: Game[];
   nowMs: number;
   onOpen: (id: string) => void;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void; // <-- NEW
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
   fromGameId?: string; // <-- optional context (if you have it)
 }
 
@@ -16,7 +16,7 @@ type SuggestedCountdownRowProps = {
   game: Game;
   nowMs: number;
   onOpen: (id: string) => void;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void; // <-- NEW
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
   fromGameId?: string; // <-- NEW
 };
 

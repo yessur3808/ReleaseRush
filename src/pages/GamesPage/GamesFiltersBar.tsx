@@ -34,16 +34,10 @@ type Props = {
   resultsText: string; // e.g. "12 / 50"
 };
 
-export function GamesFiltersBar({
-  value,
-  onChange,
-  allTags,
-  resultsText,
-}: Props) {
+export function GamesFiltersBar({ value, onChange, allTags, resultsText }: Props) {
   const { t } = useTranslation();
 
-  const set = (patch: Partial<GamesFiltersState>) =>
-    onChange({ ...value, ...patch });
+  const set = (patch: Partial<GamesFiltersState>) => onChange({ ...value, ...patch });
 
   const statusOptions: Array<{ key: StatusFilter; label: string }> = [
     { key: "all", label: t("common.all") },
@@ -111,9 +105,7 @@ export function GamesFiltersBar({
 
             <Button
               variant="outlined"
-              onClick={() =>
-                onChange({ query: "", status: "all", tag: "all", sort: "az" })
-              }
+              onClick={() => onChange({ query: "", status: "all", tag: "all", sort: "az" })}
               sx={{ borderRadius: 3, whiteSpace: "nowrap" }}
             >
               {t("common.clear")}
@@ -145,9 +137,7 @@ export function GamesFiltersBar({
           {allTags.length > 0 ? (
             <FormControl size="small" sx={{ minWidth: 220, flex: 1 }}>
               <InputLabel>
-                <Box
-                  sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}
-                >
+                <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
                   <LocalOfferOutlinedIcon fontSize="small" />
                   {t("common.tag")}
                 </Box>
@@ -169,9 +159,7 @@ export function GamesFiltersBar({
 
           <FormControl size="small" sx={{ minWidth: 220, flex: 1 }}>
             <InputLabel>
-              <Box
-                sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}
-              >
+              <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1 }}>
                 <SortIcon fontSize="small" />
                 {t("common.sort_by")}
               </Box>
@@ -184,9 +172,7 @@ export function GamesFiltersBar({
               <MenuItem value="az">{t("common.sort_az")}</MenuItem>
               <MenuItem value="soonest">{t("common.sort_soonest")}</MenuItem>
               <MenuItem value="latest">{t("common.sort_latest")}</MenuItem>
-              <MenuItem value="daily_first">
-                {t("common.sort_daily_first")}
-              </MenuItem>
+              <MenuItem value="daily_first">{t("common.sort_daily_first")}</MenuItem>
             </Select>
           </FormControl>
         </Stack>

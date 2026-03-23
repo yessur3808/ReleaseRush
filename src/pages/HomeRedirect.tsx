@@ -17,9 +17,7 @@ export function HomeRedirect() {
   }
 
   if (error || !doc || doc.games.length === 0) {
-    return (
-      <Alert severity="error">{error ?? t("common.no_games_found")}</Alert>
-    );
+    return <Alert severity="error">{error ?? t("common.no_games_found")}</Alert>;
   }
 
   const first = doc.games[0];

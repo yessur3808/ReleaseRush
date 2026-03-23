@@ -26,7 +26,11 @@
           "pvp": { "supported": "unknown", "type": "unknown" },
           "splitScreen": "unknown"
         },
-        "connectivity": { "offlinePlayable": "unknown", "onlineRequired": "unknown", "notes": null },
+        "connectivity": {
+          "offlinePlayable": "unknown",
+          "onlineRequired": "unknown",
+          "notes": null
+        },
         "camera": ["third_person"],
         "liveService": { "enabled": false, "cadence": null },
         "ageRating": { "system": "esrb", "rating": null, "isFinal": false }
@@ -51,8 +55,16 @@
       ],
       "media": {
         "trailers": [
-          { "label": "GTA VI Trailer 1 (Official)", "platform": "youtube", "url": "https://www.youtube.com/watch?v=QdBZY2fkU-0" },
-          { "label": "GTA VI Trailer 2 (Official)", "platform": "youtube", "url": "https://www.youtube.com/watch?v=VQRLujxTm3c" }
+          {
+            "label": "GTA VI Trailer 1 (Official)",
+            "platform": "youtube",
+            "url": "https://www.youtube.com/watch?v=QdBZY2fkU-0"
+          },
+          {
+            "label": "GTA VI Trailer 2 (Official)",
+            "platform": "youtube",
+            "url": "https://www.youtube.com/watch?v=VQRLujxTm3c"
+          }
         ]
       },
       "tags": ["full_game", "aaa"]
@@ -83,7 +95,11 @@
           "pvp": { "supported": "unknown", "type": "unknown" },
           "splitScreen": "unknown"
         },
-        "connectivity": { "offlinePlayable": "unknown", "onlineRequired": "unknown", "notes": null },
+        "connectivity": {
+          "offlinePlayable": "unknown",
+          "onlineRequired": "unknown",
+          "notes": null
+        },
         "camera": ["third_person"],
         "liveService": { "enabled": false, "cadence": null },
         "ageRating": { "system": "esrb", "rating": null, "isFinal": false }
@@ -108,8 +124,16 @@
       ],
       "media": {
         "trailers": [
-          { "label": "Reveal Trailer (official article embed)", "platform": "official_site", "url": "https://blog.playstation.com/2025/06/04/unveiling-007-first-light-io-interactives-james-bond-action-adventure-game/" },
-          { "label": "Gameplay deep dive (official article)", "platform": "official_site", "url": "https://blog.playstation.com/2025/09/03/watch-over-30-minutes-of-007-first-light-gameplay-launching-march-27-2026/" }
+          {
+            "label": "Reveal Trailer (official article embed)",
+            "platform": "official_site",
+            "url": "https://blog.playstation.com/2025/06/04/unveiling-007-first-light-io-interactives-james-bond-action-adventure-game/"
+          },
+          {
+            "label": "Gameplay deep dive (official article)",
+            "platform": "official_site",
+            "url": "https://blog.playstation.com/2025/09/03/watch-over-30-minutes-of-007-first-light-gameplay-launching-march-27-2026/"
+          }
         ]
       },
       "tags": ["full_game", "aaa"]
@@ -134,7 +158,11 @@
           "pvp": { "supported": "unknown", "type": "unknown" },
           "splitScreen": "unknown"
         },
-        "connectivity": { "offlinePlayable": "unknown", "onlineRequired": "unknown", "notes": null },
+        "connectivity": {
+          "offlinePlayable": "unknown",
+          "onlineRequired": "unknown",
+          "notes": null
+        },
         "camera": ["first_person"],
         "liveService": { "enabled": false, "cadence": null },
         "ageRating": { "system": "esrb", "rating": null, "isFinal": false }
@@ -185,7 +213,11 @@
           "pvp": { "supported": "unknown", "type": "unknown" },
           "splitScreen": "unknown"
         },
-        "connectivity": { "offlinePlayable": "unknown", "onlineRequired": "unknown", "notes": null },
+        "connectivity": {
+          "offlinePlayable": "unknown",
+          "onlineRequired": "unknown",
+          "notes": null
+        },
         "camera": ["first_person", "third_person"],
         "liveService": { "enabled": false, "cadence": null },
         "ageRating": { "system": "esrb", "rating": null, "isFinal": false }
@@ -258,7 +290,11 @@
       "popularityRank": 7,
       "category": { "type": "season", "franchise": "Overwatch" },
       "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
-      "studio": { "name": "Blizzard Entertainment", "type": "developer_publisher", "location": null },
+      "studio": {
+        "name": "Blizzard Entertainment",
+        "type": "developer_publisher",
+        "location": null
+      },
       "game": {
         "title": "Overwatch 2",
         "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch"],
@@ -301,7 +337,12 @@
       "popularityRank": 8,
       "category": { "type": "season", "franchise": "Apex Legends" },
       "release": { "status": "tba", "isOfficial": false, "confidence": "unknown" },
-      "studio": { "name": "Respawn Entertainment", "type": "developer", "location": null, "parentCompany": "Electronic Arts" },
+      "studio": {
+        "name": "Respawn Entertainment",
+        "type": "developer",
+        "location": null,
+        "parentCompany": "Electronic Arts"
+      },
       "game": {
         "title": "Apex Legends",
         "platforms": ["pc", "ps5", "ps4", "xbox_series", "xbox_one", "switch"],
@@ -483,7 +524,11 @@
           "pvp": { "supported": "unknown", "type": "unknown" },
           "splitScreen": "unknown"
         },
-        "connectivity": { "offlinePlayable": "unknown", "onlineRequired": "unknown", "notes": null },
+        "connectivity": {
+          "offlinePlayable": "unknown",
+          "onlineRequired": "unknown",
+          "notes": null
+        },
         "camera": [],
         "liveService": { "enabled": false, "cadence": null },
         "ageRating": { "system": "esrb", "rating": null, "isFinal": false }

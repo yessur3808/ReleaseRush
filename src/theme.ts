@@ -47,8 +47,7 @@ export const theme = createTheme({
   shape: { borderRadius: 18 },
 
   typography: {
-    fontFamily:
-      'Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial',
+    fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial',
 
     h4: { fontWeight: 850, letterSpacing: -0.6 },
     h6: { fontWeight: 800, letterSpacing: -0.2 },

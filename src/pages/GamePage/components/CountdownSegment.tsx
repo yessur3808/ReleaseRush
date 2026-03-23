@@ -21,11 +21,7 @@ export const CountdownSegment = ({
   };
 
   return (
-    <Stack
-      spacing={compact ? 0.2 : 0.75}
-      alignItems="center"
-      sx={{ minWidth: compact ? 32 : 76 }}
-    >
+    <Stack spacing={compact ? 0.2 : 0.75} alignItems="center" sx={{ minWidth: compact ? 32 : 76 }}>
       {minimal ? (
         <Typography
           variant={compact ? "body1" : "h3"}
@@ -70,9 +66,7 @@ export const CountdownSegment = ({
           fontSize: compact ? 10 : 12,
         }}
       >
-        {compact
-          ? labelMappings[label] || label.toUpperCase()
-          : label.toUpperCase()}
+        {compact ? labelMappings[label] || label.toUpperCase() : label.toUpperCase()}
       </Typography>
     </Stack>
   );

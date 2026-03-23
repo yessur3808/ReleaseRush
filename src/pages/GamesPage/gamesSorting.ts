@@ -24,11 +24,9 @@ export const releaseSortValue = (g: Game, nowMs: number) => {
         hh,
         mm,
         0,
-        0
+        0,
       );
-      return targetToday > nowMs
-        ? targetToday
-        : targetToday + 24 * 60 * 60 * 1000;
+      return targetToday > nowMs ? targetToday : targetToday + 24 * 60 * 60 * 1000;
     }
 
     case "tba":

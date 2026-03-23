@@ -27,31 +27,30 @@
       "day_precision_date": "{{date}}",
       "last_gen_date": "Date last generated: {{date}}",
 
-  "unknown": "Unknown",
-  "platforms": "Platforms",
-  "platforms_unknown": "Unknown",
-  "studio": "Studio",
-  "website": "Website",
+      "unknown": "Unknown",
+      "platforms": "Platforms",
+      "platforms_unknown": "Unknown",
+      "studio": "Studio",
+      "website": "Website",
 
-  "official": "Official",
-  "unofficial": "Unofficial",
-  "confidence": "Confidence",
+      "official": "Official",
+      "unofficial": "Unofficial",
+      "confidence": "Confidence",
 
-  "released": "Released",
-  "released_on": "Released on {{date}}",
-  "cancelled": "Cancelled",
-  "delayed": "Delayed",
+      "released": "Released",
+      "released_on": "Released on {{date}}",
+      "cancelled": "Cancelled",
+      "delayed": "Delayed",
 
-  "no_cover": "No cover available",
-  "no_countdown": "No countdown available for this item.",
+      "no_cover": "No cover available",
+      "no_countdown": "No countdown available for this item.",
 
-  "trailers": "Trailers",
-  "trailer": "Trailer",
+      "trailers": "Trailers",
+      "trailer": "Trailer",
 
-  "sources": "Sources",
-  "open": "Open",
-  "more_sources": "+{{count}} more"
-
+      "sources": "Sources",
+      "open": "Open",
+      "more_sources": "+{{count}} more"
     }
   },
   "common": {

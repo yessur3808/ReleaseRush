@@ -23,7 +23,7 @@ export const CountdownHeader = ({
   onBack: () => void;
   t: (k: string, opts?: Record<string, unknown>) => string;
   countdownAnchorRef: React.RefObject<HTMLDivElement | null>;
-  onTrack?: (eventName: string, params?: Record<string, any>) => void; // <-- NEW
+  onTrack?: (eventName: string, params?: Record<string, unknown>) => void;
 }) => {
   const handleBackClick = () => {
     // optional tracking hook (keeps this component decoupled from GA4)
@@ -77,11 +77,7 @@ export const CountdownHeader = ({
           ) : null}
         </Box>
 
-        <Button
-          variant="outlined"
-          onClick={handleBackClick}
-          sx={{ borderRadius: 2 }}
-        >
+        <Button variant="outlined" onClick={handleBackClick} sx={{ borderRadius: 2 }}>
           {t("pages.game.all_games")}
         </Button>
       </Stack>
@@ -106,10 +102,7 @@ export const CountdownHeader = ({
           <NiceCountdown msLeft={msLeft} compact={false} />
         </Box>
       ) : (
-        <Typography
-          variant={isMobile ? "h6" : "h5"}
-          sx={{ fontWeight: 900, lineHeight: 1.1 }}
-        >
+        <Typography variant={isMobile ? "h6" : "h5"} sx={{ fontWeight: 900, lineHeight: 1.1 }}>
           {t("pages.game.no_countdown")}
         </Typography>
       )}

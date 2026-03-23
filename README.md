@@ -6,9 +6,9 @@ A countdown hub for games: track upcoming releases and recurring daily resets in
 
 ## Highlights
 
-- **All games list** with fast search  
-- **Filters & sorting** to find what you want quickly  
-- **Countdown pages** for each game  
+- **All games list** with fast search
+- **Filters & sorting** to find what you want quickly
+- **Countdown pages** for each game
 - Supports:
   - **Release dates**
   - **Daily resets**
@@ -39,6 +39,7 @@ npm run dev
 - Leave `GAMES_API_URL` empty to use bundled static `games.json` fallback data.
 
 Build for production:
+
 ```bash
 npm run build
 ```
@@ -53,18 +54,18 @@ If you see `Unexpected token '<', "<!doctype "... is not valid JSON`:
 4. Restart `npm run dev` so `public/env.json` is regenerated.
 
 ## How to use
+
 Open All games
 Use the search bar to find a game by name (and tags, if enabled)
 Open Filters to narrow results (release date / daily reset / TBA, etc.)
 Click View countdown to see the dedicated countdown page
 
+## Roadmap
 
-## Roadmap (
- - [ ] Favorites / pinned countdowns
- - [ ] Shareable links (URL‑synced search + filters)
- - [ ] Quick links section
- - [ ] Polish + animations
-)
+- [ ] Favorites / pinned countdowns
+- [ ] Shareable links (URL‑synced search + filters)
+- [ ] Quick links section
+- [ ] Polish + animations
 
 <!-- License
 MIT (or your preferred license)

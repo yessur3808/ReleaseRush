@@ -11,9 +11,7 @@ import type { Config } from "./namespaces";
 const TEMPLATE_TOKEN_PATTERN = /^\$\{.+\}$/;
 
 // If you have __BUILD_INFO__ available globally, keep this:
-window.__BUILD_INFO__ = Object.freeze(
-  __BUILD_INFO__ as (typeof window)["__BUILD_INFO__"],
-);
+window.__BUILD_INFO__ = Object.freeze(__BUILD_INFO__ as (typeof window)["__BUILD_INFO__"]);
 
 const rootEl = document.getElementById("root");
 if (!rootEl) {
@@ -29,9 +27,7 @@ async function bootstrap() {
 
   const contentType = (response.headers.get("content-type") || "").toLowerCase();
   if (!contentType.includes("json")) {
-    const bodyPreview = (await response.text().catch(() => ""))
-      .replace(/\s+/g, " ")
-      .slice(0, 140);
+    const bodyPreview = (await response.text().catch(() => "")).replace(/\s+/g, " ").slice(0, 140);
     throw new Error(
       `Invalid /env.json response type '${contentType || "unknown"}'. ` +
         `Response preview: ${bodyPreview || "<empty>"}`,

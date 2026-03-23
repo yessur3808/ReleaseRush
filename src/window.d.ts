@@ -1,5 +1,7 @@
-import { ExternalProvider } from '@ethersproject/providers';
-import { Config } from '@/namespaces';
+// eslint-disable-next-line import/no-unresolved
+import { ExternalProvider } from "@ethersproject/providers";
+// eslint-disable-next-line import/no-unresolved
+import { Config } from "@/namespaces";
 
 interface MmiEthereumProvider extends ExternalProvider {
   request: (params: unknown) => Promise<unknown>;

@@ -22,11 +22,7 @@ interface NiceCountdownProps {
   minimal?: boolean;
 }
 
-export const NiceCountdown = ({
-  msLeft,
-  compact,
-  minimal,
-}: NiceCountdownProps) => {
+export const NiceCountdown = ({ msLeft, compact, minimal }: NiceCountdownProps) => {
   if (msLeft === null) {
     return (
       <Stack spacing={0.5}>
@@ -60,45 +56,20 @@ export const NiceCountdown = ({
   const { d, h, m, s } = splitMs(msLeft);
 
   return (
-    <Stack
-      direction="row"
-      spacing={compact ? 1 : 1.5}
-      alignItems="flex-start"
-      flexWrap="wrap"
-    >
-      <CountdownSegment
-        label="Days"
-        value={String(d)}
-        compact={compact}
-        minimal={minimal}
-      />
+    <Stack direction="row" spacing={compact ? 1 : 1.5} alignItems="flex-start" flexWrap="wrap">
+      <CountdownSegment label="Days" value={String(d)} compact={compact} minimal={minimal} />
       <Separator aria-hidden compact={compact}>
         :
       </Separator>
-      <CountdownSegment
-        label="Hours"
-        value={pad2(h)}
-        compact={compact}
-        minimal={minimal}
-      />
+      <CountdownSegment label="Hours" value={pad2(h)} compact={compact} minimal={minimal} />
       <Separator aria-hidden compact={compact}>
         :
       </Separator>
-      <CountdownSegment
-        label="Minutes"
-        value={pad2(m)}
-        compact={compact}
-        minimal={minimal}
-      />
+      <CountdownSegment label="Minutes" value={pad2(m)} compact={compact} minimal={minimal} />
       <Separator aria-hidden compact={compact}>
         :
       </Separator>
-      <CountdownSegment
-        label="Seconds"
-        value={pad2(s)}
-        compact={compact}
-        minimal={minimal}
-      />
+      <CountdownSegment label="Seconds" value={pad2(s)} compact={compact} minimal={minimal} />
     </Stack>
   );
 };

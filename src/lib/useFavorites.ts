@@ -24,9 +24,7 @@ function writeToStorage(ids: Set<string>): void {
 }
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<Set<string>>(() =>
-    readFromStorage(),
-  );
+  const [favorites, setFavorites] = useState<Set<string>>(() => readFromStorage());
   const writeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -48,10 +46,7 @@ export function useFavorites() {
     };
   }, [favorites]);
 
-  const isFavorite = useCallback(
-    (id: string) => favorites.has(id),
-    [favorites],
-  );
+  const isFavorite = useCallback((id: string) => favorites.has(id), [favorites]);
 
   const toggleFavorite = useCallback((id: string) => {
     setFavorites((prev) => {

@@ -4,15 +4,7 @@ export const msUntilNextUtcTime = (hhmm: string) => {
   const [hh, mm] = hhmm.split(":").map((x) => Number(x));
   const now = new Date();
   const target = new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate(),
-      hh,
-      mm,
-      0,
-      0
-    )
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hh, mm, 0, 0),
   );
   let diff = target.getTime() - now.getTime();
   if (diff <= 0) diff += 24 * 60 * 60 * 1000;
