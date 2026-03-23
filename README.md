@@ -60,13 +60,12 @@ Use the search bar to find a game by name (and tags, if enabled)
 Open Filters to narrow results (release date / daily reset / TBA, etc.)
 Click View countdown to see the dedicated countdown page
 
-## Roadmap (
+## Roadmap
 
 - [ ] Favorites / pinned countdowns
 - [ ] Shareable links (URL‑synced search + filters)
 - [ ] Quick links section
 - [ ] Polish + animations
-      )
 
 <!-- License
 MIT (or your preferred license)

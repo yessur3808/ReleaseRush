@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { clamp0, splitMs, pad2, formatDateISO, formatISODateTime } from "../utils/time";
 
 describe("clamp0", () => {
@@ -80,6 +80,11 @@ describe("formatISODateTime", () => {
 describe("msUntilNextUtcTime", () => {
   beforeEach(() => {
     vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllTimers();
   });
 
   it("returns a positive number of milliseconds", async () => {
