@@ -3,6 +3,20 @@ import type { GamesDoc } from "./types";
 import { GAMES_URL } from "./data";
 import { fetchGamesFromService } from "../api/games";
 
+const TEMPLATE_TOKEN_PATTERN = /^\$\{.+\}$/;
+
+function isValidServiceUrl(value: string): boolean {
+  const candidate = value.trim();
+  if (!candidate || TEMPLATE_TOKEN_PATTERN.test(candidate)) return false;
+
+  try {
+    const parsed = new URL(candidate);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Returns the configured Game-Tracker-Service base URL, or null if not set.
  *
@@ -14,12 +28,12 @@ function getServiceUrl(): string | null {
   const runtime =
     typeof window !== "undefined" &&
     (window.__env__ as Record<string, unknown> | undefined)?.["GAMES_API_URL"];
-  if (runtime && typeof runtime === "string" && runtime.trim() !== "") {
+  if (runtime && typeof runtime === "string" && isValidServiceUrl(runtime)) {
     return runtime.trim();
   }
 
   const buildTime = import.meta.env.VITE_API_BASE_URL as string | undefined;
-  if (buildTime && buildTime.trim() !== "") {
+  if (buildTime && isValidServiceUrl(buildTime)) {
     return buildTime.trim();
   }
 

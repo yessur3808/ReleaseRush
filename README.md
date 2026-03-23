@@ -29,13 +29,28 @@ Add screenshots to `assets/` and reference them here:
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
+
+`npm run dev` generates `public/env.json` from `.env.local`.
+
+- Set `GAMES_API_URL` to a valid `http://` or `https://` backend URL to use live data.
+- Leave `GAMES_API_URL` empty to use bundled static `games.json` fallback data.
 
 Build for production:
 ```bash
 npm run build
 ```
+
+## Troubleshooting
+
+If you see `Unexpected token '<', "<!doctype "... is not valid JSON`:
+
+1. Open your browser Network tab and inspect the failing request.
+2. If the response starts with HTML, your API URL is likely invalid or unresolved.
+3. Verify `.env.local` exists and `GAMES_API_URL` is either a valid URL or empty.
+4. Restart `npm run dev` so `public/env.json` is regenerated.
 
 ## How to use
 Open All games

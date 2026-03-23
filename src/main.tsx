@@ -8,6 +8,8 @@ import App from "./App";
 import { theme } from "./theme";
 import type { Config } from "./namespaces";
 
+const TEMPLATE_TOKEN_PATTERN = /^\$\{.+\}$/;
+
 // If you have __BUILD_INFO__ available globally, keep this:
 window.__BUILD_INFO__ = Object.freeze(
   __BUILD_INFO__ as (typeof window)["__BUILD_INFO__"],
@@ -25,7 +27,27 @@ async function bootstrap() {
     throw new Error(`Failed to load /env.json (${response.status})`);
   }
 
-  window.__env__ = (await response.json()) as Config.Env;
+  const contentType = (response.headers.get("content-type") || "").toLowerCase();
+  if (!contentType.includes("json")) {
+    const bodyPreview = (await response.text().catch(() => ""))
+      .replace(/\s+/g, " ")
+      .slice(0, 140);
+    throw new Error(
+      `Invalid /env.json response type '${contentType || "unknown"}'. ` +
+        `Response preview: ${bodyPreview || "<empty>"}`,
+    );
+  }
+
+  const env = (await response.json()) as Config.Env;
+  if (
+    typeof env.GAMES_API_URL === "string" &&
+    TEMPLATE_TOKEN_PATTERN.test(env.GAMES_API_URL.trim())
+  ) {
+    // Prevent unresolved template tokens from being used as real service URLs.
+    delete env.GAMES_API_URL;
+  }
+
+  window.__env__ = env;
 
   ReactDOM.createRoot(rootEl!).render(
     <StrictMode>
