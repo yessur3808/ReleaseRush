@@ -2,27 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGames } from "../../lib/useGames";
 import { useFavorites } from "../../lib/useFavorites";
-import {
-  Alert,
-  Chip,
-  CircularProgress,
-  IconButton,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-  Button,
-  Divider,
-} from "@mui/material";
+import { Alert, Box, CircularProgress, Paper, Stack, Typography, Divider } from "@mui/material";
 import Grid from "@mui/material/GridLegacy";
 import { useTranslation } from "react-i18next";
 
 import { useDebouncedValue } from "./useDebouncedValue";
 import { releaseSortValue } from "./gamesSorting";
 import { GamesToolbar, DEFAULT_FILTERS, type GamesFiltersState } from "./GamesToolbar";
-import { formatDateISO } from "../../utils";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { QuickFilters } from "./QuickFilters";
+import { GameCard } from "./GameCard";
 import type { Game } from "../../lib/types";
 
 export function GamesPage() {
@@ -105,6 +93,8 @@ export function GamesPage() {
 
       if (filters.tag !== "all" && !(g.tags ?? []).includes(filters.tag)) return false;
 
+      if (filters.categoryType !== "all" && g.category.type !== filters.categoryType) return false;
+
       if (filters.favoritesOnly && !isFavorite(g.id)) return false;
 
       if (!q) return true;
@@ -119,6 +109,7 @@ export function GamesPage() {
     debouncedQuery,
     filters.status,
     filters.tag,
+    filters.categoryType,
     filters.favoritesOnly,
     isFavorite,
     sortGames,
@@ -146,10 +137,20 @@ export function GamesPage() {
   const gamesToRender = noMatches ? allSortedGames : filteredAndSortedGames;
 
   return (
-    <Stack spacing={2}>
-      <Typography variant="h4" fontWeight={800}>
-        {t("game.all_games")}
-      </Typography>
+    <Stack spacing={2.5}>
+      <Box>
+        <Typography variant="h4" fontWeight={800} sx={{ letterSpacing: "-0.02em" }}>
+          {t("game.all_games")}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+          {t("common.all_games_subtitle")}
+        </Typography>
+      </Box>
+
+      {/* Quick filter presets */}
+      <QuickFilters filters={filters} onChange={setFilters} defaultFilters={DEFAULT_FILTERS} />
+
+      <Divider sx={{ opacity: 0.4 }} />
 
       <GamesToolbar
         value={filters}
@@ -163,12 +164,6 @@ export function GamesPage() {
           <Typography color="text.secondary" sx={{ mb: 1 }}>
             {t("common.no_results")}
           </Typography>
-          <Divider
-            sx={(theme) => ({
-              my: 1.5,
-              backgroundColor: `${theme.palette.primary.main}44`,
-            })}
-          />
         </Paper>
       ) : null}
 
@@ -176,103 +171,16 @@ export function GamesPage() {
       <Grid container spacing={2}>
         {gamesToRender.map((g) => {
           const isToday = g.release.status === "announced_date" && g.release.dateISO === todayISO;
-          const favorited = isFavorite(g.id);
           return (
-            <Grid item xs={12} sm={6} key={g.id}>
-              <Paper sx={{ p: 2, borderRadius: 3, position: "relative" }}>
-                <Stack spacing={1}>
-                  <Stack
-                    direction="row"
-                    alignItems="flex-start"
-                    justifyContent="space-between"
-                    spacing={1}
-                  >
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      alignItems="center"
-                      flexWrap="wrap"
-                      sx={{ flex: 1, minWidth: 0 }}
-                    >
-                      <Typography
-                        variant="h6"
-                        fontWeight={700}
-                        sx={{ flex: "0 1 auto", minWidth: 0 }}
-                      >
-                        {g.name}
-                      </Typography>
-                      {isToday ? (
-                        <Chip
-                          label={t("common.releasing_today")}
-                          size="small"
-                          color="primary"
-                          sx={{
-                            fontWeight: 700,
-                            fontSize: "0.7rem",
-                            height: 22,
-                            animation: "pulse 2s ease-in-out infinite",
-                            "@keyframes pulse": {
-                              "0%, 100%": { opacity: 1 },
-                              "50%": { opacity: 0.7 },
-                            },
-                          }}
-                        />
-                      ) : null}
-                    </Stack>
-
-                    <Tooltip
-                      title={
-                        favorited ? t("common.remove_from_favorites") : t("common.add_to_favorites")
-                      }
-                    >
-                      <IconButton
-                        size="small"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleFavorite(g.id);
-                        }}
-                        aria-label={
-                          favorited
-                            ? t("common.remove_from_favorites")
-                            : t("common.add_to_favorites")
-                        }
-                        sx={(theme) => ({
-                          color: favorited
-                            ? theme.palette.error.light
-                            : theme.palette.text.disabled,
-                          transition: "color 180ms ease, transform 180ms ease",
-                          "&:hover": {
-                            color: theme.palette.error.light,
-                            transform: "scale(1.15)",
-                          },
-                        })}
-                      >
-                        {favorited ? (
-                          <FavoriteIcon fontSize="small" />
-                        ) : (
-                          <FavoriteBorderIcon fontSize="small" />
-                        )}
-                      </IconButton>
-                    </Tooltip>
-                  </Stack>
-
-                  <Typography variant="body2" color="text.secondary">
-                    {g.release.status === "tba" && t("game.release_tba")}
-                    {g.release.status === "announced_date" &&
-                      t("game.release_date", { date: formatDateISO(g.release.dateISO) })}
-                    {g.release.status === "recurring_daily" &&
-                      t("game.resets_daily", { time: g.release.timeUTC })}
-                  </Typography>
-
-                  <Button
-                    variant="contained"
-                    onClick={() => navigate(`/game/${g.id}`)}
-                    sx={{ borderRadius: 2, alignSelf: "flex-start" }}
-                  >
-                    {t("game.view_countdown")}
-                  </Button>
-                </Stack>
-              </Paper>
+            <Grid item xs={12} sm={6} md={4} key={g.id}>
+              <GameCard
+                game={g}
+                isToday={isToday}
+                isFavorite={isFavorite(g.id)}
+                onToggleFavorite={() => toggleFavorite(g.id)}
+                onView={() => navigate(`/game/${g.id}`)}
+                t={t}
+              />
             </Grid>
           );
         })}

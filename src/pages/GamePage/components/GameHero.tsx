@@ -9,6 +9,7 @@ import {
   releaseSecondaryLine,
 } from "../helpers";
 import { releaseMetaLabel } from "../../../utils";
+import { getGameAccent, getGameHeroGradient } from "../../../lib/gameTheme";
 import LaunchIcon from "@mui/icons-material/Launch";
 
 export const GameHero = ({
@@ -27,6 +28,9 @@ export const GameHero = ({
   t: (k: string, opts?: Record<string, unknown>) => string;
 }) => {
   const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+  const accent = getGameAccent(game);
+  const heroGradient = getGameHeroGradient(accent, isDark);
 
   return (
     <Box
@@ -34,15 +38,48 @@ export const GameHero = ({
         position: "relative",
         borderRadius: 3,
         overflow: "hidden",
-        border: `1px solid ${theme.palette.divider}`,
-        background:
-          theme.palette.mode === "dark"
-            ? "linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))"
-            : "linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01))",
+        border: `1px solid ${accent}44`,
+        background: isDark ? "rgba(255,255,255,0.03)" : "rgba(0,0,0,0.01)",
+        // Subtle top glow line in the accent color
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 2,
+          background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+          zIndex: 1,
+          pointerEvents: "none",
+        },
       }}
     >
+      {/* Accent gradient tint overlay */}
+      <Box
+        sx={{
+          position: "absolute",
+          inset: 0,
+          background: heroGradient,
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
       {coverUrl ? (
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          {/* Blurred background version of the cover for ambient color */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url("${coverUrl}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center top",
+              filter: "blur(32px) saturate(1.4)",
+              transform: "scale(1.1)",
+              opacity: isDark ? 0.18 : 0.1,
+            }}
+          />
           <Cover src={coverUrl} alt={game.name} height={isMobile ? 220 : 340} />
           <Box
             sx={{
@@ -60,12 +97,10 @@ export const GameHero = ({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background:
-              theme.palette.mode === "dark"
-                ? "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))"
-                : "linear-gradient(135deg, rgba(0,0,0,0.04), rgba(0,0,0,0.01))",
             overflow: "hidden",
             boxSizing: "border-box",
+            position: "relative",
+            zIndex: 1,
           }}
         >
           <Typography variant="body2" color="text.secondary">
@@ -74,7 +109,7 @@ export const GameHero = ({
         </Box>
       )}
 
-      <Stack spacing={1.5} sx={{ p: 3 }}>
+      <Stack spacing={1.5} sx={{ p: 3, position: "relative", zIndex: 1 }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}
@@ -94,8 +129,14 @@ export const GameHero = ({
               <Chip
                 label={releasePrimaryChipLabel(game, t)}
                 size="small"
-                variant="outlined"
-                sx={{ borderRadius: 3 }}
+                variant="filled"
+                sx={{
+                  borderRadius: 3,
+                  bgcolor: `${accent}33`,
+                  color: isDark ? accent : "inherit",
+                  fontWeight: 700,
+                  border: `1px solid ${accent}55`,
+                }}
               />
               <Chip
                 label={categoryText(game)}

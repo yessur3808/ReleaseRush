@@ -3,6 +3,7 @@ export * from "./CountdownSegment";
 export * from "./Cover";
 export * from "./GameHero";
 export * from "./GameLinks";
+export * from "./GamePageBackground";
 export * from "./GameSubComponents";
 export * from "./NiceCountdown";
 export * from "./SuggestedCountdownsIsland";

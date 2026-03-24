@@ -94,7 +94,27 @@
     "add_to_favorites": "Add to favorites",
     "remove_from_favorites": "Remove from favorites",
 
-    "releasing_today": "Today!"
+    "releasing_today": "Today!",
+
+    "quick_filters": "Quick Filters",
+    "quick_new_seasons": "New Seasons",
+    "quick_new_games": "New Games",
+    "quick_dlc": "DLC",
+    "quick_events": "Events",
+    "quick_updates": "Updates",
+    "quick_store_resets": "Store Resets",
+    "quick_live_service": "Live Service",
+    "quick_daily_resets": "Daily Resets",
+
+    "all_games_subtitle": "Browse and filter upcoming releases, seasons, DLC, and daily resets.",
+
+    "category_full_game": "Full Game",
+    "category_dlc": "DLC",
+    "category_season": "Season",
+    "category_event": "Event",
+    "category_update": "Update",
+    "category_store_reset": "Store Reset",
+    "category_other": "Other"
   },
   "game": {
     "all_games": "All games",
