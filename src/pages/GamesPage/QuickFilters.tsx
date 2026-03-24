@@ -10,11 +10,12 @@ import SystemUpdateAltIcon from "@mui/icons-material/SystemUpdateAlt";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LiveTvIcon from "@mui/icons-material/LiveTv";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
+import type { ReactNode } from "react";
 
 type QuickFilterPreset = {
   id: string;
   labelKey: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   accent: string;
   apply: Partial<GamesFiltersState>;
 };
