@@ -3,6 +3,7 @@ import { Box, Container, Paper, useMediaQuery, Stack, Typography } from "@mui/ma
 import { useTheme } from "@mui/material/styles";
 import Grid from "@mui/material/GridLegacy";
 import { FloatingNav } from "./FloatingNav";
+import { useTranslation } from "react-i18next";
 
 type NavKey = "home" | "games" | "about";
 
@@ -13,13 +14,14 @@ function keyFromPath(pathname: string): NavKey {
 }
 
 function AdUnit({ compact = false }: { compact?: boolean }) {
+  const { t } = useTranslation();
   return (
     <div>
       <Stack spacing={0.25} alignItems="center">
         <Typography variant="caption" sx={{ letterSpacing: 1 }}>
-          AD
+          {t("common.ad")}
         </Typography>
-        {!compact && <Typography variant="body2">Your ad goes here</Typography>}
+        {!compact && <Typography variant="body2">{t("common.ad_placeholder")}</Typography>}
       </Stack>
     </div>
   );

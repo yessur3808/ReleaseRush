@@ -2,57 +2,168 @@
   "nav": {
     "home": "Home",
     "games": "All Games",
-    "about": "About"
+    "about": "About",
+    "aria_label": "Top navigation"
   },
+
+  "language": {
+    "select": "Language",
+    "select_aria": "Select language"
+  },
+
   "pages": {
-    "about": {
-      "title": "About ReleaseRush",
-      "content": "ReleaseRush is a countdown site for upcoming game releases and daily resets. It helps you keep track of when your favorite games are launching or resetting, so you never miss out on the action. This project is open source and available on <a href=\"{{github_url}}\">GitHub</a>."
-    },
     "home": {
       "loading": "Loading…",
       "no_games_found": "No games found in games.json."
     },
-    "games": {},
+
+    "games": {
+      "title": "All Games",
+      "subtitle": "Browse and filter upcoming releases, seasons, DLC, and daily resets.",
+      "loading": "Loading…",
+      "failed_load": "Failed to load.",
+      "no_results": "No matches.",
+      "results_count": "{{shown}} / {{total}}",
+
+      "toolbar": {
+        "filters": "Filters",
+        "filters_close": "Close filters",
+        "search_placeholder": "Search games…",
+        "search": "Search",
+        "clear": "Clear",
+        "sort_by": "Sort by",
+        "sort_az": "A–Z",
+        "sort_soonest": "Soonest",
+        "sort_latest": "Latest",
+        "sort_daily_first": "Daily resets first",
+        "tag": "Tag",
+        "all_tags": "All tags",
+        "favorites_only": "Favorites only",
+        "all": "All",
+        "filter_release_date": "Release date",
+        "filter_daily_reset": "Daily reset",
+        "filter_tba": "TBA"
+      },
+
+      "quick_filters": {
+        "title": "Quick Filters",
+        "new_seasons": "New Seasons",
+        "new_games": "New Games",
+        "dlc": "DLC",
+        "events": "Events",
+        "updates": "Updates",
+        "store_resets": "Store Resets",
+        "live_service": "Live Service",
+        "daily_resets": "Daily Resets"
+      },
+
+      "card": {
+        "release_tba": "Release: TBA",
+        "release_date": "Release: {{date}}",
+        "resets_daily": "Resets daily at {{time}} UTC",
+        "releasing_today": "Today!",
+        "view_countdown": "View countdown",
+        "add_to_favorites": "Add to favorites",
+        "remove_from_favorites": "Remove from favorites",
+        "category_full_game": "Full Game",
+        "category_dlc": "DLC",
+        "category_season": "Season",
+        "category_event": "Event",
+        "category_update": "Update",
+        "category_store_reset": "Store Reset",
+        "category_other": "Other"
+      }
+    },
+
     "game": {
       "game_not_found": "Game not found.",
       "all_games": "All games",
       "failed_load": "Failed to load games.",
-      "release": "Release:",
-      "resets_daily": "Daily reset",
-      "tba": "TBA",
-      "time_until_release": "Time until release",
-      "next_reset": "Next reset",
-      "release_date": "Release Date",
-      "day_precision_date": "{{date}}",
-      "last_gen_date": "Date last generated: {{date}}",
 
-      "unknown": "Unknown",
-      "platforms": "Platforms",
-      "platforms_unknown": "Unknown",
-      "studio": "Studio",
-      "website": "Website",
+      "hero": {
+        "no_cover": "No cover available",
+        "official": "Official",
+        "unofficial": "Unofficial",
+        "confidence": "Confidence",
+        "title_label": "Title",
+        "platforms": "Platforms",
+        "platforms_unknown": "Unknown",
+        "studio": "Studio",
+        "website": "Website",
+        "add_to_favorites": "Add to favorites",
+        "remove_from_favorites": "Remove from favorites"
+      },
 
-      "official": "Official",
-      "unofficial": "Unofficial",
-      "confidence": "Confidence",
+      "countdown": {
+        "tba": "TBA",
+        "no_release_window": "No release window yet.",
+        "released": "Released",
+        "reached_zero": "This countdown reached zero.",
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes",
+        "seconds": "Seconds",
+        "days_short": "DAYS",
+        "hours_short": "HRS",
+        "minutes_short": "MINS",
+        "seconds_short": "SECS",
+        "time_until_release": "Time until release",
+        "next_reset": "Next reset",
+        "release_date": "Release Date",
+        "day_precision_date": "{{date}}",
+        "released_on": "Released on {{date}}",
+        "no_countdown": "No countdown available for this item.",
+        "release": "Release:",
+        "resets_daily": "Daily reset",
+        "last_gen_date": "Date last generated: {{date}}"
+      },
 
-      "released": "Released",
-      "released_on": "Released on {{date}}",
-      "cancelled": "Cancelled",
-      "delayed": "Delayed",
+      "links": {
+        "trailers": "Trailers",
+        "trailer": "Trailer",
+        "video": "Video",
+        "sources": "Sources",
+        "open": "Open",
+        "more_sources": "+{{count}} more",
+        "official": "Official",
+        "community_press": "Community/press"
+      },
 
-      "no_cover": "No cover available",
-      "no_countdown": "No countdown available for this item.",
+      "suggested": {
+        "title": "Suggested countdowns",
+        "subtitle": "More timers you might want to track.",
+        "open": "Open"
+      },
 
-      "trailers": "Trailers",
-      "trailer": "Trailer",
+      "share": {
+        "share": "Share",
+        "link_copied": "Link copied!",
+        "widget_url_copied": "Widget URL copied!",
+        "embed_code_copied": "Embed code copied!",
+        "share_page": "Share page",
+        "share_page_desc": "Copy link to the countdown page",
+        "share_widget": "Share widget",
+        "share_widget_desc": "Copy link to the embeddable widget",
+        "copy_embed_code": "Copy embed code",
+        "copy_embed_code_desc": "Copy <iframe> snippet for websites"
+      },
 
-      "sources": "Sources",
-      "open": "Open",
-      "more_sources": "+{{count}} more"
+      "meta": {
+        "unknown": "Unknown",
+        "released": "Released",
+        "released_on": "Released on {{date}}",
+        "cancelled": "Cancelled",
+        "delayed": "Delayed",
+        "tba": "TBA"
+      }
+    },
+
+    "about": {
+      "title": "About ReleaseRush",
+      "content": "ReleaseRush is a countdown site for upcoming game releases and daily resets. It helps you keep track of when your favorite games are launching or resetting, so you never miss out on the action. This project is open source and available on <a href=\"{{github_url}}\">GitHub</a>."
     }
   },
+
   "common": {
     "loading": "Loading…",
     "failed_load": "Failed to load.",
@@ -114,8 +225,12 @@
     "category_event": "Event",
     "category_update": "Update",
     "category_store_reset": "Store Reset",
-    "category_other": "Other"
+    "category_other": "Other",
+
+    "ad": "AD",
+    "ad_placeholder": "Your ad goes here"
   },
+
   "game": {
     "all_games": "All games",
     "view_countdown": "View countdown",

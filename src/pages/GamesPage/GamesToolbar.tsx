@@ -249,13 +249,13 @@ export function GamesToolbar({ value, onChange, allTags, resultsText, onSubmitSe
               />
             </Box>
 
-            <Tooltip title="Filters">
+            <Tooltip title={t("pages.games.toolbar.filters")}>
               <IconButton
                 onClick={() => {
                   if (isMobile) setDrawerOpen(true);
                   else setExpanded((v) => !v);
                 }}
-                aria-label="Filters"
+                aria-label={t("pages.games.toolbar.filters")}
                 sx={(theme) => {
                   const accent = theme.palette.primary.main;
                   const isDark = theme.palette.mode === "dark";
@@ -363,9 +363,9 @@ export function GamesToolbar({ value, onChange, allTags, resultsText, onSubmitSe
         <Stack spacing={1}>
           <Stack direction="row" alignItems="center" justifyContent="space-between">
             <Typography variant="h6" fontWeight={800}>
-              Filters
+              {t("pages.games.toolbar.filters")}
             </Typography>
-            <IconButton onClick={() => setDrawerOpen(false)} aria-label="Close">
+            <IconButton onClick={() => setDrawerOpen(false)} aria-label={t("pages.games.toolbar.filters_close")}>
               <CloseIcon />
             </IconButton>
           </Stack>

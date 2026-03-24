@@ -21,6 +21,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 type NavKey = "home" | "games" | "about";
 
@@ -432,7 +433,7 @@ export const FloatingNav = ({
                 onChange={(_, next: NavKey | null) => {
                   if (next) onChange(next);
                 }}
-                aria-label="Top navigation"
+                aria-label={t("nav.aria_label")}
                 sx={{
                   position: "relative",
                   zIndex: 1,
@@ -560,6 +561,7 @@ export const FloatingNav = ({
               </ToggleButtonGroup>
             </Box>
           </Box>
+          <LanguageSwitcher />
         </Stack>
       </Paper>
     </Portal>

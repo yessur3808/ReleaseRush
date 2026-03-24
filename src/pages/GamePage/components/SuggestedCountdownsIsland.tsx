@@ -3,6 +3,7 @@ import { Box, Button, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { msLeftForGame, releaseMetaLabel } from "../../../utils";
 import type { Game } from "../../../lib/types";
 import { NiceCountdown } from "./NiceCountdown";
+import { useTranslation } from "react-i18next";
 
 interface SuggestedCountdownsIslandProps {
   games: Game[];
@@ -27,6 +28,7 @@ const SuggestedCountdownRow = ({
   onTrack,
   fromGameId,
 }: SuggestedCountdownRowProps) => {
+  const { t } = useTranslation();
   const ms = msLeftForGame(game, nowMs) ?? null;
 
   const handleOpen = () => {
@@ -128,7 +130,7 @@ const SuggestedCountdownRow = ({
               alignSelf: { xs: "stretch", sm: "auto" },
             }}
           >
-            Open
+            {t("pages.game.suggested.open")}
           </Button>
         </Stack>
       </Stack>
@@ -143,6 +145,7 @@ export const SuggestedCountdownsIsland = ({
   onTrack,
   fromGameId,
 }: SuggestedCountdownsIslandProps) => {
+  const { t } = useTranslation();
   const theme = useTheme();
   if (games.length === 0) return null;
 
@@ -159,10 +162,10 @@ export const SuggestedCountdownsIsland = ({
       <Stack spacing={2}>
         <Stack spacing={0.25}>
           <Typography variant="h6" fontWeight={950}>
-            Suggested countdowns
+            {t("pages.game.suggested.title")}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            More timers you might want to track.
+            {t("pages.game.suggested.subtitle")}
           </Typography>
         </Stack>
 

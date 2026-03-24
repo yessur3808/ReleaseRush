@@ -84,12 +84,12 @@ export const releasePrimaryChipLabel = (
   t: (k: string, opts?: Record<string, unknown>) => string,
 ): string => {
   const st = game.release.status;
-  if (st === "announced_date" || st === "announced_window") return t("pages.game.release");
-  if (st === "recurring_daily" || st === "recurring_weekly") return t("pages.game.resets_daily");
-  if (st === "released") return t("pages.game.released") ?? "Released";
-  if (st === "cancelled") return t("pages.game.cancelled") ?? "Cancelled";
-  if (st === "delayed") return t("pages.game.delayed") ?? "Delayed";
-  return t("pages.game.tba");
+  if (st === "announced_date" || st === "announced_window") return t("pages.game.countdown.release");
+  if (st === "recurring_daily" || st === "recurring_weekly") return t("pages.game.countdown.resets_daily");
+  if (st === "released") return t("pages.game.meta.released") ?? "Released";
+  if (st === "cancelled") return t("pages.game.meta.cancelled") ?? "Cancelled";
+  if (st === "delayed") return t("pages.game.meta.delayed") ?? "Delayed";
+  return t("pages.game.meta.tba");
 };
 
 export const releaseSecondaryLine = (game: Game): string | null => {

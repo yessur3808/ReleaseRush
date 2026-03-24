@@ -291,7 +291,9 @@ export const GameLinks = ({
                         {s.name}
                       </Typography>
                       <Typography variant="caption" color="text.secondary" noWrap>
-                        {(s.isOfficial ? "Official" : "Community/press") +
+                        {(s.isOfficial
+                          ? t("pages.game.links.official")
+                          : t("pages.game.links.community_press")) +
                           (s.type ? ` · ${s.type}` : "")}
                       </Typography>
                     </Box>
