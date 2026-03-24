@@ -18,7 +18,6 @@ import { GamePageBackground } from "./components/GamePageBackground";
 import { FloatingCountdownHUD } from "../../components/FloatingCountdownHUD";
 import { ShareButton } from "../../components/ShareButton";
 import { trackEvent } from "../../analytics/ga4";
-import { getGameAccent } from "../../lib/gameTheme";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
@@ -153,14 +152,13 @@ export const GamePage = () => {
   };
 
   const favorited = isFavorite(game.id);
-  const accent = getGameAccent(game);
 
   return (
     <>
       {/* Full-viewport animated background – sits behind AppShell content */}
       <GamePageBackground
+        game={game}
         coverUrl={coverUrl}
-        accent={accent}
         isDark={theme.palette.mode === "dark"}
         mode="page"
       />

@@ -21,7 +21,6 @@ import {
   GamePageBackground,
 } from "../GamePage/components";
 import { useTranslation } from "react-i18next";
-import { getGameAccent } from "../../lib/gameTheme";
 
 export const GameWidgetPage = () => {
   const { t } = useTranslation();
@@ -71,10 +70,6 @@ export const GameWidgetPage = () => {
   }
 
   const msLeft = msLeftForGame(game, nowMs) ?? null;
-  // suggested is unused in the widget but kept for potential future use
-  const _suggested = doc.games.filter((g) => g.id !== game.id).slice(0, 6);
-  void _suggested;
-
   const coverUrl = pickCoverUrl(game);
   const trailers = pickTrailers(game);
 
@@ -85,7 +80,6 @@ export const GameWidgetPage = () => {
 
   const studioWebsite = game.studio?.website;
   const studioName = game.studio?.name ?? t("pages.game.unknown") ?? "Unknown";
-  const accent = getGameAccent(game);
 
   return (
     <ThemeProvider theme={theme}>
@@ -101,8 +95,8 @@ export const GameWidgetPage = () => {
       >
         {/* Animated background in widget (absolute) mode */}
         <GamePageBackground
+          game={game}
           coverUrl={coverUrl}
-          accent={accent}
           isDark={theme.palette.mode === "dark"}
           mode="widget"
         />

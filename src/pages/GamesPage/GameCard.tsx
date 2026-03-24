@@ -1,5 +1,4 @@
 import { Box, Chip, IconButton, Paper, Stack, Tooltip, Typography, useTheme } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import type { Game } from "../../lib/types";
 import { formatDateISO } from "../../utils";
 import { getGameAccent, getCategoryChipColor } from "../../lib/gameTheme";
@@ -29,8 +28,6 @@ export function GameCard({
   t,
 }: GameCardProps) {
   const theme = useTheme();
-  const { t: _t } = useTranslation();
-  void _t; // silence unused warning – we receive t as a prop
   const isDark = theme.palette.mode === "dark";
   const accent = getGameAccent(game);
   const coverUrl = pickCoverUrl(game);
