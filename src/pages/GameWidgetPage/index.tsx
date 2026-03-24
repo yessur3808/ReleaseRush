@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Stack, Typography, CssBaseline, useMediaQuery } from "@mui/material";
+import { Box, Stack, Typography, CssBaseline, useMediaQuery } from "@mui/material";
 import { ThemeProvider, useTheme } from "@mui/material/styles";
 import { useGames } from "../../lib/useGames";
 import { msLeftForGame, formatISODateTime } from "../../utils";
@@ -18,14 +18,10 @@ import {
   GameLinks,
   GameLoading,
   GameNotFound,
-  SuggestedCountdownsIsland,
+  GamePageBackground,
 } from "../GamePage/components";
 import { useTranslation } from "react-i18next";
-
-function getBool(v: string | null, def = false) {
-  if (v == null) return def;
-  return v === "1" || v === "true" || v === "yes";
-}
+import { getGameAccent } from "../../lib/gameTheme";
 
 export const GameWidgetPage = () => {
   const { t } = useTranslation();
@@ -48,34 +44,6 @@ export const GameWidgetPage = () => {
   }, []);
 
   const countdownAnchorRef = useRef<HTMLDivElement | null>(null);
-  const [showFloatingCountdown, setShowFloatingCountdown] = useState(false);
-
-  useEffect(() => {
-    let obs: IntersectionObserver | null = null;
-    let raf = 0;
-
-    const tryAttach = () => {
-      const el = countdownAnchorRef.current;
-      if (!el) {
-        raf = window.requestAnimationFrame(tryAttach);
-        return;
-      }
-
-      obs = new IntersectionObserver(([entry]) => setShowFloatingCountdown(!entry.isIntersecting), {
-        root: null,
-        threshold: 0,
-      });
-
-      obs.observe(el);
-    };
-
-    tryAttach();
-
-    return () => {
-      if (raf) window.cancelAnimationFrame(raf);
-      obs?.disconnect();
-    };
-  }, []);
 
   const game = useMemo(() => {
     if (!doc) return null;
@@ -103,7 +71,9 @@ export const GameWidgetPage = () => {
   }
 
   const msLeft = msLeftForGame(game, nowMs) ?? null;
-  const suggested = doc.games.filter((g) => g.id !== game.id).slice(0, 6);
+  // suggested is unused in the widget but kept for potential future use
+  const _suggested = doc.games.filter((g) => g.id !== game.id).slice(0, 6);
+  void _suggested;
 
   const coverUrl = pickCoverUrl(game);
   const trailers = pickTrailers(game);
@@ -115,53 +85,74 @@ export const GameWidgetPage = () => {
 
   const studioWebsite = game.studio?.website;
   const studioName = game.studio?.name ?? t("pages.game.unknown") ?? "Unknown";
+  const accent = getGameAccent(game);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Stack
+      {/* Outer wrapper: overflow hidden so absolute background can't bleed */}
+      <Box
         sx={{
           minHeight: "100vh",
-          p: 1,
+          position: "relative",
+          overflow: "hidden",
           boxSizing: "border-box",
-          bgcolor: "transparent",
-          alignItems: "center",
-          justifyContent: "center",
         }}
       >
-        <CountdownHeader
-          game={game}
+        {/* Animated background in widget (absolute) mode */}
+        <GamePageBackground
           coverUrl={coverUrl}
-          msLeft={msLeft}
-          showCountdown={showCountdown}
-          isMobile={isMobile}
-          onBack={() => navigate("/games")}
-          t={t}
-          countdownAnchorRef={countdownAnchorRef}
+          accent={accent}
+          isDark={theme.palette.mode === "dark"}
+          mode="widget"
         />
 
-        <GameHero
-          game={game}
-          coverUrl={coverUrl}
-          isMobile={isMobile}
-          studioName={studioName}
-          studioWebsite={studioWebsite}
-          t={t}
-        />
+        {/* Widget content – sits above the background */}
+        <Stack
+          sx={{
+            minHeight: "100vh",
+            p: 1,
+            boxSizing: "border-box",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <CountdownHeader
+            game={game}
+            coverUrl={coverUrl}
+            msLeft={msLeft}
+            showCountdown={showCountdown}
+            isMobile={isMobile}
+            onBack={() => navigate("/games")}
+            t={t}
+            countdownAnchorRef={countdownAnchorRef}
+          />
 
-        <GameLinks
-          trailers={trailers}
-          coverUrl={coverUrl}
-          sources={sources}
-          topSources={topSources}
-          isMobile={isMobile}
-          t={t}
-        />
+          <GameHero
+            game={game}
+            coverUrl={coverUrl}
+            isMobile={isMobile}
+            studioName={studioName}
+            studioWebsite={studioWebsite}
+            t={t}
+          />
 
-        <Typography variant="caption" color="text.secondary">
-          {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
-        </Typography>
-      </Stack>
+          <GameLinks
+            trailers={trailers}
+            coverUrl={coverUrl}
+            sources={sources}
+            topSources={topSources}
+            isMobile={isMobile}
+            t={t}
+          />
+
+          <Typography variant="caption" color="text.secondary">
+            {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
+          </Typography>
+        </Stack>
+      </Box>
     </ThemeProvider>
   );
 };
