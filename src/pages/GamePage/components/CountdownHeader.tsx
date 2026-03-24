@@ -59,7 +59,7 @@ export const CountdownHeader = ({
             left: "-10%",
             right: "-10%",
             bottom: 0,
-            backgroundImage: `url(${coverUrl})`,
+            backgroundImage: `url("${coverUrl}")`,
             backgroundSize: "cover",
             backgroundPosition: "center top",
             filter: "blur(60px) saturate(1.5)",

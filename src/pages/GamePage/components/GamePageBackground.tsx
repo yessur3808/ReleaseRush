@@ -16,6 +16,17 @@ import { Box } from "@mui/material";
 import type { Game } from "../../../lib/types";
 import { getGameAccent } from "../../../lib/gameTheme";
 
+// ── Module-level keyframe injection (once per page load) ─────────────────────
+let _keyframesInjected = false;
+function ensureKeyframes(css: string): void {
+  if (_keyframesInjected || typeof document === "undefined") return;
+  _keyframesInjected = true;
+  const style = document.createElement("style");
+  style.setAttribute("data-rr-bg", "1");
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
 // ── Motif catalogue ──────────────────────────────────────────────────────────
 type MotifType =
   | "crosshair" // 007 First Light  – spy targeting reticle
@@ -773,6 +784,9 @@ export function GamePageBackground({ game, coverUrl, isDark, mode = "page" }: Pr
   const accent = getGameAccent(game);
   const motif: MotifType = GAME_MOTIFS[game.id] ?? CATEGORY_MOTIFS[game.category.type] ?? "orbs";
 
+  // Inject keyframes into <head> once (not on every render / mount)
+  ensureKeyframes(KEYFRAMES);
+
   const coverOpacity = isDark ? 0.13 : 0.07;
   const motifOpacity = isDark ? 0.14 : 0.09;
   const overlayBg = isDark
@@ -790,9 +804,6 @@ export function GamePageBackground({ game, coverUrl, isDark, mode = "page" }: Pr
         pointerEvents: "none",
       }}
     >
-      {/* Inject all keyframes once */}
-      <style>{KEYFRAMES}</style>
-
       {/* ── Layer 1: faded cover art ─────────────────────────────────────── */}
       {coverUrl ? (
         <>
@@ -800,7 +811,7 @@ export function GamePageBackground({ game, coverUrl, isDark, mode = "page" }: Pr
             sx={{
               position: "absolute",
               inset: "-10%",
-              backgroundImage: `url(${coverUrl})`,
+              backgroundImage: `url("${coverUrl}")`,
               backgroundSize: "cover",
               backgroundPosition: "center 20%",
               filter: "blur(48px) saturate(1.3) brightness(0.9)",

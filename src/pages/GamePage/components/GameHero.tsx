@@ -72,7 +72,7 @@ export const GameHero = ({
             sx={{
               position: "absolute",
               inset: 0,
-              backgroundImage: `url(${coverUrl})`,
+              backgroundImage: `url("${coverUrl}")`,
               backgroundSize: "cover",
               backgroundPosition: "center top",
               filter: "blur(32px) saturate(1.4)",
