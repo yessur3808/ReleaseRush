@@ -95,11 +95,11 @@ export const CountdownHeader = ({
         <Box>
           <Typography variant="overline" color="text.secondary">
             {game.release.status === "announced_date"
-              ? t("pages.game.time_until_release")
+              ? t("pages.game.countdown.time_until_release")
               : game.release.status === "recurring_daily" ||
                   game.release.status === "recurring_weekly"
-                ? t("pages.game.next_reset")
-                : t("pages.game.release_date")}
+                ? t("pages.game.countdown.next_reset")
+                : t("pages.game.countdown.release_date")}
           </Typography>
 
           {game.release.status === "announced_date" ? (

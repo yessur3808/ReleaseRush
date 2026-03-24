@@ -104,7 +104,7 @@ export const GameHero = ({
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            {t("pages.game.no_cover") ?? "No cover available"}
+            {t("pages.game.hero.no_cover")}
           </Typography>
         </Box>
       )}
@@ -147,8 +147,8 @@ export const GameHero = ({
               <Chip
                 label={
                   game.release.isOfficial
-                    ? (t("pages.game.official") ?? "Official")
-                    : (t("pages.game.unofficial") ?? "Unofficial")
+                    ? t("pages.game.hero.official")
+                    : t("pages.game.hero.unofficial")
                 }
                 size="small"
                 color={game.release.isOfficial ? "success" : "warning"}
@@ -156,7 +156,7 @@ export const GameHero = ({
                 sx={{ borderRadius: 2 }}
               />
               <Chip
-                label={`${t("pages.game.confidence") ?? "Confidence"}: ${game.release.confidence}`}
+                label={`${t("pages.game.hero.confidence")}: ${game.release.confidence}`}
                 size="small"
                 variant="outlined"
                 sx={{ borderRadius: 2 }}
@@ -165,7 +165,7 @@ export const GameHero = ({
 
             {game.title && game.title.trim().toLowerCase() !== game.name.trim().toLowerCase() ? (
               <Typography variant="body2" color="text.secondary">
-                {t("pages.game.title") ?? "Title"}: {game.title}
+                {t("pages.game.hero.title_label")}: {game.title}
               </Typography>
             ) : null}
 

@@ -49,7 +49,7 @@ export const GameLinks = ({
         {trailers.length > 0 && (
           <Stack spacing={1}>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.trailers") ?? "Trailers"}
+              {t("pages.game.links.trailers")}
             </Typography>
 
             <Stack
@@ -293,8 +293,7 @@ export const GameLinks = ({
                       <Typography variant="caption" color="text.secondary" noWrap>
                         {(s.isOfficial
                           ? t("pages.game.links.official")
-                          : t("pages.game.links.community_press")) +
-                          (s.type ? ` · ${s.type}` : "")}
+                          : t("pages.game.links.community_press")) + (s.type ? ` · ${s.type}` : "")}
                       </Typography>
                     </Box>
 
