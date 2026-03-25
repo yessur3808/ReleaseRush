@@ -95,16 +95,16 @@ export const CountdownHeader = ({
         <Box>
           <Typography variant="overline" color="text.secondary">
             {game.release.status === "announced_date"
-              ? t("pages.game.time_until_release")
+              ? t("pages.game.countdown.time_until_release")
               : game.release.status === "recurring_daily" ||
                   game.release.status === "recurring_weekly"
-                ? t("pages.game.next_reset")
-                : t("pages.game.release_date")}
+                ? t("pages.game.countdown.next_reset")
+                : t("pages.game.countdown.release_date")}
           </Typography>
 
           {game.release.status === "announced_date" ? (
             <Typography variant="body2" color="text.secondary">
-              {t("pages.game.day_precision_date", {
+              {t("pages.game.countdown.day_precision_date", {
                 date: formatDateISO(game.release.dateISO),
               })}
             </Typography>
@@ -112,9 +112,9 @@ export const CountdownHeader = ({
 
           {game.release.status === "released" ? (
             <Typography variant="body2" color="text.secondary">
-              {t("pages.game.released_on", {
+              {t("pages.game.countdown.released_on", {
                 date: formatDateISO(game.release.dateISO),
-              }) ?? `Released on ${formatDateISO(game.release.dateISO)}`}
+              })}
             </Typography>
           ) : null}
         </Box>
@@ -172,7 +172,7 @@ export const CountdownHeader = ({
             zIndex: 1,
           }}
         >
-          {t("pages.game.no_countdown")}
+          {t("pages.game.countdown.no_countdown")}
         </Typography>
       )}
     </Stack>

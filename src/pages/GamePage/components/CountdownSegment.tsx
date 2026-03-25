@@ -1,24 +1,23 @@
 import { Paper, Stack, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 interface CountdownSegmentProps {
-  label: string;
+  labelKey: string;
+  labelShortKey: string;
   value: string;
   compact?: boolean;
   minimal?: boolean;
 }
 
 export const CountdownSegment = ({
-  label,
+  labelKey,
+  labelShortKey,
   value,
   compact,
   minimal = false,
 }: CountdownSegmentProps) => {
-  const labelMappings: Record<string, string> = {
-    Days: "DAYS",
-    Hours: "HRS",
-    Minutes: "MINS",
-    Seconds: "SECS",
-  };
+  const { t } = useTranslation();
+  const label = compact ? t(labelShortKey) : t(labelKey).toUpperCase();
 
   return (
     <Stack spacing={compact ? 0.2 : 0.75} alignItems="center" sx={{ minWidth: compact ? 32 : 76 }}>
@@ -66,7 +65,7 @@ export const CountdownSegment = ({
           fontSize: compact ? 10 : 12,
         }}
       >
-        {compact ? labelMappings[label] || label.toUpperCase() : label.toUpperCase()}
+        {label}
       </Typography>
     </Stack>
   );

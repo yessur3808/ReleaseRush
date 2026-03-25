@@ -79,7 +79,7 @@ export const GameWidgetPage = () => {
     game.release.status === "recurring_weekly";
 
   const studioWebsite = game.studio?.website;
-  const studioName = game.studio?.name ?? t("pages.game.unknown") ?? "Unknown";
+  const studioName = game.studio?.name ?? t("pages.game.meta.unknown");
 
   return (
     <ThemeProvider theme={theme}>
@@ -143,7 +143,7 @@ export const GameWidgetPage = () => {
           />
 
           <Typography variant="caption" color="text.secondary">
-            {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
+            {t("pages.game.countdown.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
           </Typography>
         </Stack>
       </Box>

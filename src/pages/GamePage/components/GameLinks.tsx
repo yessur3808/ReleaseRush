@@ -49,7 +49,7 @@ export const GameLinks = ({
         {trailers.length > 0 && (
           <Stack spacing={1}>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.trailers") ?? "Trailers"}
+              {t("pages.game.links.trailers")}
             </Typography>
 
             <Stack
@@ -151,7 +151,7 @@ export const GameLinks = ({
                                 ? "YouTube"
                                 : meta.provider === "vimeo"
                                   ? "Vimeo"
-                                  : (t("pages.game.video") ?? "Video")}
+                                  : t("pages.game.links.video")}
                             </Typography>
                           </Box>
                         </>
@@ -185,7 +185,7 @@ export const GameLinks = ({
                               variant="caption"
                               sx={{ fontWeight: 800, letterSpacing: 0.3 }}
                             >
-                              {t("pages.game.trailer") ?? "Trailer"}
+                              {t("pages.game.links.trailer")}
                             </Typography>
 
                             {meta.provider !== "other" ? (
@@ -234,7 +234,7 @@ export const GameLinks = ({
         {topSources.length > 0 && (
           <Stack>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.sources") ?? "Sources"}
+              {t("pages.game.links.sources")}
             </Typography>
 
             <Box
@@ -291,8 +291,9 @@ export const GameLinks = ({
                         {s.name}
                       </Typography>
                       <Typography variant="caption" color="text.secondary" noWrap>
-                        {(s.isOfficial ? "Official" : "Community/press") +
-                          (s.type ? ` · ${s.type}` : "")}
+                        {(s.isOfficial
+                          ? t("pages.game.links.official")
+                          : t("pages.game.links.community_press")) + (s.type ? ` · ${s.type}` : "")}
                       </Typography>
                     </Box>
 
@@ -320,7 +321,7 @@ export const GameLinks = ({
                     target="_blank"
                     rel="noreferrer"
                     underline="none"
-                    aria-label={`${t("pages.game.open") ?? "Open"}: ${s.name}`}
+                    aria-label={`${t("pages.game.links.open")}: ${s.name}`}
                     sx={{
                       ...clickableSx,
                       display: "block",
@@ -340,9 +341,10 @@ export const GameLinks = ({
 
             {sources.length > topSources.length ? (
               <Typography variant="caption" color="text.secondary">
-                {t("pages.game.more_sources", {
+                {t("pages.game.links.more_sources", {
                   count: sources.length - topSources.length,
-                }) ?? `+${sources.length - topSources.length} more`}
+                  defaultValue: `+${sources.length - topSources.length} more`,
+                })}
               </Typography>
             ) : null}
           </Stack>

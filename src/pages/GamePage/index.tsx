@@ -115,7 +115,7 @@ export const GamePage = () => {
     game.release.status === "recurring_weekly";
 
   const studioWebsite = game.studio?.website;
-  const studioName = game.studio?.name ?? t("pages.game.unknown") ?? "Unknown";
+  const studioName = game.studio?.name ?? t("pages.game.meta.unknown");
 
   const handleBackToAllGames = () => {
     trackEvent("game_back_to_list", {
@@ -231,7 +231,7 @@ export const GamePage = () => {
         <SuggestedCountdownsIsland games={suggested} nowMs={nowMs} onOpen={handleOpenSuggested} />
 
         <Typography variant="caption" color="text.secondary">
-          {t("pages.game.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
+          {t("pages.game.countdown.last_gen_date", { date: formatISODateTime(doc.generatedAt) })}
         </Typography>
 
         <FloatingCountdownHUD
