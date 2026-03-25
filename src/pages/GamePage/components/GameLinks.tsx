@@ -343,7 +343,8 @@ export const GameLinks = ({
               <Typography variant="caption" color="text.secondary">
                 {t("pages.game.links.more_sources", {
                   count: sources.length - topSources.length,
-                }) ?? `+${sources.length - topSources.length} more`}
+                  defaultValue: `+${sources.length - topSources.length} more`,
+                })}
               </Typography>
             ) : null}
           </Stack>
