@@ -365,7 +365,10 @@ export function GamesToolbar({ value, onChange, allTags, resultsText, onSubmitSe
             <Typography variant="h6" fontWeight={800}>
               {t("pages.games.toolbar.filters")}
             </Typography>
-            <IconButton onClick={() => setDrawerOpen(false)} aria-label={t("pages.games.toolbar.filters_close")}>
+            <IconButton
+              onClick={() => setDrawerOpen(false)}
+              aria-label={t("pages.games.toolbar.filters_close")}
+            >
               <CloseIcon />
             </IconButton>
           </Stack>
