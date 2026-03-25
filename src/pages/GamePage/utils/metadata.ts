@@ -94,7 +94,7 @@ function defaultLabel(
   idx: number,
   t: (k: string, opts?: Record<string, unknown>) => string,
 ) {
-  return tr.label ?? `${t("pages.game.trailer") ?? "Trailer"} ${idx + 1}`;
+  return tr.label ?? `${t("pages.game.links.trailer")} ${idx + 1}`;
 }
 
 export function getTrailerMeta(

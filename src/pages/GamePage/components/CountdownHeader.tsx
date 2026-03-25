@@ -104,7 +104,7 @@ export const CountdownHeader = ({
 
           {game.release.status === "announced_date" ? (
             <Typography variant="body2" color="text.secondary">
-              {t("pages.game.day_precision_date", {
+              {t("pages.game.countdown.day_precision_date", {
                 date: formatDateISO(game.release.dateISO),
               })}
             </Typography>
@@ -112,9 +112,9 @@ export const CountdownHeader = ({
 
           {game.release.status === "released" ? (
             <Typography variant="body2" color="text.secondary">
-              {t("pages.game.released_on", {
+              {t("pages.game.countdown.released_on", {
                 date: formatDateISO(game.release.dateISO),
-              }) ?? `Released on ${formatDateISO(game.release.dateISO)}`}
+              })}
             </Typography>
           ) : null}
         </Box>
@@ -172,7 +172,7 @@ export const CountdownHeader = ({
             zIndex: 1,
           }}
         >
-          {t("pages.game.no_countdown")}
+          {t("pages.game.countdown.no_countdown")}
         </Typography>
       )}
     </Stack>

@@ -185,7 +185,7 @@ export const GameHero = ({
           {/* Platforms */}
           <Stack spacing={0.75} sx={{ width: "100%" }}>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.platforms") ?? "Platforms"}
+              {t("pages.game.hero.platforms")}
             </Typography>
 
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -204,7 +204,7 @@ export const GameHero = ({
                   ))
               ) : (
                 <Chip
-                  label={t("pages.game.platforms_unknown") ?? "Unknown"}
+                  label={t("pages.game.hero.platforms_unknown")}
                   size="small"
                   variant="outlined"
                   sx={{ borderRadius: 2 }}
@@ -216,7 +216,7 @@ export const GameHero = ({
           {/* Studio */}
           <Stack spacing={0.75} sx={{ width: "100%" }}>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.studio") ?? "Studio"}
+              {t("pages.game.hero.studio")}
             </Typography>
 
             <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
@@ -232,7 +232,7 @@ export const GameHero = ({
                   rel="noreferrer"
                   sx={{ borderRadius: 2 }}
                 >
-                  {t("pages.game.website") ?? "Website"}
+                  {t("pages.game.hero.website")}
                 </Button>
               ) : null}
             </Stack>

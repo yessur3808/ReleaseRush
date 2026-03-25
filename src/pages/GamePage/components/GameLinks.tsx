@@ -151,7 +151,7 @@ export const GameLinks = ({
                                 ? "YouTube"
                                 : meta.provider === "vimeo"
                                   ? "Vimeo"
-                                  : (t("pages.game.video") ?? "Video")}
+                                  : t("pages.game.links.video")}
                             </Typography>
                           </Box>
                         </>
@@ -185,7 +185,7 @@ export const GameLinks = ({
                               variant="caption"
                               sx={{ fontWeight: 800, letterSpacing: 0.3 }}
                             >
-                              {t("pages.game.trailer") ?? "Trailer"}
+                              {t("pages.game.links.trailer")}
                             </Typography>
 
                             {meta.provider !== "other" ? (
@@ -234,7 +234,7 @@ export const GameLinks = ({
         {topSources.length > 0 && (
           <Stack>
             <Typography variant="overline" color="text.secondary">
-              {t("pages.game.sources") ?? "Sources"}
+              {t("pages.game.links.sources")}
             </Typography>
 
             <Box
@@ -321,7 +321,7 @@ export const GameLinks = ({
                     target="_blank"
                     rel="noreferrer"
                     underline="none"
-                    aria-label={`${t("pages.game.open") ?? "Open"}: ${s.name}`}
+                    aria-label={`${t("pages.game.links.open")}: ${s.name}`}
                     sx={{
                       ...clickableSx,
                       display: "block",
@@ -341,7 +341,7 @@ export const GameLinks = ({
 
             {sources.length > topSources.length ? (
               <Typography variant="caption" color="text.secondary">
-                {t("pages.game.more_sources", {
+                {t("pages.game.links.more_sources", {
                   count: sources.length - topSources.length,
                 }) ?? `+${sources.length - topSources.length} more`}
               </Typography>
