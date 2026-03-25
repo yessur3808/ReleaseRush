@@ -1,6 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { isRtlLanguage } from "../utils/rtl";
 
 import en from "./locales/en.json";
 import fr from "./locales/fr.json";
@@ -56,12 +57,9 @@ const resources = {
   vi: { translation: vi },
 } as const;
 
-const RTL_LANGS = new Set(["ar", "fa", "he", "ur"]);
-
 function applyDocumentDirection(lng: string) {
-  const isRtl = RTL_LANGS.has(lng);
   document.documentElement.lang = lng;
-  document.documentElement.dir = isRtl ? "rtl" : "ltr";
+  document.documentElement.dir = isRtlLanguage(lng) ? "rtl" : "ltr";
 }
 
 i18n
