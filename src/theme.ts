@@ -1,6 +1,9 @@
 import { createTheme, alpha } from "@mui/material/styles";
+import type { Direction } from "@mui/material";
 
-export const theme = createTheme({
+export function createAppTheme(direction: Direction = "ltr") {
+  return createTheme({
+    direction,
   palette: {
     mode: "dark",
 
@@ -114,8 +117,8 @@ export const theme = createTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           borderRadius: 999,
-          paddingLeft: theme.spacing(2.2),
-          paddingRight: theme.spacing(2.2),
+          paddingInlineStart: theme.spacing(2.2),
+          paddingInlineEnd: theme.spacing(2.2),
           paddingTop: theme.spacing(1),
           paddingBottom: theme.spacing(1),
         }),
@@ -210,4 +213,5 @@ export const theme = createTheme({
       },
     },
   },
-});
+  });
+}

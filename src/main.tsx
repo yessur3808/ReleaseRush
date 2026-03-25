@@ -1,11 +1,11 @@
 import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import "./i18n";
 
 import App from "./App";
-import { theme } from "./theme";
+import { RtlProvider } from "./RtlProvider";
 import type { Config } from "./namespaces";
 
 const TEMPLATE_TOKEN_PATTERN = /^\$\{.+\}$/;
@@ -47,12 +47,12 @@ async function bootstrap() {
 
   ReactDOM.createRoot(rootEl!).render(
     <StrictMode>
-      <ThemeProvider theme={theme}>
+      <RtlProvider>
         <CssBaseline />
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ThemeProvider>
+      </RtlProvider>
     </StrictMode>,
   );
 }
