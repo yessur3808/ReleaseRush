@@ -6,8 +6,7 @@ import { CacheProvider } from "@emotion/react";
 import rtlPlugin from "stylis-plugin-rtl";
 import { prefixer } from "stylis";
 import { createAppTheme } from "./theme";
-
-const RTL_LANGS = new Set(["ar", "fa", "he", "ur"]);
+import { isRtlLanguage } from "./utils/rtl";
 
 const ltrCache = createCache({ key: "muiltr", prepend: true });
 const rtlCache = createCache({
@@ -18,7 +17,8 @@ const rtlCache = createCache({
 
 export function RtlProvider({ children }: { children: React.ReactNode }) {
   const { i18n } = useTranslation();
-  const isRtl = RTL_LANGS.has(i18n.language);
+  const languageTag = i18n.resolvedLanguage ?? i18n.language ?? "";
+  const isRtl = isRtlLanguage(languageTag);
 
   const theme = useMemo(() => createAppTheme(isRtl ? "rtl" : "ltr"), [isRtl]);
   const cache = isRtl ? rtlCache : ltrCache;
