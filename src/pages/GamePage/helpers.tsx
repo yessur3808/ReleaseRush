@@ -86,9 +86,9 @@ export const releasePrimaryChipLabel = (
   const st = game.release.status;
   if (st === "announced_date" || st === "announced_window") return t("pages.game.countdown.release");
   if (st === "recurring_daily" || st === "recurring_weekly") return t("pages.game.countdown.resets_daily");
-  if (st === "released") return t("pages.game.meta.released") ?? "Released";
-  if (st === "cancelled") return t("pages.game.meta.cancelled") ?? "Cancelled";
-  if (st === "delayed") return t("pages.game.meta.delayed") ?? "Delayed";
+  if (st === "released") return t("pages.game.meta.released", { defaultValue: "Released" });
+  if (st === "cancelled") return t("pages.game.meta.cancelled", { defaultValue: "Cancelled" });
+  if (st === "delayed") return t("pages.game.meta.delayed", { defaultValue: "Delayed" });
   return t("pages.game.meta.tba");
 };
 
