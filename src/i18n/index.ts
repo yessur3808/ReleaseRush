@@ -8,10 +8,14 @@ import es from "./locales/es.json";
 import ru from "./locales/ru.json";
 import de from "./locales/de.json";
 import pt from "./locales/pt.json";
+import ptBR from "./locales/pt-BR.json";
 import ja from "./locales/ja.json";
 import zhCN from "./locales/zh-CN.json";
 import zhTW from "./locales/zh-TW.json";
 import id from "./locales/id.json";
+import it from "./locales/it.json";
+import ko from "./locales/ko.json";
+import vi from "./locales/vi.json";
 // Future: import ar from "./locales/ar.json";
 // Future: import fa from "./locales/fa.json";
 
@@ -26,6 +30,10 @@ export const SUPPORTED_LANGUAGES = [
   { code: "zh-CN", label: "Mandarin (Simplified)", nativeLabel: "中文（简体）" },
   { code: "zh-TW", label: "Cantonese (Traditional)", nativeLabel: "中文（繁體）" },
   { code: "id", label: "Indonesian", nativeLabel: "Bahasa Indonesia" },
+  { code: "it", label: "Italian", nativeLabel: "Italiano" },
+  { code: "pt-BR", label: "Brazilian Portuguese", nativeLabel: "Português (Brasil)" },
+  { code: "ko", label: "Korean", nativeLabel: "한국어" },
+  { code: "vi", label: "Vietnamese", nativeLabel: "Tiếng Việt" },
   // Future RTL languages – uncomment when locale files are ready:
   // { code: "ar", label: "Arabic", nativeLabel: "العربية", rtl: true },
   // { code: "fa", label: "Farsi", nativeLabel: "فارسی", rtl: true },
@@ -38,10 +46,14 @@ const resources = {
   ru: { translation: ru },
   de: { translation: de },
   pt: { translation: pt },
+  "pt-BR": { translation: ptBR },
   ja: { translation: ja },
   "zh-CN": { translation: zhCN },
   "zh-TW": { translation: zhTW },
   id: { translation: id },
+  it: { translation: it },
+  ko: { translation: ko },
+  vi: { translation: vi },
 } as const;
 
 const RTL_LANGS = new Set(["ar", "fa", "he", "ur"]);
